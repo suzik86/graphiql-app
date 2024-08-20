@@ -3,7 +3,7 @@
 import React, { useEffect, useState } from 'react';
 import Header from './Header';
 import EnglishFlag from '../../assets/flag_uk.png';
-import RussianFlag from '../../assets/flag_ru.webp';
+import RussianFlag from '../../assets/flag_ru.png';
 
 const HeaderWrapper: React.FC = () => {
   const [isSticky, setIsSticky] = useState<boolean>(false);
