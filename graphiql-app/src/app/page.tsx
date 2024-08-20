@@ -1,95 +1,42 @@
-import Image from "next/image";
-import styles from "./page.module.css";
+// src/app/page.tsx
+'use client';
+import React from 'react';
+import styles from './page.module.css'; // Импорт стилей для страницы
+import Header from './components/Header/Header';
 
-export default function Home() {
+const Home: React.FC = () => {
   return (
-    <main className={styles.main}>
-      <div className={styles.description}>
-        <p>
-          Get started by editing&nbsp;
-          <code className={styles.code}>src/app/page.tsx</code>
-        </p>
-        <div>
-          <a
-            href="https://vercel.com?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            By{" "}
-            <Image
-              src="/vercel.svg"
-              alt="Vercel Logo"
-              className={styles.vercelLogo}
-              width={100}
-              height={24}
-              priority
-            />
-          </a>
-        </div>
-      </div>
-
-      <div className={styles.center}>
-        <Image
-          className={styles.logo}
-          src="/next.svg"
-          alt="Next.js Logo"
-          width={180}
-          height={37}
-          priority
-        />
-      </div>
-
-      <div className={styles.grid}>
-        <a
-          href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className={styles.card}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2>
-            Docs <span>-&gt;</span>
-          </h2>
-          <p>Find in-depth information about Next.js features and API.</p>
-        </a>
-
-        <a
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className={styles.card}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2>
-            Learn <span>-&gt;</span>
-          </h2>
-          <p>Learn about Next.js in an interactive course with&nbsp;quizzes!</p>
-        </a>
-
-        <a
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className={styles.card}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2>
-            Templates <span>-&gt;</span>
-          </h2>
-          <p>Explore starter templates for Next.js.</p>
-        </a>
-
-        <a
-          href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className={styles.card}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2>
-            Deploy <span>-&gt;</span>
-          </h2>
-          <p>
-            Instantly deploy your Next.js site to a shareable URL with Vercel.
-          </p>
-        </a>
-      </div>
-    </main>
+    <div>
+      <Header />
+      <main className={styles.main}>
+        <section className={styles.welcomeSection}>
+          <h1>Welcome Back, [Username]!</h1>
+        </section>
+        <nav>
+          <a href="#rest-client">REST Client</a>
+          <a href="#graphql-client">GraphiQL Client</a>
+          <a href="#history">History</a>
+        </nav>
+        <section id="rest-client" style={{ height: '100vh', background: '#f0f0f0' }}>
+          <h2>REST Client Section</h2>
+          <p>Content for REST Client...</p>
+        </section>
+        <section id="graphql-client" style={{ height: '100vh', background: '#e0e0e0' }}>
+          <h2>GraphiQL Client Section</h2>
+          <p>Content for GraphiQL Client...</p>
+        </section>
+        <section id="history" style={{ height: '100vh', background: '#d0d0d0' }}>
+          <h2>History Section</h2>
+          <p>Content for History...</p>
+        </section>
+      </main>
+      <footer>
+        <a href="https://github.com">GitHub Link</a>
+        <span>{new Date().getFullYear()}</span>
+        <div>[Course Logo]</div>
+      </footer>
+    </div>
   );
-}
+};
+
+export default Home;
