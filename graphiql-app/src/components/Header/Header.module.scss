@@ -1,0 +1,56 @@
+@import '../../theme/theme.scss';
+
+.header {
+  background-color: $black-light;
+  padding: 1rem 2rem;
+  transition: padding 0.3s, transform 0.3s; 
+  width: 100%;
+  position: relative;
+  z-index: 1000;
+
+  &.sticky {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    padding: 0.5rem 2rem; 
+    transform: scaleY(0.9); 
+    transform-origin: top; 
+  }
+
+  &__container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  &__logo {
+    font-size: 1.5rem;
+    font-weight: bold;
+    transition: font-size 0.3s;
+  }
+
+  &__controls {
+    display: flex;
+    gap: 1rem;
+    align-items: center; 
+  }
+
+  &__languageDropdown {
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+  }
+
+  &__dropdownItem {
+    display: flex;
+    align-items: center;
+    gap: 8px; 
+    padding: 4px 2px; 
+  }
+
+  &__dropdownItem img {
+    width: 20px; 
+    height: 15px; 
+  }
+}
