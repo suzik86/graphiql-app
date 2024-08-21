@@ -1,5 +1,6 @@
 
-"use client"
+
+"use client";
 import { useState } from "react";
 import { ApolloClient, HttpLink, InMemoryCache } from "@apollo/client";
 import { graphql } from "gql.tada";
@@ -7,11 +8,11 @@ import { graphql } from "gql.tada";
 export default function Home() {
   const [url, setUrl] = useState(""); 
   const [schema, setSchema] = useState("");  
+  const [variables, setVariables] = useState<string>("");  
   const [data, setData] = useState<any>(null);
 
   const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
-
 
     const client = new ApolloClient({
       cache: new InMemoryCache(),
@@ -23,8 +24,10 @@ export default function Home() {
     const CustomQuery = graphql(schema);
 
     try {
+      const parsedVariables = JSON.parse(variables); 
       const { data } = await client.query({
         query: CustomQuery,
+        variables: parsedVariables, 
         context: {
           fetchOptions: {
             next: { revalidate: 10 },
@@ -39,14 +42,13 @@ export default function Home() {
 
   return (
     <main className="">
-      <form onSubmit={handleSubmit} className="mb-4">
+      <form onSubmit={handleSubmit}>
         <div>
           <label>GraphQL API URL:</label>
           <input
             type="text"
             value={url}
             onChange={(e) => setUrl(e.target.value)}
-            className="border p-2 mb-2 w-full"
             placeholder="Введите URL API"
             required
           />
@@ -56,29 +58,28 @@ export default function Home() {
           <textarea
             value={schema}
             onChange={(e) => setSchema(e.target.value)}
-            className="border p-2 mb-2 w-full"
             placeholder="Введите GraphQL схему"
             required
           />
         </div>
-        <button type="submit" className="bg-blue-500 text-white p-2">
+        <div>
+          <label>Variables (JSON):</label>
+          <textarea
+            value={variables}
+            onChange={(e) => setVariables(e.target.value)}
+            placeholder='Введите переменные в формате JSON, например: {"id": "123"}'
+            required
+          />
+        </div>
+        <button type="submit">
           Выполнить запрос
         </button>
       </form>
-DATA {JSON.stringify(data) }
-      {data && data.countries && (
-        <div>
-          {data.countries.map((country: any, index: number) => (
-            <div key={index} className="border-white border-b-2">
-              <ul>
-                <li>{country.name}</li>
-                <li>{country.code}</li>
-              </ul>
-            </div>
-          ))}
-        </div>
-      )}
+
+      <div>
+        <h2>DATA</h2>
+        <pre>{JSON.stringify(data, null, 2)}</pre>
+      </div>
     </main>
   );
 }
- 
