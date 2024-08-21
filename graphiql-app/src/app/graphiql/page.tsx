@@ -8,7 +8,7 @@ import { graphql } from "gql.tada";
 export default function Home() {
   const [url, setUrl] = useState(""); 
   const [schema, setSchema] = useState("");  
-  const [variables, setVariables] = useState<string>("");  
+  const [variables, setVariables] = useState<string>("{}");  
   const [data, setData] = useState<any>(null);
 
   const handleSubmit = async (event: React.FormEvent) => {
