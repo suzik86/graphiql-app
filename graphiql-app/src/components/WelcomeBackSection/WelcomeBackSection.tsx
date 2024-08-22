@@ -1,4 +1,4 @@
-import Spinner from "../Spinner/Spinner";
+ 
 import WelcomeButton from "../WelcomeButton/WelcomeButton";
 import styles from "./WelcomeBackSection.module.scss"
 import { btns } from "./consts"
@@ -11,7 +11,7 @@ const WelcomeBackSection = () => {
                 <h2 className={styles.welcome__subtitle}>
                     Where are we going?
                 </h2>
-            <Spinner />
+             
                 <ul className={styles.welcome__btns}>
                     {btns.map(item => (
                         <li>
