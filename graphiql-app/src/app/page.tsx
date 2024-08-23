@@ -1,12 +1,14 @@
-import ErrorBoundary from "../components/ErrorBoundary/ErrorBoundary";
+
+
 import WelcomeBackSection from "../components/WelcomeBackSection/WelcomeBackSection";
+import ModalComponent from "../components/Modal/Modal";
 export default function Home() {
   return (
     <>
-    <ErrorBoundary>
+
 
       <WelcomeBackSection />
-    </ErrorBoundary>
+      <ModalComponent />
     </>
   );
 };
