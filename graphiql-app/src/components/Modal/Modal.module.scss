@@ -1,0 +1,19 @@
+@import '../../theme/theme.scss';
+.modal {
+    &__text {
+        font-weight: 400;
+        font-size: 36px;
+        color: #000;
+        font-family: "Nunito", sans-serif;
+    }
+
+    &__title {
+        font-size: 64px;  
+        color: #8d0909; 
+        font-weight: 700; 
+        font-family: "Nunito", sans-serif;
+        
+      }
+
+}
+ 
