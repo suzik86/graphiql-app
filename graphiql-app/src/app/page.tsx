@@ -1,13 +1,5 @@
+import { redirect } from "next/navigation";
 
-
-import WelcomeBackSection from "../components/WelcomeBackSection/WelcomeBackSection";
- 
-export default function Home() {
-  return (
-    <>
-
-
-      <WelcomeBackSection />
-    </>
-  );
-};
+export default function RootPage() {
+  redirect("/en");
+}

@@ -1,41 +1,32 @@
 "use client";
 
-import React, { useEffect, useState } from 'react';
-import Header from './Header';
-import EnglishFlag from '../../assets/flag_uk.png';
-import RussianFlag from '../../assets/flag_ru.png';
+import { usePathname, useRouter } from "next/navigation";
+import React, { useEffect, useState } from "react";
+import Header from "./Header";
 
 const HeaderWrapper: React.FC = () => {
   const [isSticky, setIsSticky] = useState<boolean>(false);
-  const [selectedFlag, setSelectedFlag] = useState<string>(RussianFlag);
+  const router = useRouter();
+  const pathname = usePathname();
 
   const handleScroll = () => {
     setIsSticky(window.scrollY > 0);
   };
 
   const handleMenuClick = (key: string) => {
-    if (key === 'en') {
-      setSelectedFlag(EnglishFlag);
-    } else if (key === 'ru') {
-      setSelectedFlag(RussianFlag);
-    }
+    const currentPath = pathname.slice(3);
+    router.replace(`/${key}/${currentPath}`);
   };
 
   useEffect(() => {
-    window.addEventListener('scroll', handleScroll);
+    window.addEventListener("scroll", handleScroll);
 
     return () => {
-      window.removeEventListener('scroll', handleScroll);
+      window.removeEventListener("scroll", handleScroll);
     };
   }, []);
 
-  return (
-    <Header 
-      isSticky={isSticky} 
-      selectedFlag={selectedFlag} 
-      onMenuClick={handleMenuClick} 
-    />
-  );
+  return <Header isSticky={isSticky} onMenuClick={handleMenuClick} />;
 };
 
 export default HeaderWrapper;

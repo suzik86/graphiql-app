@@ -1,39 +1,37 @@
-@import '../../theme/theme.scss';
-
+@import "../../theme/theme.scss";
 
 .welcome {
-    margin-top: 146px;
+  margin-top: 146px;
+  display: flex;
+  justify-content: center;
+
+  &__inner {
     display: flex;
-    justify-content: center;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+  }
 
-    &__inner {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        text-align: center;
-    }
+  &__title {
+    font-family: "Nunito", sans-serif;
+    font-weight: 700;
+    font-size: 64px;
 
-    &__title {
+    color: $black;
+  }
 
-        font-family: "Nunito", sans-serif;
-        font-weight: 700;
-        font-size: 64px;
+  &__subtitle {
+    font-family: "Nunito", sans-serif;
+    font-weight: 700;
+    font-size: 48px;
+    text-align: center;
+    color: $black;
+    margin-top: 1px;
+  }
 
-        color:  $black;
-    }
-
-    &__subtitle {
-        font-family: "Nunito", sans-serif;
-        font-weight: 700;
-        font-size: 48px;
-        text-align: center;
-        color: $black;
-        margin-top: 1px;
-    }
-
-    &__btns {
-        display: flex;
-        column-gap: 46px;
-        margin-top: 48px;
-    }
+  &__btns {
+    display: flex;
+    column-gap: 46px;
+    margin-top: 48px;
+  }
 }

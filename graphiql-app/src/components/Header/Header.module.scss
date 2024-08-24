@@ -1,9 +1,11 @@
-@import '../../theme/theme.scss';
+@import "../../theme/theme.scss";
 
 .header {
   background-color: $black-light;
   padding: 1rem 2rem;
-  transition: padding 0.3s, transform 0.3s; 
+  transition:
+    padding 0.3s,
+    transform 0.3s;
   width: 100%;
   position: relative;
   z-index: 1000;
@@ -13,9 +15,9 @@
     top: 0;
     left: 0;
     right: 0;
-    padding: 0.5rem 2rem; 
-    transform: scaleY(0.9); 
-    transform-origin: top; 
+    padding: 0.5rem 2rem;
+    transform: scaleY(0.9);
+    transform-origin: top;
   }
 
   &__container {
@@ -33,7 +35,7 @@
   &__controls {
     display: flex;
     gap: 1rem;
-    align-items: center; 
+    align-items: center;
   }
 
   &__languageDropdown {
@@ -45,12 +47,12 @@
   &__dropdownItem {
     display: flex;
     align-items: center;
-    gap: 8px; 
-    padding: 4px 2px; 
+    gap: 8px;
+    padding: 4px 2px;
   }
 
   &__dropdownItem img {
-    width: 20px; 
-    height: 15px; 
+    width: 20px;
+    height: 15px;
   }
 }
