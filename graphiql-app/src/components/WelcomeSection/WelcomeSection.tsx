@@ -1,8 +1,5 @@
 const WelcomeSection = () => {
-    return (  
-        <>
-        </>
-    );
-}
- 
+  return <></>;
+};
+
 export default WelcomeSection;

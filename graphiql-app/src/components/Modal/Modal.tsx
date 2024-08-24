@@ -1,7 +1,7 @@
-"use client"
+"use client";
 import styles from "./Modal.module.scss";
-import React, { useState } from 'react';
-import { Button, Modal } from 'antd';
+import React, { useState } from "react";
+import { Button, Modal } from "antd";
 
 const ModalComponent: React.FC = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -16,21 +16,23 @@ const ModalComponent: React.FC = () => {
 
   return (
     <>
-      <Button 
-        type="primary" 
-        onClick={showModal} 
-        style={{ backgroundColor: '#7D81D6', borderColor: '#7D81D6' }}
+      <Button
+        type="primary"
+        onClick={showModal}
+        style={{ backgroundColor: "#7D81D6", borderColor: "#7D81D6" }}
       >
         Open Modal
       </Button>
-      <Modal 
-        title={<span className={styles.modal__title}>Oooops...</span>} 
-        open={isModalOpen} 
-        onOk={handleOk} 
-        okText="Try again"  
-        onCancel={handleOk}  
-        cancelButtonProps={{ style: { display: 'none' } }}  
-        okButtonProps={{ style: { backgroundColor: '#7D81D6', borderColor: '#7D81D6' } }}
+      <Modal
+        title={<span className={styles.modal__title}>Oooops...</span>}
+        open={isModalOpen}
+        onOk={handleOk}
+        okText="Try again"
+        onCancel={handleOk}
+        cancelButtonProps={{ style: { display: "none" } }}
+        okButtonProps={{
+          style: { backgroundColor: "#7D81D6", borderColor: "#7D81D6" },
+        }}
       >
         <p className={styles.modal__text}>Something went wrong...</p>
       </Modal>
@@ -39,4 +41,3 @@ const ModalComponent: React.FC = () => {
 };
 
 export default ModalComponent;
- 

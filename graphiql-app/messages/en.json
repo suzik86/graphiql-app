@@ -1,0 +1,23 @@
+{
+  "HomePage": {
+    "welcome": "Welcome back",
+    "question": "Where are we going?",
+    "rest": "Rest client",
+    "graphiql": "GraphiQl client",
+    "history": "History"
+  },
+  "NotFound": {
+    "title": "Page not found",
+    "button-title": "Back to home"
+  },
+  "Header": {
+    "sign-out": "Sign out",
+    "sign-in": "Sign in"
+  },
+  "Footer": {
+    "message": "© Template by 2024"
+  },
+  "History": {
+    "title": "History"
+  }
+}
