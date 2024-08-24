@@ -1,0 +1,89 @@
+// components/RestClient/RestClient.module.scss
+.restClient {
+    margin: 20px;
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    background-color: #f9f9f9;
+  
+    &__controls {
+      display: flex;
+      margin-bottom: 10px;
+    }
+  
+    &__select {
+      margin-right: 10px;
+      padding: 5px;
+    }
+  
+    &__input {
+      flex: 1;
+      padding: 5px;
+    }
+  
+    &__headers {
+      margin-bottom: 10px;
+    }
+  
+    &__headerRow {
+      display: flex;
+      margin-bottom: 5px;
+    }
+  
+    &__headerKey,
+    &__headerValue {
+      flex: 1;
+      padding: 5px;
+      margin-right: 5px;
+    }
+  
+    &__addHeaderButton {
+      padding: 5px;
+    }
+  
+    &__textarea {
+      width: 100%;
+      padding: 10px;
+      margin-bottom: 10px;
+    }
+  
+    &__sendButton {
+      padding: 10px 20px;
+      background-color: #007bff;
+      color: white;
+      border: none;
+      cursor: pointer;
+      border-radius: 4px;
+      margin-bottom: 20px;
+  
+      &:hover {
+        background-color: #0056b3;
+      }
+    }
+  
+    &__response {
+      background-color: #e9ecef;
+      padding: 10px;
+      border-radius: 4px;
+    }
+  
+    &__status {
+      margin-bottom: 10px;
+    }
+  
+    &__responseBody {
+      white-space: pre-wrap;
+      word-wrap: break-word;
+    }
+
+    .restClient__variablesToggle {
+      cursor: pointer;
+      font-weight: bold;
+      margin: 10px 0;
+    }
+    
+    .restClient__variablesToggle:hover {
+      text-decoration: underline;
+    }
+  }
+  
