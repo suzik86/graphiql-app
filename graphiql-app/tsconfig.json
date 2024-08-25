@@ -25,6 +25,11 @@
     "plugins": [
       {
         "name": "next"
+      },
+      {
+        "name": "gql.tada/ts-plugin",
+        "schema": "https://countries.trevorblades.com/graphql",
+        "tadaOutputLocation": "./graphql-env.d.ts"
       }
     ],
     "types": ["@testing-library/jest-dom"]
