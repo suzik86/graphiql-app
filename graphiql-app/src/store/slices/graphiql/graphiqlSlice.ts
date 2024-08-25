@@ -1,6 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { PayloadAction } from "@reduxjs/toolkit";
-interface graphiQlTypes {
+export interface graphiQlTypes {
     variables: {
         [key: string]: string;
     },
@@ -14,10 +14,10 @@ interface graphiQlTypes {
 }
 export const initialState: graphiQlTypes = {
     query: "",
-    url:"",
+    url: "",
     response: "",
     variables: {},
-headers: {}
+    headers: {}
 
 };
 
@@ -25,12 +25,18 @@ const graphiqlSlice = createSlice({
     name: "graphiql",
     initialState,
     reducers: {
-       
+
         setGraphiQlValues(state, action: PayloadAction<graphiQlTypes>) {
 
+        },
+        setData(state, action: PayloadAction<string>) {
+            state.response=action.payload
         }
     },
 });
 
+export const {
+    setData
+} = graphiqlSlice.actions;
 
 export default graphiqlSlice.reducer;

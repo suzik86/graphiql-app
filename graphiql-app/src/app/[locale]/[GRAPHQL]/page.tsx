@@ -50,13 +50,7 @@ export default function Home() {
     } catch (error) {
       console.error("Ошибка запроса:", error);
     }
-    /*
-*/
-
-
-
-
-
+ 
     
     const encodedUrl = encodeBase64(url);
     const requestBody = JSON.stringify({

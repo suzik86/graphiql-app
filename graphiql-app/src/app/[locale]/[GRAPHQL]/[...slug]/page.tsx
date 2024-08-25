@@ -1,4 +1,155 @@
-        /*
+"use client";
+import { useEffect, useState } from "react";
+import { ApolloClient, HttpLink, InMemoryCache } from "@apollo/client";
+import { graphql } from "gql.tada";
+import { useRouter, useSearchParams } from 'next/navigation';
+import { useLocale, useTranslations } from "next-intl";
+import { useAppDispatch } from "../../../../hooks/redux";
+import {useSelector} from "react-redux"
+import {setData} from "../../../../store/slices/graphiql/graphiqlSlice"
+import { graphiqlResponseSelector } from "../../../../store/slices/graphiql/graphiql.selector";
+export default function Home() {
+//    const resp = useSelector(graphiqlResponseSelector)
+  const t = useTranslations("HomePage");
+  const localActive = useLocale();
+  const [url, setUrl] = useState(""); 
+  const [schema, setSchema] = useState("");  
+  const [variables, setVariables] = useState<string>("{}");  
+  const [headers, setHeaders] = useState<string>("{}");
+  // [data, setData] = useState<any>(null);
+  const [requestType, setRequestType] = useState("query");  
+  const router = useRouter();
+  //const dispatch = useAppDispatch()
+  const encodeBase64 = (input: string) => {
+    return Buffer.from(input).toString('base64');
+  };
+const [data, setData] = useState<string | null>("")
+
+
+  
+  const handleSubmit = async (event: React.FormEvent) => {
+    event.preventDefault();
+
+    const client = new ApolloClient({
+      cache: new InMemoryCache(),
+      link: new HttpLink({
+        uri: url,
+        headers: JSON.parse(headers), 
+      }),
+    });
+    
+    const encodedUrl = encodeBase64(url);
+    const requestBody = JSON.stringify({
+      schema,
+      variables: JSON.parse(variables),
+    });
+    const encodedBody = encodeBase64(requestBody);
+
+ 
+    const parsedHeaders = JSON.parse(headers);
+    const queryParams = new URLSearchParams(parsedHeaders).toString();
+ 
+    const graphqlUrl = `/${localActive}/GRAPHQL/${encodedUrl}/${encodedBody}?${queryParams}`;
+ 
+
+    const CustomQuery = graphql(schema);
+    try {
+        const parsedVariables = JSON.parse(variables); 
+      const { data } = await client.query({
+        query: CustomQuery,
+        variables: parsedVariables, 
+        context: {
+          fetchOptions: {
+            next: { revalidate: 10 },
+          },
+        },
+      });
+      localStorage.setItem("graphiql", JSON.stringify({url:  graphqlUrl, response: data}))
+     
+    } catch (error) {
+      console.error("Ошибка запроса:", error);
+    }
+ 
+    router.push(graphqlUrl);
+  };
+  useEffect(()=> {
+setData(localStorage.getItem('graphiql'))
+  }, [handleSubmit, router])
+  return (
+    <main>
+      <form onSubmit={handleSubmit}>
+      
+        <div>
+          <label>GraphQL API URL:</label>
+          <input
+            type="text"
+            value={url}
+            onChange={(e) => setUrl(e.target.value)}
+            placeholder="Enter API URL"
+            required
+          />
+        </div>
+            {/*
+        <div>
+          <label>Request Type:</label>
+          <select
+            value={requestType}
+            onChange={(e) => setRequestType(e.target.value)}
+            required
+            >
+            <option value="query">Query</option>
+            <option value="mutation">Mutation</option>
+            </select>
+        </div>
+            */}
+        <div>
+          <label>GraphQL Schema:</label>
+          <textarea
+            value={schema}
+            onChange={(e) => setSchema(e.target.value)}
+            placeholder="Enter GraphQL schema"
+            required
+          />
+        </div>
+        <div>
+          <label>Variables (JSON):</label>
+          <textarea
+            value={variables}
+            onChange={(e) => setVariables(e.target.value)}
+            placeholder='Enter variables in JSON format, e.g., {"id": "123"}'
+            required
+          />
+        </div>
+        <div>
+          <label>Headers (JSON):</label>
+          <textarea
+            value={headers}
+            onChange={(e) => setHeaders(e.target.value)}
+            placeholder='Enter headers'
+            required
+          />
+        </div>
+        <button type="submit">
+          Execute Request
+        </button>
+      </form>
+
+      <div>
+        <h2>DATA</h2>
+ {data}
+     {/*}   <pre>{JSON.stringify(data, null, 2)}</pre> */}
+      </div>
+    </main>
+  );
+}    
+    
+    
+    
+    
+    
+    
+    
+    /*
 "use client";
 import { useEffect, useState } from "react";
 import { ApolloClient, HttpLink, InMemoryCache } from "@apollo/client";
@@ -168,7 +319,6 @@ console.log("DECODE", decodedUrl, requestBody)
 }
 
 
-    */
 const Encod = () => {
     return ( <>
     Encoded
@@ -176,3 +326,4 @@ const Encod = () => {
 }
  
 export default Encod;
+        */
