@@ -1,3 +1,4 @@
+        /*
 "use client";
 import { useEffect, useState } from "react";
 import { ApolloClient, HttpLink, InMemoryCache } from "@apollo/client";
@@ -162,12 +163,12 @@ console.log("DECODE", decodedUrl, requestBody)
         <h2>DATA</h2>
         <pre>{JSON.stringify(data, null, 2)}</pre>
       </div>
-    </main>
-  );
+      </main>
+    );
 }
 
 
-/*
+    */
 const Encod = () => {
     return ( <>
     Encoded
@@ -175,4 +176,3 @@ const Encod = () => {
 }
  
 export default Encod;
-*/
