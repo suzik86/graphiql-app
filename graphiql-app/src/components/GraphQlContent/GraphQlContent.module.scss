@@ -4,6 +4,10 @@
 .content {
     margin: 47px 0px 190px 0px;
  
+
+    &__form {
+        width: 100%;
+    }
     &__background {
         position: fixed;
         left: 0;

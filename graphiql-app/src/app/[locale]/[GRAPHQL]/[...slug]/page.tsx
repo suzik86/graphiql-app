@@ -80,8 +80,8 @@ export default function Home() {
                             next: { revalidate: 10 },
                         },
                     },
-                });
-                localStorage.setItem("graphiql", JSON.stringify({ url: graphqlUrl, response: data }));
+                    });
+                    localStorage.setItem("graphiql", JSON.stringify({ url: graphqlUrl, response: data }));
             } else {
                 console.error("Unsupported operation type:", operationType);
             }
@@ -96,8 +96,8 @@ export default function Home() {
 
     }, [handleSubmit, router])
     return (
-        <main className={styles.content__theme}>
-          {/*
+      <main className={styles.content__theme}>
+      {/*
             <div className={styles.content__background} />
             <form onSubmit={handleSubmit}  >
                 <div>

@@ -4,11 +4,14 @@ import styles from "./BodyCodePlayground.module.scss"
 import CodeMirror from '@uiw/react-codemirror';
 import { javascript } from '@codemirror/lang-javascript';
 import { oneDark } from '@codemirror/theme-one-dark';
-
+import { ViewUpdate } from '@uiw/react-codemirror';
 interface BodyCodePlaygroundProps {
-    title: string
+    title: string,
+    handleChangeField: ((value: string, viewUpdate: ViewUpdate) => void) | undefined
+    
+    
 }
-const BodyCodePlayground = ({title}: BodyCodePlaygroundProps) => {
+const BodyCodePlayground = ({title, handleChangeField}: BodyCodePlaygroundProps) => {
    
 
  
@@ -20,12 +23,9 @@ const BodyCodePlayground = ({title}: BodyCodePlaygroundProps) => {
     fontSize: '22px',
  
   };
-  const [code, setCode] = useState<string>('// Напишите свой код здесь');
+  const [code, setCode] = useState<string>('{}');
 
-  const handleChange = (value: string) => {
-    setCode(value);
-  };
-
+ 
   return (
     <div className={styles.code}>
 
@@ -36,7 +36,8 @@ const BodyCodePlayground = ({title}: BodyCodePlaygroundProps) => {
     <CodeMirror
         value={code}
         extensions={[javascript(), oneDark]} 
-        onChange={(value) => handleChange(value)}
+        onChange={handleChangeField}
+      //  onChange={(value) => handleChange(value)}
         theme={oneDark}
         style={{
             border: '1px solid #444', borderRadius: '4px' }}
