@@ -13,15 +13,22 @@ import GraphiQlUrlEditor from "../GraphiQlUrlEditor/GraphiQlUrlEditor";
 import HeadersPlayground from "../HeadersPlayground/HeadersPlayground";
 import styles from "./GraphQlContent.module.scss"
 import ResponseCodePlayground from "../ResponseCodePlayGround/ResponseCodePlayGround";
+interface Row {
+    key: string;
+    value: string;
+}
+
 const GrafQlContent = () => {
 
 
     const t = useTranslations("HomePage");
     const localActive = useLocale();
     const [url, setUrl] = useState("");
-    const [schema, setSchema] = useState("");
+    const [schema, setSchema] = useState("query {}");
     const [variables, setVariables] = useState<string>("{}");
     const [headers, setHeaders] = useState<string>("{}");
+    const [rows, setRows] = useState<Row[]>([{ key: '', value: '' }]);
+
 
     const router = useRouter();
 
@@ -95,7 +102,7 @@ const GrafQlContent = () => {
             console.error("Ошибка запроса:", error);
         }
 
-          //  router.push(graphqlUrl);
+       
 
     };
     useEffect(() => {
@@ -105,6 +112,18 @@ const GrafQlContent = () => {
 
     const handleChangeUrl = (event: React.ChangeEvent<HTMLInputElement>) => {
         setUrl(event.target.value)
+    }
+    // const handleChangeHeaders = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const handleChangeHeaders = (headers: Row[]) => {
+
+        setRows(headers)
+        console.log("H", JSON.stringify({ ...headers }))
+        let obj: { [key: string]: string } = {}
+        Object.values(headers).forEach(item => {
+            obj[item.key] = item.value;
+        })
+        console.log(JSON.stringify(obj))
+        setHeaders(String(obj))
     }
 
     const handleChangeSchema = (value: string) => {
@@ -127,9 +146,9 @@ const GrafQlContent = () => {
                         <p className={styles.content__field__title}>
                         </p>
                     </div>
-                    <HeadersPlayground title={"Headers"} />
-                    <BodyCodePlayground title={"Query"} handleChangeField={handleChangeSchema} />
-                    <BodyCodePlayground title={"Variables"} handleChangeField={handleChangeVariables} />
+                    <HeadersPlayground title={"Headers"} handleChangeHeaders={handleChangeHeaders} rows={rows} />
+                    <BodyCodePlayground title={"Query"} handleChangeField={handleChangeSchema} code={schema} />
+                    <BodyCodePlayground title={"Variables"} handleChangeField={handleChangeVariables} code={variables} />
                 </form>
 
                 <div className={styles.response}>
@@ -145,7 +164,7 @@ const GrafQlContent = () => {
                         </div>
                     </div>
                     <ResponseCodePlayground title={"Body"} response={String(data)} />
-                 
+
                 </div>
 
             </div>

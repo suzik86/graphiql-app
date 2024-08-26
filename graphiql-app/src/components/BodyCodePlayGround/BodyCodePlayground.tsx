@@ -8,10 +8,10 @@ import { ViewUpdate } from '@uiw/react-codemirror';
 interface BodyCodePlaygroundProps {
     title: string,
     handleChangeField: ((value: string, viewUpdate: ViewUpdate) => void) | undefined
-    
+    code: string
     
 }
-const BodyCodePlayground = ({title, handleChangeField}: BodyCodePlaygroundProps) => {
+const BodyCodePlayground = ({title, handleChangeField, code}: BodyCodePlaygroundProps) => {
    
 
  
@@ -23,7 +23,7 @@ const BodyCodePlayground = ({title, handleChangeField}: BodyCodePlaygroundProps)
     fontSize: '22px',
  
   };
-  const [code, setCode] = useState<string>('{}');
+ // const [code, setCode] = useState<string>('{}');
 
  
   return (
