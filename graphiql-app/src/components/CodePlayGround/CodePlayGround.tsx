@@ -8,12 +8,13 @@ import 'codemirror/mode/javascript/javascript';
 const CodeEditor = () => {
   const [code, setCode] = useState('// Напишите ваш код здесь...');
 
-  // Define the editor style
+ 
   const editorStyle = {
     width: '100%',
     height: '100%',
     border: '1px solid #ddd',
     borderRadius: '4px',
+    fontSize: '22px'
   };
 
   return (
