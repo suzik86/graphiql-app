@@ -1,0 +1,25 @@
+ 
+.table {
+    width: 100%;
+    border-collapse: collapse;
+  }
+  
+  .headerCell {
+    padding: 8px;
+    border: 1px solid #ddd;
+    background-color: #f4f4f4;
+    text-align: left;
+    font-weight: bold;
+  }
+  
+  .input {
+    width: 100%;
+    padding: 8px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+  }
+  
+  .placeholder {
+    opacity: 0.5;
+  }
+  

@@ -7,7 +7,9 @@ import { graphql } from "gql.tada";
 import { useRouter } from 'next/navigation';
 import { useLocale, useTranslations } from "next-intl";
 import CodeEditor from "../../../../components/CodePlayGround/CodePlayGround";
-
+import styles from "./page.module.scss"
+import GrafQlContent from "../../../../components/GraphQlContent/GraphQlContent";
+ 
 export default function Home() {
 
     const t = useTranslations("HomePage");
@@ -94,14 +96,10 @@ export default function Home() {
 
     }, [handleSubmit, router])
     return (
-        <main>
-
-{/*
-            <CodeEditor />
-            */}
-
-            <form onSubmit={handleSubmit}>
-
+        <main className={styles.content__theme}>
+          {/*
+            <div className={styles.content__background} />
+            <form onSubmit={handleSubmit}  >
                 <div>
                     <label>GraphQL API URL:</label>
                     <input
@@ -112,7 +110,6 @@ export default function Home() {
                         required
                     />
                 </div>
-
                 <div>
                     <label>GraphQL Schema:</label>
                     <textarea
@@ -152,9 +149,9 @@ export default function Home() {
             </div>
 
 
+            */}
 
-
-
+ <GrafQlContent />
         </main>
     );
 }
