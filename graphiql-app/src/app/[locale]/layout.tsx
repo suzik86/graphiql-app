@@ -11,7 +11,6 @@ import Loading from "./loading";
 import { ConfigProvider } from "antd";
 
 const inter = Inter({ subsets: ["latin"] });
-
 export default async function RootLayout({
   children,
   params: { locale },
