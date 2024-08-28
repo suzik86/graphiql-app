@@ -23,10 +23,15 @@ const GrafQlContent = () => {
  
     const t = useTranslations("HomePage");
     const localActive = useLocale();
-    const [url, setUrl] = useState("");
-    const [schema, setSchema] = useState("query {}");
-    const [variables, setVariables] = useState<string>("{}");
-    const [headers, setHeaders] = useState<string>("{}");
+    
+    // Создаем единое состояние для всех полей
+    const [requestData, setRequestData] = useState({
+        url: "",
+        schema: "query {}",
+        variables: "{}",
+        headers: "{}",
+    });
+
     const [rows, setRows] = useState<Row[]>([{ key: '', value: '' }]);
 
     const router = useRouter();
@@ -48,19 +53,16 @@ const GrafQlContent = () => {
 
         if (endpointBase64String && bodyBase64String) {
             try {
-             
                 const decodedUrl = decodeBase64(endpointBase64String);
                 const decodedBody = decodeBase64(bodyBase64String);
 
-                setUrl(decodedUrl);
-
                 const bodyJson = JSON.parse(decodedBody);
-                if (bodyJson.query) {
-                    setSchema(bodyJson.query);
-                }
-                if (bodyJson.variables) {
-                    setVariables(JSON.stringify(bodyJson.variables, null, 2)); 
-                }
+                setRequestData({
+                    url: decodedUrl,
+                    schema: bodyJson.query || "query {}",
+                    variables: JSON.stringify(bodyJson.variables || {}, null, 2),
+                    headers: requestData.headers,
+                });
             } catch (error) {
                 console.error('Ошибка при декодировании или парсинге:', error);
             }
@@ -87,7 +89,7 @@ const GrafQlContent = () => {
     const handleSubmit = async (event: React.FormEvent) => {
         event.preventDefault();
 
-      
+        const { url, schema, variables, headers } = requestData;
         const encodedUrl = encodeBase64(url);
 
         const requestBody = JSON.stringify({
@@ -105,7 +107,7 @@ const GrafQlContent = () => {
             cache: new InMemoryCache(),
             link: new HttpLink({
                 uri: url,
-                headers: JSON.parse(headers),
+                headers: parsedHeaders,
             }),
         });
 
@@ -152,7 +154,10 @@ const GrafQlContent = () => {
     };
 
     const handleChangeUrl = (event: React.ChangeEvent<HTMLInputElement>) => {
-        setUrl(event.target.value);
+        setRequestData((prevState) => ({
+            ...prevState,
+            url: event.target.value,
+        }));
     };
 
     const handleChangeHeaders = (headers: Row[]) => {
@@ -163,15 +168,24 @@ const GrafQlContent = () => {
                 obj[item.key] = item.value;
             }
         });
-        setHeaders(JSON.stringify(obj));
+        setRequestData((prevState) => ({
+            ...prevState,
+            headers: JSON.stringify(obj),
+        }));
     };
 
     const handleChangeSchema = (value: string) => {
-        setSchema(value);
+        setRequestData((prevState) => ({
+            ...prevState,
+            schema: value,
+        }));
     };
 
     const handleChangeVariables = (value: string) => {
-        setVariables(value);
+        setRequestData((prevState) => ({
+            ...prevState,
+            variables: value,
+        }));
     };
 
     return (
@@ -179,15 +193,15 @@ const GrafQlContent = () => {
             <div className={styles.content__inner}>
                 <form className={styles.content__form} onSubmit={handleSubmit}>
                     <h1 className={styles.content__title}>GraphiQl Client</h1>
-                    <GraphiQlUrlEditor handleChangeUrl={handleChangeUrl} url={url}
+                    <GraphiQlUrlEditor handleChangeUrl={handleChangeUrl} url={requestData.url}
                      />
                     <div className={styles.content__background} />
                     <div className={styles.content__field}>
                         <p className={styles.content__field__title}></p>
                     </div>
                     <HeadersPlayground title={"Headers"} handleChangeHeaders={handleChangeHeaders} rows={rows} />
-                    <BodyCodePlayground title={"Query"} handleChangeField={handleChangeSchema} code={schema} />
-                    <BodyCodePlayground title={"Variables"} handleChangeField={handleChangeVariables} code={variables} />
+                    <BodyCodePlayground title={"Query"} handleChangeField={handleChangeSchema} code={requestData.schema} />
+                    <BodyCodePlayground title={"Variables"} handleChangeField={handleChangeVariables} code={requestData.variables} />
                 </form>
 
                 <div className={styles.response}>
@@ -206,5 +220,3 @@ const GrafQlContent = () => {
 };
 
 export default GrafQlContent;
-
- 

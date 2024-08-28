@@ -1,12 +1,6 @@
-
-
-
-
-
-
 //С АВТОКОМПЛИТОМ
-import React, { useState } from 'react';
-import styles from './HeadersPlayground.module.scss';
+import React, { useState } from "react";
+import styles from "./HeadersPlayground.module.scss";
 
 interface Row {
   key: string;
@@ -14,53 +8,58 @@ interface Row {
 }
 
 const keySuggestions = [
-  'Content-Type',
-  'Authorization',
-  'Accept',
-  'User-Agent',
-  'Cache-Control',
+  "Content-Type",
+  "Authorization",
+  "Accept",
+  "User-Agent",
+  "Cache-Control",
 ];
 
 const valueSuggestions = [
-  'application/json',
-  'application/xml',
-  'text/html',
-  'Bearer token',
-  'gzip',
+  "application/json",
+  "application/xml",
+  "text/html",
+  "Bearer token",
+  "gzip",
 ];
 
 interface HeadersProps {
-  title: string
-  handleChangeHeaders: (headers: Row[]) => void
-  rows: Row[]
+  title: string;
+  handleChangeHeaders: (headers: Row[]) => void;
+  rows: Row[];
   //    handleChangeHeaders: React.ChangeEventHandler<HTMLInputElement>
 }
 const HeaderTable = ({ title, handleChangeHeaders, rows }: HeadersProps) => {
   //const [rows, setRows] = useState<Row[]>([{ key: '', value: '' }]);
 
-  const handleInputChange = (index: number, field: 'key' | 'value', value: string) => {
+  const handleInputChange = (
+    index: number,
+    field: "key" | "value",
+    value: string,
+  ) => {
     const newRows = [...rows];
     newRows[index][field] = value;
 
-
-    if (newRows[index].key.trim() === '' && newRows[index].value.trim() === '') {
+    if (
+      newRows[index].key.trim() === "" &&
+      newRows[index].value.trim() === ""
+    ) {
       newRows.splice(index, 1);
     }
 
-
-    if (index === rows.length - 1 && (newRows[index].key.trim() !== '' || newRows[index].value.trim() !== '')) {
-      newRows.push({ key: '', value: '' });
+    if (
+      index === rows.length - 1 &&
+      (newRows[index].key.trim() !== "" || newRows[index].value.trim() !== "")
+    ) {
+      newRows.push({ key: "", value: "" });
     }
-  
-    handleChangeHeaders(newRows)
- 
+
+    handleChangeHeaders(newRows);
   };
 
   return (
     <div className={styles.headers}>
-      <p className={styles.headerTitle}>
-        {title}
-      </p>
+      <p className={styles.headerTitle}>{title}</p>
       <table className={styles.table}>
         <thead>
           <tr>
@@ -75,8 +74,14 @@ const HeaderTable = ({ title, handleChangeHeaders, rows }: HeadersProps) => {
                 <input
                   type="text"
                   value={row.key}
-                  onChange={(e) => handleInputChange(index, 'key', e.target.value)}
-                  className={index === rows.length - 1 ? `${styles.input} ${styles.placeholder}` : styles.input}
+                  onChange={(e) =>
+                    handleInputChange(index, "key", e.target.value)
+                  }
+                  className={
+                    index === rows.length - 1
+                      ? `${styles.input} ${styles.placeholder}`
+                      : styles.input
+                  }
                   list={`key-suggestions-${index}`}
                   placeholder="Key"
                 />
@@ -90,8 +95,14 @@ const HeaderTable = ({ title, handleChangeHeaders, rows }: HeadersProps) => {
                 <input
                   type="text"
                   value={row.value}
-                  onChange={(e) => handleInputChange(index, 'value', e.target.value)}
-                  className={index === rows.length - 1 ? `${styles.input} ${styles.placeholder}` : styles.input}
+                  onChange={(e) =>
+                    handleInputChange(index, "value", e.target.value)
+                  }
+                  className={
+                    index === rows.length - 1
+                      ? `${styles.input} ${styles.placeholder}`
+                      : styles.input
+                  }
                   list={`value-suggestions-${index}`}
                   placeholder="Value"
                 />
@@ -106,12 +117,10 @@ const HeaderTable = ({ title, handleChangeHeaders, rows }: HeadersProps) => {
         </tbody>
       </table>
     </div>
-
   );
 };
 
 export default HeaderTable;
-
 
 /* БЕЗ АВТОКОМПЛИТА
 import React, { useState } from 'react';

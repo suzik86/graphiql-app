@@ -6,7 +6,7 @@ import HeaderWrapper from "../../components/Header/HeaderWrapper";
 import "../../theme/global.scss";
 import "../../theme/normalize.scss";
 import styles from "../../theme/wrappers.module.scss";
- 
+
 const inter = Inter({ subsets: ["latin"] });
 export default async function RootLayout({
   children,
@@ -21,13 +21,11 @@ export default async function RootLayout({
     <html lang={locale}>
       <body className={inter.className}>
         <NextIntlClientProvider messages={messages}>
-        
           <div className={styles.wrapper}>
             <HeaderWrapper />
             <div className={styles.content}>{children}</div>
             <Footer />
           </div>
-         
         </NextIntlClientProvider>
       </body>
     </html>
