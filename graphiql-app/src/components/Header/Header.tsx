@@ -4,9 +4,11 @@ import { useLocale, useTranslations } from "next-intl";
 import Image from "next/image";
 import Link from "next/link";
 import React from "react";
+import { useAuthState } from "react-firebase-hooks/auth";
 import RussianFlag from "../../assets/flag_ru.png";
 import EnglishFlag from "../../assets/flag_uk.png";
 import team_logo from "../../assets/team_logo.png";
+import { auth, logout } from "../../firebase";
 import HeaderButton from "../HeaderButton/HeaderButton";
 import styles from "./Header.module.scss";
 
@@ -19,6 +21,7 @@ const Header: React.FC<HeaderProps> = ({ isSticky, onMenuClick }) => {
   const localActive = useLocale();
   const t = useTranslations("Header");
   const selectedFlag = localActive === "en" ? EnglishFlag : RussianFlag;
+  const [user] = useAuthState(auth);
 
   const items: MenuProps["items"] = [
     {
@@ -54,8 +57,13 @@ const Header: React.FC<HeaderProps> = ({ isSticky, onMenuClick }) => {
                 <Image src={selectedFlag} alt="Selected Language" />
               </div>
             </Dropdown>
-          </Space>
-          <HeaderButton to="#" text={t("sign-out")} />
+          </Space>          
+          {user && (
+            <button className={styles.logout__btn} onClick={logout}>
+              {t("sign-out")}
+            </button>
+          )}
+          {!user && <HeaderButton to="/" text={t("sign-in")} />}
         </div>
       </div>
     </header>

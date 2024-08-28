@@ -1,0 +1,37 @@
+@import "../../theme/theme.scss";
+
+.welcome {
+  margin-top: 146px;
+  display: flex;
+  justify-content: center;
+
+  &__inner {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+  }
+
+  &__title {
+    font-family: "Nunito", sans-serif;
+    font-weight: 700;
+    font-size: 64px;
+
+    color: $black;
+  }
+
+  &__subtitle {
+    font-family: "Nunito", sans-serif;
+    font-weight: 700;
+    font-size: 48px;
+    text-align: center;
+    color: $black;
+    margin-top: 1px;
+  }
+
+  &__btns {
+    display: flex;
+    column-gap: 46px;
+    margin-top: 48px;
+  }
+}
