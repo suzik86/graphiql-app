@@ -1,15 +1,16 @@
 import styles from "./GraphiqlUrleditor.module.scss"
 interface GrapgiQlTypes {
     handleChangeUrl: React.ChangeEventHandler<HTMLInputElement>
-   //  handleChangeUrl: void
-   // handleChangeUrl: () => void
+    url: string
+ 
 }
-const GraphiQlUrlEditor = ({ handleChangeUrl }: GrapgiQlTypes) => {
+const GraphiQlUrlEditor = ({ handleChangeUrl, url }: GrapgiQlTypes) => {
     return (
         <div className={styles.editor}>
             <input type="text"
             onChange={handleChangeUrl}
                 placeholder="Enter url..."
+                value={url}
                 className={styles.editor__input}
                 required
             />
@@ -23,4 +24,4 @@ const GraphiQlUrlEditor = ({ handleChangeUrl }: GrapgiQlTypes) => {
 }
 
 export default GraphiQlUrlEditor;
-//Type 'void' is not assignable to type 'ChangeEventHandler<HTMLInputElement> | undefined'.
+ 
