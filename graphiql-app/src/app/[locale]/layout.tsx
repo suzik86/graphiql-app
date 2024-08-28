@@ -8,7 +8,6 @@ import "../../theme/normalize.scss";
 import styles from "../../theme/wrappers.module.scss";
 
 const inter = Inter({ subsets: ["latin"] });
-
 export default async function RootLayout({
   children,
   params: { locale },

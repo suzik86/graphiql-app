@@ -8,7 +8,7 @@ const WelcomeBackSection = () => {
 
   const btns = [
     { link: "/", text: t("rest") },
-    { link: "/", text: t("graphiql") },
+    { link: `/${localActive}/GRAPHQL/{}`, text: t("graphiql") },
     { link: `/${localActive}/history`, text: t("history") },
   ];
 
