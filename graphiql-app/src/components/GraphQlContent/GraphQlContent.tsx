@@ -20,7 +20,7 @@ interface Row {
 const GrafQlContent = () => {
     const pathname = usePathname();
     const searchParam = useSearchParams();
-    const otherParams = searchParam.toString();
+ 
     const t = useTranslations("HomePage");
     const localActive = useLocale();
     const [url, setUrl] = useState("");
