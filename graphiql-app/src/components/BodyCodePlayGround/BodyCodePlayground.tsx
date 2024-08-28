@@ -37,7 +37,7 @@ const BodyCodePlayground = ({title, handleChangeField, code}: BodyCodePlayground
         value={code}
         extensions={[javascript(), oneDark]} 
         onChange={handleChangeField}
-      //  onChange={(value) => handleChange(value)}
+     
         theme={oneDark}
         style={{
             border: '1px solid #444', borderRadius: '4px' }}
