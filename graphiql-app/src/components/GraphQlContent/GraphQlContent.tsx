@@ -1,3 +1,4 @@
+
 "use client";
 import { useEffect, useState } from "react";
 import { ApolloClient, HttpLink, InMemoryCache } from "@apollo/client";
@@ -19,6 +20,8 @@ interface Row {
 const GrafQlContent = () => {
 
     const searchParam = useSearchParams();
+    const otherParams = searchParam.toString();
+    console.log("SSS", otherParams)
     const t = useTranslations("HomePage");
     const localActive = useLocale();
     const [url, setUrl] = useState("");
@@ -29,7 +32,31 @@ const GrafQlContent = () => {
 
     const router = useRouter();
     const [data, setData] = useState<string | null>("");
-    const [statusCode, setStatusCode] = useState<number | null>(null); // New state for status code
+    const [statusCode, setStatusCode] = useState<number | null>(null);
+
+
+
+
+
+
+    useEffect(() => {
+
+        const parseParams = () => {
+            const params = new URLSearchParams(searchParam.toString());
+            
+            const result: Row[] = []
+            for (const [key, value] of params.entries()) {
+                if (key) {
+                    result.push({ key, value });
+                }
+            }
+            result.push({ key: "", value: "" })
+            setRows(result);
+        };
+
+        parseParams();
+    }, [searchParam]);
+
 
     const encodeBase64 = (input: string) => {
         return Buffer.from(input).toString('base64');
@@ -97,7 +124,7 @@ const GrafQlContent = () => {
             setStatusCode(error.networkError?.statusCode || 500);
         }
 
-       // router.push(graphqlUrl);
+        router.push(graphqlUrl);
     };
 
     const handleChangeUrl = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -116,7 +143,7 @@ const GrafQlContent = () => {
     const handleChangeSchema = (value: string) => {
         setSchema(value);
     };
-    
+
     const handleChangeVariables = (value: string) => {
         setVariables(value);
     };
@@ -152,7 +179,6 @@ const GrafQlContent = () => {
 };
 
 export default GrafQlContent;
-
 
 /*
 "use client";
