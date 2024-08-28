@@ -20,11 +20,10 @@ interface Row {
 const GrafQlContent = () => {
     const pathname = usePathname();
     const searchParam = useSearchParams();
- 
+
     const t = useTranslations("HomePage");
     const localActive = useLocale();
-    
-    // Создаем единое состояние для всех полей
+
     const [requestData, setRequestData] = useState({
         url: "",
         schema: "query {}",
@@ -57,34 +56,86 @@ const GrafQlContent = () => {
                 const decodedBody = decodeBase64(bodyBase64String);
 
                 const bodyJson = JSON.parse(decodedBody);
-                setRequestData({
+                setRequestData((prevState) => ({
+                    ...prevState,
                     url: decodedUrl,
                     schema: bodyJson.query || "query {}",
                     variables: JSON.stringify(bodyJson.variables || {}, null, 2),
-                    headers: requestData.headers,
-                });
+                }));
+
+
+                const params = new URLSearchParams(searchParam.toString());
+
+                const result: Row[] = [];
+                for (const [key, value] of params.entries()) {
+                    if (key) {
+                        result.push({ key, value });
+                    }
+                }
+                result.push({ key: "", value: "" });
+                setRows(result);
+                const handleReceive = async () => {
+
+                    const client = new ApolloClient({
+                        cache: new InMemoryCache(),
+                        link: new HttpLink({
+                            uri: decodedUrl,
+                            //      headers:  JSON.stringify(result)
+                            //      headers: parsedHeaders,
+                        }),
+                    });
+
+                    const CustomQuery = graphql(bodyJson.query);
+
+                    const operationType = bodyJson.query.includes("query") ? "query" : "mutation";
+                    try {
+                        const parsedVariables = JSON.parse(JSON.stringify(bodyJson.variables || {}, null, 2));
+
+                        let response;
+                        if (operationType === 'query') {
+                            response = await client.query({
+                                query: CustomQuery,
+                                variables: parsedVariables,
+                                context: {
+                                    fetchOptions: {
+                                        next: { revalidate: 10 },
+                                    },
+                                },
+                            });
+                        } else if (operationType === 'mutation') {
+                            response = await client.mutate({
+                                mutation: CustomQuery,
+                                variables: parsedVariables,
+                                context: {
+                                    fetchOptions: {
+                                        next: { revalidate: 10 },
+                                    },
+                                },
+                            });
+                        } else {
+                            console.error("Unsupported operation type:", operationType);
+                        }
+
+                        setData(response!.data);
+                        setStatusCode(200);
+                    } catch (error: any) {
+                        console.error("Ошибка запроса:", error);
+                        setStatusCode(error.networkError?.statusCode || 500);
+                    }
+                    /*
+                        */
+                }
+                handleReceive()
+
+
             } catch (error) {
                 console.error('Ошибка при декодировании или парсинге:', error);
             }
+         
         }
-    }, [pathname]);
+      
+    }, [pathname, searchParam]);
 
-    useEffect(() => {
-        const parseParams = () => {
-            const params = new URLSearchParams(searchParam.toString());
-
-            const result: Row[] = [];
-            for (const [key, value] of params.entries()) {
-                if (key) {
-                    result.push({ key, value });
-                }
-            }
-            result.push({ key: "", value: "" });
-            setRows(result);
-        };
-
-        parseParams();
-    }, [searchParam]);
 
     const handleSubmit = async (event: React.FormEvent) => {
         event.preventDefault();
@@ -100,56 +151,8 @@ const GrafQlContent = () => {
 
         const parsedHeaders = JSON.parse(headers);
         const queryParams = new URLSearchParams(parsedHeaders).toString();
- 
+
         const graphqlUrl = `/${localActive}/GRAPHQL/${encodedUrl}/${encodedBody}?${queryParams}`;
- 
-        const client = new ApolloClient({
-            cache: new InMemoryCache(),
-            link: new HttpLink({
-                uri: url,
-                headers: parsedHeaders,
-            }),
-        });
-
-        const CustomQuery = graphql(schema);
-
-        const operationType = schema.includes("query") ? "query" : "mutation";
-        try {
-            const parsedVariables = JSON.parse(variables);
-
-            let response;
-            if (operationType === 'query') {
-                response = await client.query({
-                    query: CustomQuery,
-                    variables: parsedVariables,
-                    context: {
-                        fetchOptions: {
-                            next: { revalidate: 10 },
-                        },
-                    },
-                });
-            } else if (operationType === 'mutation') {
-                response = await client.mutate({
-                    mutation: CustomQuery,
-                    variables: parsedVariables,
-                    context: {
-                        fetchOptions: {
-                            next: { revalidate: 10 },
-                        },
-                    },
-                });
-            } else {
-                console.error("Unsupported operation type:", operationType);
-            }
-
-            setData(response!.data);
-            setStatusCode(200);
-            localStorage.setItem("graphiql", JSON.stringify({ url: graphqlUrl, response: response!.data }));
-        } catch (error: any) {
-            console.error("Ошибка запроса:", error);
-            setStatusCode(error.networkError?.statusCode || 500);
-        }
-
         router.push(graphqlUrl);
     };
 
@@ -194,7 +197,7 @@ const GrafQlContent = () => {
                 <form className={styles.content__form} onSubmit={handleSubmit}>
                     <h1 className={styles.content__title}>GraphiQl Client</h1>
                     <GraphiQlUrlEditor handleChangeUrl={handleChangeUrl} url={requestData.url}
-                     />
+                    />
                     <div className={styles.content__background} />
                     <div className={styles.content__field}>
                         <p className={styles.content__field__title}></p>
@@ -212,7 +215,7 @@ const GrafQlContent = () => {
                             {statusCode !== null ? statusCode : "N/A"}
                         </div>
                     </div>
-                    <ResponseCodePlayground title={"Body"} response={String(data)} />
+                    <ResponseCodePlayground title={"Body"} response={JSON.stringify(data)} />
                 </div>
             </div>
         </section>
