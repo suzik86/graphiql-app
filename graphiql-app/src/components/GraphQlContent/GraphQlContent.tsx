@@ -1,4 +1,4 @@
-"use client";
+import { buildClientSchema, getIntrospectionQuery, printSchema } from "graphql";
 import { ApolloClient, HttpLink, InMemoryCache } from "@apollo/client";
 import { graphql } from "gql.tada";
 import { useLocale } from "next-intl";
@@ -18,8 +18,6 @@ interface Row {
 const GrafQlContent = () => {
   const pathname = usePathname();
   const searchParam = useSearchParams();
-
-  //const t = useTranslations("HomePage");
   const localActive = useLocale();
 
   const [requestData, setRequestData] = useState({
@@ -30,18 +28,14 @@ const GrafQlContent = () => {
   });
 
   const [rows, setRows] = useState<Row[]>([{ key: "", value: "" }]);
+  const [data, setData] = useState<string | null>(null);
+  const [statusCode, setStatusCode] = useState<number | null>(null);
+  const [schema, setSchema] = useState<string | null>(null);
 
   const router = useRouter();
-  const [data, setData] = useState<string | null>("");
-  const [statusCode, setStatusCode] = useState<number | null>(null);
 
-  const encodeBase64 = (input: string) => {
-    return Buffer.from(input).toString("base64");
-  };
-
-  const decodeBase64 = (input: string) => {
-    return Buffer.from(input, "base64").toString("utf-8");
-  };
+  const encodeBase64 = (input: string) => Buffer.from(input).toString("base64");
+  const decodeBase64 = (input: string) => Buffer.from(input, "base64").toString("utf-8");
 
   useEffect(() => {
     const segments = pathname.split("/");
@@ -62,24 +56,21 @@ const GrafQlContent = () => {
         }));
 
         const params = new URLSearchParams(searchParam.toString());
-
         const result: Row[] = [];
+
         for (const [key, value] of params.entries()) {
-          if (key) {
-            result.push({ key, value });
-          }
+          if (key) result.push({ key, value });
         }
+
         result.push({ key: "", value: "" });
         setRows(result);
 
         const headersObject: Record<string, string> = result.reduce(
           (acc, { key, value }) => {
-            if (key) {
-              acc[key] = value;
-            }
+            if (key) acc[key] = value;
             return acc;
           },
-          {} as Record<string, string>,
+          {} as Record<string, string>
         );
 
         const handleReceive = async () => {
@@ -91,45 +82,45 @@ const GrafQlContent = () => {
             }),
           });
 
-          const CustomQuery = graphql(bodyJson.query);
-          const operationType = bodyJson.query.includes("query")
-            ? "query"
-            : "mutation";
           try {
-            const parsedVariables = JSON.parse(
-              JSON.stringify(bodyJson.variables || {}, null, 2),
-            );
+       
+            const introspectionResult = await client.query({
+              query: graphql(getIntrospectionQuery()),
+            });
+
+            const schemaJSON = introspectionResult.data;
+            const clientSchema = buildClientSchema(schemaJSON);
+            setSchema(printSchema(clientSchema));
+
+        
+            const CustomQuery = graphql(bodyJson.query);
+            const operationType = bodyJson.query.includes("query") ? "query" : "mutation";
 
             let response;
+            const parsedVariables = JSON.parse(JSON.stringify(bodyJson.variables || {}, null, 2));
+
             if (operationType === "query") {
               response = await client.query({
                 query: CustomQuery,
                 variables: parsedVariables,
-                context: {
-                  fetchOptions: {
-                    next: { revalidate: 10 },
-                  },
-                },
+                context: { fetchOptions: { next: { revalidate: 10 } } },
               });
             } else if (operationType === "mutation") {
               response = await client.mutate({
                 mutation: CustomQuery,
                 variables: parsedVariables,
-                context: {
-                  fetchOptions: {
-                    next: { revalidate: 10 },
-                  },
-                },
+                context: { fetchOptions: { next: { revalidate: 10 } } },
               });
             }
 
-            setData(response!.data);
+            setData(JSON.stringify(response!.data, null, 2));
             setStatusCode(200);
           } catch (error: any) {
             console.error("Ошибка запроса:", error);
             setStatusCode(error.networkError?.statusCode || 500);
           }
         };
+
         handleReceive();
       } catch (error) {
         console.error("Ошибка при декодировании или парсинге:", error);
@@ -166,7 +157,7 @@ const GrafQlContent = () => {
   const handleChangeHeaders = (headers: Row[]) => {
     setRows(headers);
     const obj: { [key: string]: string } = {};
-    Object.values(headers).forEach((item) => {
+    headers.forEach((item) => {
       if (item.key) {
         obj[item.key] = item.value;
       }
@@ -196,43 +187,28 @@ const GrafQlContent = () => {
       <div className={styles.content__inner}>
         <form className={styles.content__form} onSubmit={handleSubmit}>
           <h1 className={styles.content__title}>GraphiQl Client</h1>
-          <GraphiQlUrlEditor
-            handleChangeUrl={handleChangeUrl}
-            url={requestData.url}
-          />
+          <GraphiQlUrlEditor handleChangeUrl={handleChangeUrl} url={requestData.url} />
           <div className={styles.content__background} />
           <div className={styles.content__field}>
             <p className={styles.content__field__title}></p>
           </div>
-          <HeadersPlayground
-            title={"Headers"}
-            handleChangeHeaders={handleChangeHeaders}
-            rows={rows}
-          />
-          <BodyCodePlayground
-            title={"Query"}
-            handleChangeField={handleChangeSchema}
-            code={requestData.schema}
-          />
-          <BodyCodePlayground
-            title={"Variables"}
-            handleChangeField={handleChangeVariables}
-            code={requestData.variables}
-          />
+          <HeadersPlayground title={"Headers"} handleChangeHeaders={handleChangeHeaders} rows={rows} />
+          <BodyCodePlayground title={"Query"} handleChangeField={handleChangeSchema} code={requestData.schema} />
+          <BodyCodePlayground title={"Variables"} handleChangeField={handleChangeVariables} code={requestData.variables} />
         </form>
-
         <div className={styles.response}>
           <p className={styles.response__title}>Response</p>
           <div className={styles.response__status}>
             <p className={styles.response__status__text}>Status:</p>
-            <div className={styles.response__status__code}>
-              {statusCode !== null ? statusCode : "N/A"}
-            </div>
+            <div className={styles.response__status__code}>{statusCode !== null ? statusCode : "N/A"}</div>
           </div>
-          <ResponseCodePlayground
-            title={"Body"}
-            response={JSON.stringify(data)}
-          />
+          {/*
+          <ResponseCodePlayground title={"Body"} response={data} />
+          */}
+          <div className={styles.response__schema}>
+            <h2>Schema</h2>
+            <pre>{schema}</pre>
+          </div>
         </div>
       </div>
     </section>
@@ -240,3 +216,4 @@ const GrafQlContent = () => {
 };
 
 export default GrafQlContent;
+ 
