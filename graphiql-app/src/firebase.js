@@ -64,7 +64,7 @@ const logout = () => {
 
 export {
   auth,
-  db,  
+  db,
   logInWithEmailAndPassword,
   registerWithEmailAndPassword,
   sendPasswordReset,

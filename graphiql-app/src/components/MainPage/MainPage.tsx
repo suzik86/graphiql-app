@@ -1,16 +1,17 @@
 "use client";
 import { collection, getDocs, query, where } from "firebase/firestore";
+import { useLocale, useTranslations } from "next-intl";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { useAuthState } from "react-firebase-hooks/auth";
-import { auth, db, logout } from "../../firebase";
-import styles from "./MainPage.module.scss";
-import { useLocale, useTranslations } from "next-intl";
-import WelcomeButton from "../WelcomeButton/WelcomeButton";
+import { auth, db } from "../../firebase";
 import Spinner from "../Spinner/Spinner";
+import WelcomeButton from "../WelcomeButton/WelcomeButton";
+import styles from "./MainPage.module.scss";
 
 function MainPage() {
-  const [user, loading, error] = useAuthState(auth);
+  //const [user, loading, error] = useAuthState(auth);
+  const [user, loading] = useAuthState(auth);
   const [name, setName] = useState("");
   const router = useRouter();
   const t = useTranslations("HomePage");

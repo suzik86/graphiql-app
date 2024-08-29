@@ -14,7 +14,8 @@ type ResetFormData = {
 };
 
 function Reset() {
-  const [user, loading, error] = useAuthState(auth);
+  //const [user, loading, error] = useAuthState(auth);
+  const [user, loading] = useAuthState(auth);
   const router = useRouter();
   const localActive = useLocale();
   const t = useTranslations("Reset");
@@ -23,9 +24,9 @@ function Reset() {
     sendPasswordReset(values.email);
   };
 
-  useEffect(() => {    
+  useEffect(() => {
     if (user) router.push(`/${localActive}/main`);
-  }, [user, loading]);
+  }, [user, loading, localActive]);
 
   return (
     <>
@@ -55,11 +56,7 @@ function Reset() {
                   </Form.Item>
 
                   <Form.Item>
-                    <Button
-                      block
-                      type="primary"
-                      htmlType="submit" 
-                    >
+                    <Button block type="primary" htmlType="submit">
                       {t("reset")}
                     </Button>
                   </Form.Item>

@@ -1,9 +1,10 @@
-import React, { useState } from "react";
+import React from "react";
 import styles from "./BodyCodePlayground.module.scss";
 import CodeMirror from "@uiw/react-codemirror";
 import { javascript } from "@codemirror/lang-javascript";
 import { oneDark } from "@codemirror/theme-one-dark";
 import { ViewUpdate } from "@uiw/react-codemirror";
+
 interface BodyCodePlaygroundProps {
   title: string;
   handleChangeField:
@@ -11,6 +12,7 @@ interface BodyCodePlaygroundProps {
     | undefined;
   code: string;
 }
+
 const BodyCodePlayground = ({
   title,
   handleChangeField,

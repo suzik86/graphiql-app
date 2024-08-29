@@ -10,18 +10,17 @@ import { auth } from "../../../firebase";
 import Spinner from "../../Spinner/Spinner";
 import styles from "./Login.module.scss";
 
-
 type LoginFormData = {
   email: string;
   password: string;
 };
 
 function Login() {
-  const [user, loading, error] = useAuthState(auth);
+  //const [user, loading, error] = useAuthState(auth);
+  const [user, loading] = useAuthState(auth);
   const router = useRouter();
   const localActive = useLocale();
   const t = useTranslations("Login");
-  
 
   const onFinish: FormProps<LoginFormData>["onFinish"] = (values) => {
     signInWithEmailAndPassword(auth, values.email, values.password);
@@ -78,7 +77,7 @@ function Login() {
                     <Button
                       block
                       type="primary"
-                      htmlType="submit"                      
+                      htmlType="submit"
                       className={styles.login__btn}
                     >
                       {t("login")}

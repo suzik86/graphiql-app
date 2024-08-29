@@ -7,26 +7,26 @@
     "reset": "Forgot Password",
     "question": "Don't have an account?",
     "register": "Register",
-    "now": "now",    
-    "email-error":"Please input your email!",
-    "invalid-email":"The input is not valid E-mail!",
-    "password-error":"Please input your Password!",
-    "invalid-password":"Password should contain at least 8 characters, including 1 letter, 1 number, and 1 special character!"
+    "now": "now",
+    "email-error": "Please input your email!",
+    "invalid-email": "The input is not valid E-mail!",
+    "password-error": "Please input your Password!",
+    "invalid-password": "Password should contain at least 8 characters, including 1 letter, 1 number, and 1 special character!"
   },
   "Register": {
-    "title": "Registration",    
+    "title": "Registration",
     "name": "Enter Your Name",
     "email": "Enter E-mail Address",
-    "password": "Enter Password",    
+    "password": "Enter Password",
     "register": "Register",
     "question": "Already have an account?",
     "login": "Login",
     "now": "now",
-    "name-error":"Please input your name!",
-    "email-error":"Please input your email!",
-    "invalid-email":"The input is not valid E-mail!",
-    "password-error":"Please input your Password!",
-    "invalid-password":"Password should contain at least 8 characters, including 1 letter, 1 number, and 1 special character!"
+    "name-error": "Please input your name!",
+    "email-error": "Please input your email!",
+    "invalid-email": "The input is not valid E-mail!",
+    "password-error": "Please input your Password!",
+    "invalid-password": "Password should contain at least 8 characters, including 1 letter, 1 number, and 1 special character!"
   },
   "Reset": {
     "title": "Reset Password",
@@ -35,8 +35,8 @@
     "question": "Don't have an account?",
     "register": "Register",
     "now": "now",
-    "email-error":"Please input your email!",
-    "invalid-email":"The input is not valid E-mail!"
+    "email-error": "Please input your email!",
+    "invalid-email": "The input is not valid E-mail!"
   },
   "HomePage": {
     "welcome": "welcome back",
@@ -58,5 +58,5 @@
   },
   "History": {
     "title": "History"
-  }  
+  }
 }

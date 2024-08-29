@@ -57,7 +57,7 @@ const Header: React.FC<HeaderProps> = ({ isSticky, onMenuClick }) => {
                 <Image src={selectedFlag} alt="Selected Language" />
               </div>
             </Dropdown>
-          </Space>          
+          </Space>
           {user && (
             <button className={styles.logout__btn} onClick={logout}>
               {t("sign-out")}

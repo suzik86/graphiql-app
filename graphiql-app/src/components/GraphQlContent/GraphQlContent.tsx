@@ -1,16 +1,14 @@
 "use client";
-import { useEffect, useState } from "react";
-import { ApolloClient, HttpLink, InMemoryCache,  ApolloError} from "@apollo/client";
+import { ApolloClient, HttpLink, InMemoryCache } from "@apollo/client";
 import { graphql } from "gql.tada";
-import { useRouter, useSearchParams } from "next/navigation";
-import { useLocale, useTranslations } from "next-intl";
-
+import { useLocale } from "next-intl";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
+import { useEffect, useState } from "react";
 import BodyCodePlayground from "../BodyCodePlayGround/BodyCodePlayground";
 import GraphiQlUrlEditor from "../GraphiQlUrlEditor/GraphiQlUrlEditor";
 import HeadersPlayground from "../HeadersPlayground/HeadersPlayground";
-import styles from "./GraphQlContent.module.scss";
 import ResponseCodePlayground from "../ResponseCodePlayGround/ResponseCodePlayGround";
-import { usePathname } from "next/navigation";
+import styles from "./GraphQlContent.module.scss";
 
 interface Row {
   key: string;
@@ -21,7 +19,7 @@ const GrafQlContent = () => {
   const pathname = usePathname();
   const searchParam = useSearchParams();
 
-  const t = useTranslations("HomePage");
+  //const t = useTranslations("HomePage");
   const localActive = useLocale();
 
   const [requestData, setRequestData] = useState({
@@ -167,7 +165,7 @@ const GrafQlContent = () => {
 
   const handleChangeHeaders = (headers: Row[]) => {
     setRows(headers);
-    let obj: { [key: string]: string } = {};
+    const obj: { [key: string]: string } = {};
     Object.values(headers).forEach((item) => {
       if (item.key) {
         obj[item.key] = item.value;

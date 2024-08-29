@@ -16,7 +16,8 @@ type RegisterFormData = {
 };
 
 function Register() {
-  const [user, loading, error] = useAuthState(auth);
+  //const [user, loading, error] = useAuthState(auth);
+  const [user, loading] = useAuthState(auth);
   const router = useRouter();
   const localActive = useLocale();
   const t = useTranslations("Register");
@@ -25,7 +26,7 @@ function Register() {
     registerWithEmailAndPassword(values.name, values.email, values.password);
   };
 
-  useEffect(() => {   
+  useEffect(() => {
     if (user) router.push(`/${localActive}/main`);
   }, [user, loading]);
 
@@ -78,11 +79,7 @@ function Register() {
                   </Form.Item>
 
                   <Form.Item>
-                    <Button
-                      block
-                      type="primary"
-                      htmlType="submit"                                           
-                    >
+                    <Button block type="primary" htmlType="submit">
                       {t("register")}
                     </Button>
                   </Form.Item>
