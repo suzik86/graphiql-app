@@ -1,7 +1,7 @@
 {
   "Login": {
     "login": "Login",
-    "welcome": "Welcome!",
+    "title": "Authorization",
     "email": "Enter E-mail Address",
     "password": "Enter Password",
     "reset": "Forgot Password",
@@ -39,11 +39,14 @@
     "invalid-email": "The input is not valid E-mail!"
   },
   "HomePage": {
-    "welcome": "welcome back",
+    "welcome": "Welcome!",
+    "welcome-back": "welcome back",
     "question": "Where are we going?",
     "rest": "Rest client",
     "graphiql": "GraphiQl client",
-    "history": "History"
+    "history": "History",
+    "sign-in": "Sign in",
+    "sign-up": "Sign up"
   },
   "NotFound": {
     "title": "Page not found",
@@ -51,7 +54,8 @@
   },
   "Header": {
     "sign-out": "Sign out",
-    "sign-in": "Sign in"
+    "sign-in": "Sign in",
+    "sign-up": "Sign up"
   },
   "Footer": {
     "message": "© Template by 2024"

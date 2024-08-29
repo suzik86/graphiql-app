@@ -63,7 +63,12 @@ const Header: React.FC<HeaderProps> = ({ isSticky, onMenuClick }) => {
               {t("sign-out")}
             </button>
           )}
-          {!user && <HeaderButton to="/" text={t("sign-in")} />}
+          {!user && (
+            <HeaderButton to={`/${localActive}/login`} text={t("sign-in")} />
+          )}
+          {!user && (
+            <HeaderButton to={`/${localActive}/register`} text={t("sign-up")} />
+          )}
         </div>
       </div>
     </header>

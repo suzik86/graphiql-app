@@ -27,7 +27,7 @@ function Login() {
   };
 
   useEffect(() => {
-    if (user) router.push(`/${localActive}/main`);
+    if (user) router.push(`/${localActive}`);
   }, [user, loading]);
 
   return (
@@ -35,7 +35,7 @@ function Login() {
       {!loading ? (
         <section className={styles.welcome}>
           <div className={styles.welcome__inner}>
-            <h1 className={styles.welcome__title}>{t("welcome")}</h1>
+            <h1 className={styles.welcome__title}>{t("title")}</h1>
 
             <div className={styles.login}>
               <div className={styles.login__container}>

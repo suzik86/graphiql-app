@@ -27,7 +27,7 @@ function Register() {
   };
 
   useEffect(() => {
-    if (user) router.push(`/${localActive}/main`);
+    if (user) router.push(`/${localActive}`);
   }, [user, loading]);
 
   return (
@@ -86,7 +86,7 @@ function Register() {
                 </Form>
                 <div>
                   {t("question")}{" "}
-                  <Link href={`/${localActive}`} className={styles.link}>
+                  <Link href={`/${localActive}/login`} className={styles.link}>
                     {t("login")}
                   </Link>{" "}
                   {t("now")}.

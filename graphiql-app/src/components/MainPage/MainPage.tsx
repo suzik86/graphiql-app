@@ -1,6 +1,7 @@
 "use client";
 import { collection, getDocs, query, where } from "firebase/firestore";
 import { useLocale, useTranslations } from "next-intl";
+import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { useAuthState } from "react-firebase-hooks/auth";
@@ -46,12 +47,12 @@ function MainPage() {
   return (
     <section className={styles.welcome}>
       <div className={styles.welcome__inner}>
-        {loading || !name ? (
+        {loading ? (
           <Spinner />
-        ) : (
+        ) : user ? (
           <>
             <h1 className={styles.welcome__title}>
-              {name}, {t("welcome")}!
+              {name}, {t("welcome-back")}!
             </h1>
             <h2 className={styles.welcome__subtitle}>{t("question")}</h2>
 
@@ -62,6 +63,18 @@ function MainPage() {
                 </li>
               ))}
             </ul>
+          </>
+        ) : (
+          <>
+            <h1 className={styles.welcome__title}>{t("welcome")}</h1>
+            <div className={styles.links__wrapper}>
+              <Link className={styles.link} href={`/${localActive}/login`}>
+                {t("sign-in")}
+              </Link>
+              <Link className={styles.link} href={`/${localActive}/register`}>
+                {t("sign-up")}
+              </Link>
+            </div>
           </>
         )}
       </div>

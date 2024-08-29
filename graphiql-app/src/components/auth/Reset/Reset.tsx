@@ -25,7 +25,7 @@ function Reset() {
   };
 
   useEffect(() => {
-    if (user) router.push(`/${localActive}/main`);
+    if (user) router.push(`/${localActive}`);
   }, [user, loading, localActive]);
 
   return (
