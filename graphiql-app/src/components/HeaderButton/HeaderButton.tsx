@@ -1,5 +1,6 @@
 import Link from "next/link";
 import styles from "./HeaderButton.module.scss";
+
 interface HeaderButtonProps {
   to: string;
   text: string;

@@ -26,6 +26,7 @@ const ResponseCodePlayground = ({
     const parsedResponse = JSON.parse(response);
     formattedResponse = JSON.stringify(parsedResponse, null, 2);
   } catch (error) {
+    console.log(error);
     formattedResponse = response;
   }
 

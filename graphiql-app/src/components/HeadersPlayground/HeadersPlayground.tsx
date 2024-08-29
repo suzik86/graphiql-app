@@ -1,5 +1,4 @@
 //С АВТОКОМПЛИТОМ
-import React, { useState } from "react";
 import styles from "./HeadersPlayground.module.scss";
 
 interface Row {

@@ -1,4 +1,4 @@
-import * as gqlTada from "gql.tada";
+//import * as gqlTada from "gql.tada";
 declare const introspection: {
   __schema: {
     /*...*/

@@ -1,9 +1,5 @@
-import WelcomeBackSection from "../../components/WelcomeBackSection/WelcomeBackSection";
+import MainPage from "../../components/MainPage/MainPage";
 
 export default function Home() {
-  return (
-    <>
-      <WelcomeBackSection />
-    </>
-  );
+  return <MainPage />;
 }

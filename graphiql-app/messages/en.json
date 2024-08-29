@@ -1,10 +1,52 @@
 {
+  "Login": {
+    "login": "Login",
+    "title": "Authorization",
+    "email": "Enter E-mail Address",
+    "password": "Enter Password",
+    "reset": "Forgot Password",
+    "question": "Don't have an account?",
+    "register": "Register",
+    "now": "now",
+    "email-error": "Please input your email!",
+    "invalid-email": "The input is not valid E-mail!",
+    "password-error": "Please input your Password!",
+    "invalid-password": "Password should contain at least 8 characters, including 1 letter, 1 number, and 1 special character!"
+  },
+  "Register": {
+    "title": "Registration",
+    "name": "Enter Your Name",
+    "email": "Enter E-mail Address",
+    "password": "Enter Password",
+    "register": "Register",
+    "question": "Already have an account?",
+    "login": "Login",
+    "now": "now",
+    "name-error": "Please input your name!",
+    "email-error": "Please input your email!",
+    "invalid-email": "The input is not valid E-mail!",
+    "password-error": "Please input your Password!",
+    "invalid-password": "Password should contain at least 8 characters, including 1 letter, 1 number, and 1 special character!"
+  },
+  "Reset": {
+    "title": "Reset Password",
+    "email": "Enter E-mail Address",
+    "reset": "Send password reset email",
+    "question": "Don't have an account?",
+    "register": "Register",
+    "now": "now",
+    "email-error": "Please input your email!",
+    "invalid-email": "The input is not valid E-mail!"
+  },
   "HomePage": {
-    "welcome": "Welcome back",
+    "welcome": "Welcome!",
+    "welcome-back": "welcome back",
     "question": "Where are we going?",
     "rest": "Rest client",
     "graphiql": "GraphiQl client",
-    "history": "History"
+    "history": "History",
+    "sign-in": "Sign in",
+    "sign-up": "Sign up"
   },
   "NotFound": {
     "title": "Page not found",
@@ -12,7 +54,8 @@
   },
   "Header": {
     "sign-out": "Sign out",
-    "sign-in": "Sign in"
+    "sign-in": "Sign in",
+    "sign-up": "Sign up"
   },
   "Footer": {
     "message": "© Template by 2024"

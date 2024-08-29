@@ -56,3 +56,22 @@
     height: 15px;
   }
 }
+
+.logout__btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 5px 25px;
+  cursor: pointer;
+  font-weight: 400;
+  font-size: 18px;
+  color: #000;
+  font-family: "Nunito", sans-serif;
+  background-color: $purple;
+  border: none;
+  border-radius: 15px;
+  transition: 0.4s ease-in-out;
+  &:hover {
+    background-color: $btn-active;
+  }
+}
