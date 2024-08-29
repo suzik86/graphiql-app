@@ -89,7 +89,7 @@ function Register() {
                 </Form>
                 <div>
                   {t("question")}{" "}
-                  <Link href="/" className={styles.link}>
+                  <Link href={`/${localActive}`} className={styles.link}>
                     {t("login")}
                   </Link>{" "}
                   {t("now")}.
