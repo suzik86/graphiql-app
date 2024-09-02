@@ -24,7 +24,11 @@ const Footer = () => {
             <p className={styles.footer__copyright}>{t("message")}</p>
           </div>
           <div className={styles.footer__item}>
-            <Link href="https://rs.school/courses/reactjs" target="blank">
+            <Link
+              href="https://rs.school/courses/reactjs"
+              target="blank"
+              className={styles.logo}
+            >
               <Image src={Logo} alt="logo" />
             </Link>
           </div>
