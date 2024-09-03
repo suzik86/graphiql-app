@@ -3,7 +3,7 @@ import { Dropdown, Space } from "antd";
 import { useLocale, useTranslations } from "next-intl";
 import Image from "next/image";
 import Link from "next/link";
-import React from "react";
+import React, { FC } from "react";
 import { useAuthState } from "react-firebase-hooks/auth";
 import RussianFlag from "../../assets/flag_ru.png";
 import EnglishFlag from "../../assets/flag_uk.png";
@@ -17,7 +17,7 @@ interface HeaderProps {
   onMenuClick: (key: string) => void;
 }
 
-const Header: React.FC<HeaderProps> = ({ isSticky, onMenuClick }) => {
+const Header: FC<HeaderProps> = ({ isSticky, onMenuClick }) => {
   const localActive = useLocale();
   const t = useTranslations("Header");
   const selectedFlag = localActive === "en" ? EnglishFlag : RussianFlag;
