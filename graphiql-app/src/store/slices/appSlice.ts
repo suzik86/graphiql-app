@@ -1,12 +1,7 @@
-import { createSlice, PayloadAction } from "@reduxjs/toolkit";
- 
-interface AppState {
-  
-}
+import { createSlice } from "@reduxjs/toolkit";
 
-export const initialState: AppState = {
- 
-};
+export const initialState = {};
+
 const appSlice = createSlice({
   name: "app",
   initialState,
@@ -18,9 +13,9 @@ const appSlice = createSlice({
    */
   },
 });
-export const { 
-  //setPersonalDataReactHookForm 
 
- } =
-  appSlice.actions;
+// export const {
+//   //setPersonalDataReactHookForm
+// } = appSlice.actions;
+
 export default appSlice.reducer;

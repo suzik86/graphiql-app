@@ -1,70 +1,91 @@
 .keyValueEditor {
-    margin: 1rem 0;
+  margin: 1rem 0;
+}
+
+.keyValueEditor__title {
+  font-size: 1.2rem;
+  margin-bottom: 0.5rem;
+}
+
+.keyValueEditor__form {
+  display: flex;
+  gap: 0.5rem;
+  margin-bottom: 1rem;
+}
+
+.keyValueEditor__input {
+  padding: 0.5rem;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+.keyValueEditor__button {
+  padding: 0.5rem 1rem;
+  background-color: #0070f3;
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.keyValueEditor__button:hover {
+  background-color: #005bb5;
+}
+
+.keyValueEditor__list {
+  list-style: none;
+  padding: 0;
+}
+
+.keyValueEditor__listItem {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-bottom: 0.5rem;
+  padding: 0.5rem;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.keyValueEditor__deleteButton {
+  background: none;
+  border: none;
+  color: red;
+  cursor: pointer;
+}
+
+.keyValueEditor__listItemCheckbox {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: calc(50% - 0.25rem);
+}
+
+.keyValueEditor__listItemInput {
+  width: calc(50% - 0.25rem);
+  padding: 0.5rem;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+.redBorder {
+  border: 1px solid rgb(255, 0, 0); /* Желтый бордер */
+  animation: blink-border 0.2s ease-out;
+}
+
+.blinkBorder {
+  border: 1px solid yellow; /* Желтый бордер */
+  animation: blink-border 0.2s ease-out;
+}
+
+@keyframes blink-border {
+  0% {
+    border-color: yellow;
   }
-  
-  .keyValueEditor__title {
-    font-size: 1.2rem;
-    margin-bottom: 0.5rem;
+  50% {
+    border-color: transparent;
   }
-  
-  .keyValueEditor__form {
-    display: flex;
-    gap: 0.5rem;
-    margin-bottom: 1rem;
+  100% {
+    border-color: yellow;
   }
-  
-  .keyValueEditor__input {
-    padding: 0.5rem;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-  }
-  
-  .keyValueEditor__button {
-    padding: 0.5rem 1rem;
-    background-color: #0070f3;
-    color: #fff;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-  }
-  
-  .keyValueEditor__button:hover {
-    background-color: #005bb5;
-  }
-  
-  .keyValueEditor__list {
-    list-style: none;
-    padding: 0;
-  }
-  
-  .keyValueEditor__listItem {
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
-    margin-bottom: 0.5rem;
-    padding: 0.5rem;
-    border: 1px solid #ddd;
-    border-radius: 4px;
-  }
-  
-  .keyValueEditor__deleteButton {
-    background: none;
-    border: none;
-    color: red;
-    cursor: pointer;
-  }
-  
-  .keyValueEditor__listItemCheckbox {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: calc(50% - 0.25rem); 
-  }
-  
-  .keyValueEditor__listItemInput {
-    width: calc(50% - 0.25rem); 
-    padding: 0.5rem;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-  }
-  
+}

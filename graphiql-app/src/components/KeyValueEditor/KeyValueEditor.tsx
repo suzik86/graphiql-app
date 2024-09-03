@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import styles from "./KeyValueEditor.module.scss";
 
 type Item = {
@@ -10,48 +10,108 @@ type Item = {
 type KeyValueEditorProps = {
   items: Item[];
   setItems: React.Dispatch<React.SetStateAction<Item[]>>;
-  itemType: "variable" | "header"; // or you can use string enum
-  urlEncode?: boolean;
+  itemType: "variable" | "header"; // or use string enum
+  onUpdateURL?: (items: Item[]) => void; // Callback for URL update
 };
 
 export default function KeyValueEditor({
   items,
   setItems,
   itemType,
-  urlEncode = false,
+  onUpdateURL,
 }: KeyValueEditorProps) {
   const [key, setKey] = useState("");
   const [value, setValue] = useState("");
+  const [modifiedIndices, setModifiedIndices] = useState<Set<number>>(
+    new Set(),
+  );
+  const [duplicateKeys, setDuplicateKeys] = useState<Set<number>>(new Set());
 
   const handleAddItem = () => {
     if (key && value) {
-      const formattedValue = urlEncode ? encodeURIComponent(value) : value;
-      setItems([...items, { key, value: formattedValue, included: true }]);
+      const existingItemIndex = items.findIndex((item) => item.key === key);
+      let newItems;
+
+      if (existingItemIndex !== -1) {
+        // Key exists, update value
+        newItems = items.map((item, index) =>
+          index === existingItemIndex
+            ? { ...item, value } // No need for isModified here
+            : item,
+        );
+        setModifiedIndices((prev) => new Set(prev).add(existingItemIndex));
+      } else {
+        // Key doesn't exist, add new item
+        newItems = [...items, { key, value, included: true }];
+      }
+
+      setItems(newItems);
       setKey("");
       setValue("");
+      onUpdateURL?.(newItems);
     }
   };
 
   const handleDeleteItem = (index: number) => {
-    setItems(items.filter((_, i) => i !== index));
+    const newItems = items.filter((_, i) => i !== index);
+    setItems(newItems);
+    setModifiedIndices((prev) => {
+      const newSet = new Set(prev);
+      newSet.delete(index);
+      return newSet;
+    });
+    setDuplicateKeys((prev) => {
+      const newSet = new Set(prev);
+      newSet.delete(index);
+      return newSet;
+    });
+    onUpdateURL?.(newItems);
   };
 
   const toggleItemInclusion = (index: number) => {
-    setItems(
-      items.map((item, i) =>
-        i === index ? { ...item, included: !item.included } : item
-      )
+    const newItems = items.map((item, i) =>
+      i === index ? { ...item, included: !item.included } : item,
     );
+    setItems(newItems);
+    onUpdateURL?.(newItems);
   };
 
-  const handleEditItem = (index: number, key: string, value: string) => {
-    const formattedValue = urlEncode ? encodeURIComponent(value) : value;
-    setItems(
-      items.map((item, i) =>
-        i === index ? { ...item, key, value: formattedValue } : item
-      )
+  const handleEditItem = (index: number, newKey: string, newValue: string) => {
+    const newItems = items.map((item, i) =>
+      i === index ? { ...item, key: newKey, value: newValue } : item,
     );
+
+    setItems(newItems);
+    setModifiedIndices((prev) => new Set(prev).add(index));
+    checkForDuplicates(newItems);
+    onUpdateURL?.(newItems);
   };
+
+  const checkForDuplicates = (newItems: Item[]) => {
+    const keysCount: { [key: string]: number } = {};
+    const duplicates = new Set<number>();
+
+    newItems.forEach((item) => {
+      if (keysCount[item.key]) {
+        keysCount[item.key] += 1;
+      } else {
+        keysCount[item.key] = 1;
+      }
+    });
+
+    newItems.forEach((item, index) => {
+      if (keysCount[item.key] > 1) {
+        duplicates.add(index);
+      }
+    });
+
+    setDuplicateKeys(duplicates);
+  };
+
+  useEffect(() => {
+    const timer = setTimeout(() => setModifiedIndices(new Set()), 1000);
+    return () => clearTimeout(timer);
+  }, [items]);
 
   return (
     <div className={styles.keyValueEditor}>
@@ -70,7 +130,10 @@ export default function KeyValueEditor({
           placeholder={`${itemType} Value`}
           className={styles.keyValueEditor__input}
         />
-        <button onClick={handleAddItem} className={styles.keyValueEditor__button}>
+        <button
+          onClick={handleAddItem}
+          className={styles.keyValueEditor__button}
+        >
           Add {itemType}
         </button>
       </div>
@@ -89,16 +152,18 @@ export default function KeyValueEditor({
                 handleEditItem(index, e.target.value, item.value)
               }
               placeholder="Key"
-              className={styles.keyValueEditor__input}
+              className={`${styles.keyValueEditor__input} ${
+                modifiedIndices.has(index) ? styles.blinkBorder : ""
+              } ${duplicateKeys.has(index) ? styles.redBorder : ""}`} // Apply red border if duplicate
             />
             <input
               type="text"
               value={item.value}
-              onChange={(e) =>
-                handleEditItem(index, item.key, e.target.value)
-              }
+              onChange={(e) => handleEditItem(index, item.key, e.target.value)}
               placeholder="Value"
-              className={styles.keyValueEditor__input}
+              className={`${styles.keyValueEditor__input} ${
+                modifiedIndices.has(index) ? styles.blinkBorder : ""
+              } ${duplicateKeys.has(index) ? styles.redBorder : ""}`} // Apply red border if duplicate
             />
             <button
               onClick={() => handleDeleteItem(index)}

@@ -1,26 +1,25 @@
-// Header.tsx
-
-import React from "react";
-import Image from "next/image";
-import styles from "./Header.module.scss";
-import team_logo from "../../assets/team_logo.png";
-import { Dropdown, Space } from "antd";
 import type { MenuProps } from "antd";
-import HeaderButton from "../HeaderButton/HeaderButton";
-import EnglishFlag from "../../assets/flag_uk.png";
+import { Dropdown, Space } from "antd";
+import { useLocale, useTranslations } from "next-intl";
+import Image from "next/image";
+import Link from "next/link";
+import React from "react";
 import RussianFlag from "../../assets/flag_ru.png";
+import EnglishFlag from "../../assets/flag_uk.png";
+import team_logo from "../../assets/team_logo.png";
+import HeaderButton from "../HeaderButton/HeaderButton";
+import styles from "./Header.module.scss";
 
 interface HeaderProps {
   isSticky: boolean;
-  selectedFlag: string;
   onMenuClick: (key: string) => void;
 }
 
-const Header: React.FC<HeaderProps> = ({
-  isSticky,
-  selectedFlag,
-  onMenuClick,
-}) => {
+const Header: React.FC<HeaderProps> = ({ isSticky, onMenuClick }) => {
+  const localActive = useLocale();
+  const t = useTranslations("Header");
+  const selectedFlag = localActive === "en" ? EnglishFlag : RussianFlag;
+
   const items: MenuProps["items"] = [
     {
       label: (
@@ -45,9 +44,9 @@ const Header: React.FC<HeaderProps> = ({
   return (
     <header className={`${styles.header} ${isSticky ? styles.sticky : ""}`}>
       <div className={styles.header__container}>
-        <div className={styles.header__logo}>
+        <Link href={`/${localActive}`} className={styles.header__logo}>
           <Image src={team_logo} alt="team_logo" />
-        </div>
+        </Link>
         <div className={styles.header__controls}>
           <Space wrap>
             <Dropdown menu={{ items, onClick: ({ key }) => onMenuClick(key) }}>
@@ -56,7 +55,7 @@ const Header: React.FC<HeaderProps> = ({
               </div>
             </Dropdown>
           </Space>
-          <HeaderButton to="#" text="Sign Out" />
+          <HeaderButton to="#" text={t("sign-out")} />
         </div>
       </div>
     </header>

@@ -7,7 +7,7 @@ const WelcomeBackSection = () => {
   const localActive = useLocale();
 
   const btns = [
-    { link: "/", text: t("rest") },
+    { link: `/${localActive}/GET/`, text: t("rest") },
     { link: "/", text: t("graphiql") },
     { link: `/${localActive}/history`, text: t("history") },
   ];

@@ -1,0 +1,23 @@
+{
+  "HomePage": {
+    "welcome": "С возвращением",
+    "question": "Куда мы идем?",
+    "rest": "Rest клиент",
+    "graphiql": "GraphiQl клиент",
+    "history": "История"
+  },
+  "NotFound": {
+    "title": "Страница не найдена",
+    "button-title": "Вернуться на главную"
+  },
+  "Header": {
+    "sign-out": "Выйти",
+    "sign-in": "Войти"
+  },
+  "Footer": {
+    "message": "© Шаблон на 2024"
+  },
+  "History": {
+    "title": "История"
+  }
+}

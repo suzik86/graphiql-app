@@ -1,4 +1,3 @@
-
 import RestClientWrapper from "../../components/RestClient/RestClientWrapper";
 
 export default function RestPage() {

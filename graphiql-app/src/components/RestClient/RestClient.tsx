@@ -1,72 +1,142 @@
-// RestClient.js
 "use client";
+
 import React, { useState, useEffect } from "react";
-import { useRouter } from "next/router";
 import styles from "./RestClient.module.scss";
-import VariablesEditor from "./VariablesEditor";
 import HeaderEditor from "./HeaderEditor";
-import { handleRequest } from "../../utils/requestHandler";
+import { decodeBase64 } from "../../utils/base64";
+import { useParams, useSearchParams } from "next/navigation";
+import { updateURL } from "../../utils/urlUpdater";
+import RequestBodyEditor from "./RequestBodyEditor";
+import VariableEditor from "./VariablesEditor";
+import RequestHandler from "./RequestHandler";
 
-export default function RestClient() {
-  const router = useRouter();
-  const [method, setMethod] = useState("GET");
-  const [endpoint, setEndpoint] = useState("");
-  const [headers, setHeaders] = useState([{ key: "", value: "", included: true }]);
-  const [body, setBody] = useState("");
-  const [response, setResponse] = useState("");
-  const [status, setStatus] = useState("");
-  const [isVariablesVisible, setIsVariablesVisible] = useState(false);
-  const [variables, setVariables] = useState([]);
+export interface Header {
+  key: string;
+  value: string;
+  included: boolean;
+}
 
-  // Function to update URL based on current state
-  const updateURL = () => {
-    const encodedEndpoint = btoa(endpoint);
-    const encodedBody = method !== "GET" && body ? btoa(body) : null;
-    let url = `/${method}/${encodedEndpoint}`;
-    if (encodedBody) {
-      url += `/${encodedBody}`;
-    }
-    headers.forEach((header) => {
-      if (header.key && header.value) {
-        url += `?${encodeURIComponent(header.key)}=${encodeURIComponent(header.value)}`;
+export interface Variable {
+  key: string;
+  value: string;
+  included: boolean;
+}
+
+interface ExtractedData {
+  body: object | null;
+  variables: Variable[];
+}
+
+const getHeadersFromParams = (searchParams: URLSearchParams): Header[] => {
+  return Array.from(searchParams.entries()).reduce<Header[]>(
+    (acc, [key, value]) => {
+      if (
+        key !== "method" &&
+        key !== "encodedEndpoint" &&
+        key !== "encodedData"
+      ) {
+        acc.push({ key, value: decodeURIComponent(value), included: true });
       }
-    });
-    router.push(url, undefined, { shallow: true });
-  };
+      return acc;
+    },
+    [],
+  );
+};
 
-  // Update URL when state changes
-  useEffect(() => {
-    if (endpoint) {
-      updateURL();
+function extractBodyAndVariables(
+  encodedData: string | undefined,
+): ExtractedData {
+  if (!encodedData) {
+    return { body: null, variables: [] };
+  }
+
+  try {
+    const decodedString = decodeBase64(encodedData);
+    const dataObject = JSON.parse(decodedString);
+    const body = dataObject.body || null;
+    const variables = dataObject.variables || [];
+
+    return { body, variables };
+  } catch (error) {
+    console.error("Error decoding or parsing data:", error);
+    return { body: null, variables: [] };
+  }
+}
+
+const RestClient: React.FC = () => {
+  const searchParams = useSearchParams();
+  const { method, encodedUrl } = useParams<{
+    method: string;
+    encodedUrl: string[];
+  }>();
+
+  const encodedUrlArray = Array.isArray(encodedUrl) ? encodedUrl : [];
+  let endpoint = "";
+  let body: object | null = null;
+  let initialVariables: Variable[] = [];
+
+  if (encodedUrlArray.length === 1) {
+    const singleEncoded = encodedUrlArray[0];
+    const decodedString = decodeBase64(singleEncoded);
+
+    try {
+      const parsedData = JSON.parse(decodedString);
+
+      if (
+        parsedData &&
+        typeof parsedData === "object" &&
+        !Array.isArray(parsedData)
+      ) {
+        body = parsedData.body || null;
+        initialVariables = parsedData.variables || [];
+      } else {
+        endpoint = decodedString;
+      }
+    } catch (error) {
+      console.error("Error parsing single encoded parameter:", error);
+      endpoint = decodedString;
     }
-  }, [method, endpoint, body, headers]);
+  } else if (encodedUrlArray.length === 2) {
+    const [encodedEndpoint, encodedData] = encodedUrlArray;
+    endpoint = decodeBase64(encodedEndpoint);
+    const extractedData = extractBodyAndVariables(encodedData);
+    body = extractedData.body;
+    initialVariables = extractedData.variables;
+  }
 
-  // Populate state from URL on component mount
+  const [currentMethod, setMethod] = useState<string>(method || "GET");
+  const [currentEndpoint, setEndpoint] = useState<string>(endpoint || "");
+  const [headers, setHeaders] = useState<Header[]>(
+    getHeadersFromParams(searchParams),
+  );
+  const [currentBody, setBody] = useState<object | string | null>(body);
+  const [blurredBody, setBlurredBody] = useState<object | string | null>(body);
+  const [isVariablesVisible, setIsVariablesVisible] = useState<boolean>(true);
+  const [variables, setVariables] = useState<Variable[]>(
+    initialVariables || [],
+  );
+  const [editorMode, setEditorMode] = useState<"json" | "text">("json");
+
   useEffect(() => {
-    const { method, endpoint, body } = router.query;
-    if (method) setMethod(method.toUpperCase());
-    if (endpoint) setEndpoint(atob(endpoint));
-    if (body) setBody(atob(body));
-  }, []);
+    updateURL(currentMethod, currentEndpoint, currentBody, headers, variables);
+  }, [currentMethod, currentEndpoint, headers, variables, currentBody]);
 
-  const sendRequest = () => {
-    handleRequest({
-      method,
-      endpoint,
-      body,
-      headers,
-      variables,
-      setStatus,
-      setResponse
-    });
+  useEffect(() => {
+    updateURL(currentMethod, currentEndpoint, blurredBody, headers, variables);
+  }, [blurredBody]);
+
+  const handleBodyUpdate = (updatedBody: string) => {
+    setBody(updatedBody);
   };
 
   return (
     <div className={styles.restClient}>
       <div className={styles.restClient__controls}>
         <select
-          value={method}
-          onChange={(e) => setMethod(e.target.value)}
+          value={currentMethod}
+          onChange={(e) => {
+            setMethod(e.target.value);
+          }}
           className={styles.restClient__select}
         >
           <option value="GET">GET</option>
@@ -77,15 +147,23 @@ export default function RestClient() {
 
         <input
           type="text"
-          value={endpoint}
-          onChange={(e) => setEndpoint(e.target.value)}
-          onBlur={updateURL}
+          value={currentEndpoint}
+          onChange={(e) => {
+            setEndpoint(e.target.value);
+          }}
           placeholder="https://api.example.com/resource"
           className={styles.restClient__input}
         />
       </div>
 
-      <HeaderEditor headers={headers} setHeaders={setHeaders} />
+      <HeaderEditor
+        method={currentMethod}
+        endpoint={currentEndpoint}
+        body={currentBody}
+        headers={headers}
+        setHeaders={setHeaders}
+        variables={variables}
+      />
 
       <div
         className={styles.restClient__variablesToggle}
@@ -95,29 +173,32 @@ export default function RestClient() {
       </div>
 
       {isVariablesVisible && (
-        <VariablesEditor variables={variables} setVariables={setVariables} />
+        <VariableEditor
+          variables={variables}
+          setVariables={setVariables}
+          body={blurredBody as string}
+          onUpdateBody={handleBodyUpdate}
+        />
       )}
 
-      <textarea
-        value={body}
-        onChange={(e) => setBody(e.target.value)}
-        onBlur={updateURL}
-        placeholder='{"key":"value"}'
-        className={styles.restClient__textarea}
-        rows={10}
-        disabled={method === "GET"}
+      <RequestBodyEditor
+        body={currentBody}
+        setBlurredBody={setBlurredBody}
+        variables={variables}
+        editorMode={editorMode}
+        setEditorMode={setEditorMode}
       />
 
-      <button onClick={sendRequest} className={styles.restClient__sendButton}>
-        Send Request
-      </button>
-
-      <div className={styles.restClient__response}>
-        <div className={styles.restClient__status}>
-          Status: <span>{status}</span>
-        </div>
-        <pre className={styles.restClient__responseBody}>{response}</pre>
-      </div>
+      <RequestHandler
+        method={currentMethod}
+        endpoint={currentEndpoint}
+        headers={headers}
+        body={blurredBody}
+        editorMode={editorMode}
+        variables={variables}
+      />
     </div>
   );
-}
+};
+
+export default RestClient;
