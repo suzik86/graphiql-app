@@ -23,7 +23,7 @@ function MainPage() {
 
   const openNotificationWithIcon = (type: NotificationType) => {
     api[type]({
-      message: "An error occured while fetching user data",
+      message: t("fetch-error"),
     });
   };
 

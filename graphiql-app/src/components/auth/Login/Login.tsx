@@ -27,7 +27,7 @@ function Login() {
 
   const openNotificationWithIcon = (type: NotificationType) => {
     api[type]({
-      message: "Invalid email or password. Please try again.",
+      message: t("login-error"),
     });
   };
 

@@ -11,7 +11,8 @@
     "email-error": "Please input your email!",
     "invalid-email": "The input is not valid E-mail!",
     "password-error": "Please input your Password!",
-    "invalid-password": "Password should contain at least 8 characters, including 1 letter, 1 number, and 1 special character!"
+    "invalid-password": "Password should contain at least 8 characters, including 1 letter, 1 number, and 1 special character!",
+    "login-error": "Invalid email or password. Please try again."
   },
   "Register": {
     "title": "Registration",
@@ -46,7 +47,8 @@
     "graphiql": "GraphiQl client",
     "history": "History",
     "sign-in": "Sign in",
-    "sign-up": "Sign up"
+    "sign-up": "Sign up",
+    "fetch-error": "Failed to fetch user data"
   },
   "NotFound": {
     "title": "Page not found",
