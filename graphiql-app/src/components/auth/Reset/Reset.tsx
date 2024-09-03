@@ -14,7 +14,6 @@ type ResetFormData = {
 };
 
 function Reset() {
-  //const [user, loading, error] = useAuthState(auth);
   const [user, loading] = useAuthState(auth);
   const router = useRouter();
   const localActive = useLocale();
@@ -25,8 +24,9 @@ function Reset() {
   };
 
   useEffect(() => {
+    if (loading) return;
     if (user) router.push(`/${localActive}`);
-  }, [user, loading, localActive]);
+  }, [user, loading, localActive, router]);
 
   return (
     <>

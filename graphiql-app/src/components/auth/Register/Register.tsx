@@ -16,7 +16,6 @@ type RegisterFormData = {
 };
 
 function Register() {
-  //const [user, loading, error] = useAuthState(auth);
   const [user, loading] = useAuthState(auth);
   const router = useRouter();
   const localActive = useLocale();
@@ -27,8 +26,9 @@ function Register() {
   };
 
   useEffect(() => {
+    if (loading) return;
     if (user) router.push(`/${localActive}`);
-  }, [user, loading]);
+  }, [user, loading, router, localActive]);
 
   return (
     <>
