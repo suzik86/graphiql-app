@@ -13,7 +13,6 @@ const ModalComponent: React.FC = () => {
   const handleOk = () => {
     setIsModalOpen(false);
   };
-
   return (
     <>
       <Button
@@ -24,7 +23,7 @@ const ModalComponent: React.FC = () => {
         Open Modal
       </Button>
       <Modal
-        title={<span className={styles.modal__title}>Oooops...</span>}
+       // title={<span className={styles.modal__title}>Oooops...</span>}
         open={isModalOpen}
         onOk={handleOk}
         okText="Try again"
@@ -34,6 +33,9 @@ const ModalComponent: React.FC = () => {
           style: { backgroundColor: "#7D81D6", borderColor: "#7D81D6" },
         }}
       >
+        <div className={styles.modal__header}>
+          ffb
+        </div>
         <p className={styles.modal__text}>Something went wrong...</p>
       </Modal>
     </>

@@ -48,6 +48,11 @@
     max-width: 1154px;
     margin: 0 auto;
   }
+  &__form {
+    display: flex;
+    flex-direction: column; 
+    row-gap: 10px;
+  }
 }
 
 .response {
