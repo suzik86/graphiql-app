@@ -1,5 +1,5 @@
 "use client";
-import { Button, Form, FormProps, Input } from "antd";
+import { Button, Form, FormProps, Input, notification } from "antd";
 import { signInWithEmailAndPassword } from "firebase/auth";
 import { useLocale, useTranslations } from "next-intl";
 import Link from "next/link";
@@ -15,23 +15,44 @@ type LoginFormData = {
   password: string;
 };
 
+type NotificationType = "success" | "info" | "warning" | "error";
+
 function Login() {
-  //const [user, loading, error] = useAuthState(auth);
   const [user, loading] = useAuthState(auth);
   const router = useRouter();
   const localActive = useLocale();
   const t = useTranslations("Login");
 
+  const [api, contextHolder] = notification.useNotification();
+
+  const openNotificationWithIcon = (type: NotificationType) => {
+    api[type]({
+      message: "Invalid email or password. Please try again.",
+    });
+  };
+
   const onFinish: FormProps<LoginFormData>["onFinish"] = (values) => {
-    signInWithEmailAndPassword(auth, values.email, values.password);
+    signInWithEmailAndPassword(auth, values.email, values.password)
+      .then(() => {
+        router.push(`/${localActive}`);
+      })
+      .catch((error) => {
+        if (error.code === "auth/invalid-credential") {
+          openNotificationWithIcon("error");
+        } else {
+          console.error(error);
+        }
+      });
   };
 
   useEffect(() => {
+    if (loading) return;
     if (user) router.push(`/${localActive}`);
-  }, [user, loading]);
+  }, [user, loading, router, localActive]);
 
   return (
     <>
+      {contextHolder}
       {!loading ? (
         <section className={styles.welcome}>
           <div className={styles.welcome__inner}>

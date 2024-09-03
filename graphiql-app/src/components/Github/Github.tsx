@@ -10,7 +10,7 @@ const Github = ({ username, to }: GitHubProps) => {
   return (
     <div className={styles.github}>
       <Image src={Logo} alt="logo" />
-      <Link className={styles.github__text} href={to}>
+      <Link className={styles.github__text} href={to} target="blank">
         {" "}
         {username}
       </Link>
