@@ -64,5 +64,9 @@
   },
   "History": {
     "title": "History"
+  },
+  "ErrorPage": {
+    "oops": "Ooooops",
+    "retry": "Retry"
   }
 }
