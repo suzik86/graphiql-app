@@ -11,15 +11,25 @@ const AboutUsComponent = () => {
                     Немного о нас
                 </h2>
                 <div className={styles.info__images}>
+                    {members.map(item => (
+
+                        <MemberCard
+                        name={item.name}
+                        describtion={item.describtion}
+                        logo={Avatar}
+                        />
+                    ))}
+               {/*
                     {
                         members.map(item => (
                             <MemberCard
                                 name={item.name}
                                 describtion={item.describtion}
                                 logo={Avatar}
-                            />
+                                />
                         ))
                     }
+                                */}
                 </div>
             </div>
         </section>

@@ -1,5 +1,6 @@
+
 export const members  = [
-    {id: 1, name: "Никита", describtion: "Разрабатывал GraphQl клиент" },
-    {id: 2, name: "Ирина", describtion: "Наш  project leader. Разработала авторизацию приложения" },
-    {id: 3, name: "Григорий", describtion: "Разрабатывал Restful Client" },
+{id: 1, name: "mem-1", describtion: "describtion-1" },
+{id: 2, name: "mem-2", describtion: "describtion-2" },
+{id: 3, name: "mem-3", describtion: "describtion-3" }
 ]
