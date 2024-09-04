@@ -11,10 +11,10 @@ import { auth, db } from "../../firebase";
 import Spinner from "../Spinner/Spinner";
 import WelcomeButton from "../WelcomeButton/WelcomeButton";
 import styles from "./MainPage.module.scss";
-import GraphQlPicture from "../../assets/graphql.png"
-import HttpPicture from "../../assets/http.png"
+import GraphQlPicture from "../../assets/graphql.png";
+import HttpPicture from "../../assets/http.png";
 import MainPageProjectInfo from "../MainPageProjectInfo/MainPageProjectInfo";
-import AppImage from "../../assets/App.png"
+import AppImage from "../../assets/App.png";
 import AboutUsComponent from "../AboutUsComponent/AboutUsComponent";
 import TryComponent from "../TryComponent/TryComponent";
 type NotificationType = "success" | "info" | "warning" | "error";
@@ -81,10 +81,16 @@ function MainPage() {
             </>
           ) : (
             <div className={styles.welcome__preview}>
-              <Image className={`${styles.welcome__preview__image} ${styles.welcome__preview__left}`}
-                src={HttpPicture} alt="http" />
-              <Image className={`${styles.welcome__preview__image} ${styles.welcome__preview__right}`}
-                src={GraphQlPicture} alt="graphQl" />
+              <Image
+                className={`${styles.welcome__preview__image} ${styles.welcome__preview__left}`}
+                src={HttpPicture}
+                alt="http"
+              />
+              <Image
+                className={`${styles.welcome__preview__image} ${styles.welcome__preview__right}`}
+                src={GraphQlPicture}
+                alt="graphQl"
+              />
               <h1 className={styles.welcome__title}>{t("welcome")}</h1>
               <div className={styles.links__wrapper}>
                 <Link className={styles.link} href={`/${localActive}/login`}>
@@ -96,11 +102,15 @@ function MainPage() {
               </div>
             </div>
           )}
-          <MainPageProjectInfo img1={AppImage} img2={AppImage}
-            title={  t("article-1")  }
+          <MainPageProjectInfo
+            img1={AppImage}
+            img2={AppImage}
+            title={t("article-1")}
           />
-          <MainPageProjectInfo img1={AppImage} img2={AppImage}
-            title={ t("article-2")}
+          <MainPageProjectInfo
+            img1={AppImage}
+            img2={AppImage}
+            title={t("article-2")}
           />
           <AboutUsComponent />
           <TryComponent />

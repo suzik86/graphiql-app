@@ -1,47 +1,44 @@
 @import "../../../theme/theme.scss";
 
 .btn {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    background-color: $purple;
-    padding: 24px 130px;
-    border: none;
-    outline: none;
-    font-weight: 400;
-    font-size: 48px;
-    color: $black;
-    font-family: "Nunito", sans-serif;
-    border-radius: 15px;
-    cursor: pointer;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: $purple;
+  padding: 24px 130px;
+  border: none;
+  outline: none;
+  font-weight: 400;
+  font-size: 48px;
+  color: $black;
+  font-family: "Nunito", sans-serif;
+  border-radius: 15px;
+  cursor: pointer;
+  transition: 0.4s ease-in-out;
+  position: relative;
+  overflow: hidden;
+
+  &__inner {
     transition: 0.4s ease-in-out;
-    position: relative;
-    overflow: hidden;
+  }
 
-    &__inner {
-        transition: 0.4s ease-in-out;
-    }
+  &::after {
+    content: ">";
+    position: absolute;
+    right: 0;
+    transform: translateX(100%);
+    transition: 0.4s ease-in-out;
+  }
 
-    &::after {
-        content: ">";
-        position: absolute;
-        right: 0;
-        transform: translateX(100%);
-        transition: 0.4s ease-in-out;
+  &:hover {
+    background-color: $btn-active;
+  }
 
-    }
+  &:hover &__inner {
+    transform: translateX(-30px);
+  }
 
-    &:hover {
-        background-color: $btn-active;
-
-    }
-
-    &:hover &__inner {
-        transform: translateX(-30px);
-    }
-
-    &:hover::after {
-        transform: translateX(-100px);
-    }
-
+  &:hover::after {
+    transform: translateX(-100px);
+  }
 }

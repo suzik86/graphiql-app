@@ -57,7 +57,8 @@
     "mem-3": "Gregory",
     "describtion-1": "Developed GraphQl client",
     "describtion-2": "Our project leader. Developed application authorization",
-    "describtion-3": "Developed Restful Client"
+    "describtion-3": "Developed Restful Client",
+    "about-us": "About us"
   },
   "NotFound": {
     "title": "Page not found",

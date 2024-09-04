@@ -1,7 +1,5 @@
 @import "../../theme/theme.scss";
 
-
-
 @keyframes move1 {
   0% {
     transform: translateY(0px) rotate(-9.46deg);
@@ -30,7 +28,6 @@
   }
 }
 
-
 .welcome {
   margin-top: 50px;
   display: flex;
@@ -52,7 +49,6 @@
     position: relative;
 
     &__image {
-
       position: absolute;
     }
 
@@ -73,7 +69,6 @@
       border-radius: 37px;
       animation: move2 5s ease-in-out infinite;
     }
-
   }
 
   &__title {

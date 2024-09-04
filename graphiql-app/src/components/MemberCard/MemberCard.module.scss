@@ -1,39 +1,37 @@
 @import "../../theme/theme.scss";
 
 .card {
-    width: 317px;
-    min-height: 445px;
-    background-color: $white;
-    border-radius: 27px;
-    padding: 25px 30px;
-    transition: 0.4s ease-in-out;
-    perspective: 300px;
-    user-select: none;
-    &:hover {
-        transform: rotateY(20deg) rotateX(10deg);
-    }
-    &__title {
-        font-weight: 700;
-        font-size: 36px;
-        text-align: center;
-        color: $black;
-        margin: 5px 0;
-        font-family: "Nunito", sans-serif;
-    }
+  width: 317px;
+  min-height: 445px;
+  background-color: $white;
+  border-radius: 27px;
+  padding: 25px 30px;
+  transition: 0.4s ease-in-out;
+  perspective: 300px;
+  user-select: none;
+  &:hover {
+    transform: rotateY(20deg) rotateX(10deg);
+  }
+  &__title {
+    font-weight: 700;
+    font-size: 36px;
+    text-align: center;
+    color: $black;
+    margin: 5px 0;
+    font-family: "Nunito", sans-serif;
+  }
 
-    &__describtion {
-
-        font-weight: 400;
-        font-size: 24px;
-        text-align: center;
-        color: $black;
-        font-family: "Nunito", sans-serif;
-    }
-
+  &__describtion {
+    font-weight: 400;
+    font-size: 24px;
+    text-align: center;
+    color: $black;
+    font-family: "Nunito", sans-serif;
+  }
 }
 
 .card__avatar {
-    width: 200px;
-    height: 200px;
-    border-radius: 50%;
+  width: 200px;
+  height: 200px;
+  border-radius: 50%;
 }
