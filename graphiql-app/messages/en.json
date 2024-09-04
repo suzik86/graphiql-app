@@ -69,7 +69,7 @@
     "graphiql": "GraphiQl client"
   },
   "ErrorPage": {
-    "oops": "Oooooooops",
+    "oops": "Ooooops",
     "retry": "Retry"
   }
 }
