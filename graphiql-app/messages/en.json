@@ -40,7 +40,7 @@
     "invalid-email": "The input is not valid E-mail!"
   },
   "HomePage": {
-    "welcome": "Welcome!",
+    "welcome": "Welcome to Mechta team app!",
     "welcome-back": "welcome back",
     "question": "Where are we going?",
     "rest": "Rest client",

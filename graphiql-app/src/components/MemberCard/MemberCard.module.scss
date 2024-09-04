@@ -1,0 +1,35 @@
+@import "../../theme/theme.scss";
+
+.card {
+    width: 317px;
+    min-height: 445px;
+    background-color: $white;
+    border-radius: 27px;
+    padding: 25px 30px;
+
+    &__logo {
+        border-radius: 50%;
+       // width: 81%;
+    }
+
+    &__title {
+        font-weight: 700;
+        font-size: 36px;
+        text-align: center;
+        color: $black;
+        margin: 5px 0;
+        font-family: "Nunito", sans-serif;
+    }
+
+    &__describtion {
+     
+        font-weight: 400;
+        font-size: 24px;
+        text-align: center;
+        color: $black;
+        font-family: "Nunito", sans-serif;
+    }
+}
+.card__logo {
+    width: 100%;
+}

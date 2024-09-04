@@ -3,6 +3,7 @@ import { notification } from "antd";
 import { collection, getDocs, query, where } from "firebase/firestore";
 import { useLocale, useTranslations } from "next-intl";
 import Link from "next/link";
+import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { useAuthState } from "react-firebase-hooks/auth";
@@ -10,7 +11,11 @@ import { auth, db } from "../../firebase";
 import Spinner from "../Spinner/Spinner";
 import WelcomeButton from "../WelcomeButton/WelcomeButton";
 import styles from "./MainPage.module.scss";
-
+import GraphQlPicture from "../../assets/graphql.png"
+import HttpPicture from "../../assets/http.png"
+import MainPageProjectInfo from "../MainPageProjectInfo/MainPageProjectInfo";
+import AppImage from "../../assets/App.png"
+import AboutUsComponent from "../AboutUsComponent/AboutUsComponent";
 type NotificationType = "success" | "info" | "warning" | "error";
 
 function MainPage() {
@@ -66,7 +71,6 @@ function MainPage() {
                 {name}, {t("welcome-back")}!
               </h1>
               <h2 className={styles.welcome__subtitle}>{t("question")}</h2>
-
               <ul className={styles.welcome__btns}>
                 {btns.map((item, index) => (
                   <li key={index}>
@@ -76,7 +80,11 @@ function MainPage() {
               </ul>
             </>
           ) : (
-            <>
+            <div className={styles.welcome__preview}>
+              <Image className={`${styles.welcome__preview__image} ${styles.welcome__preview__left}`}
+                src={HttpPicture} alt="http" />
+              <Image className={`${styles.welcome__preview__image} ${styles.welcome__preview__right}`}
+                src={GraphQlPicture} alt="graphQl" />
               <h1 className={styles.welcome__title}>{t("welcome")}</h1>
               <div className={styles.links__wrapper}>
                 <Link className={styles.link} href={`/${localActive}/login`}>
@@ -86,8 +94,17 @@ function MainPage() {
                   {t("sign-up")}
                 </Link>
               </div>
-            </>
+
+
+            </div>
           )}
+          <MainPageProjectInfo img1={AppImage} img2={AppImage}
+            title={"В нашем проекте вы можете опробовать как Restful,  так и GraphQl клиент"}
+          />
+           <MainPageProjectInfo img1={AppImage} img2={AppImage}
+            title={"Для того чтобы начать работать с приложением, пользователю необходимо авторизоваться"}
+          />
+          <AboutUsComponent />
         </div>
       </section>
     </>
