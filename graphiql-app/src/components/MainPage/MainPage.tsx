@@ -102,7 +102,7 @@ function MainPage() {
           <MainPageProjectInfo img1={AppImage} img2={AppImage}
             title={"В нашем проекте вы можете опробовать как Restful,  так и GraphQl клиент"}
           />
-           <MainPageProjectInfo img1={AppImage} img2={AppImage}
+          <MainPageProjectInfo img1={AppImage} img2={AppImage}
             title={"Для того чтобы начать работать с приложением, пользователю необходимо авторизоваться"}
           />
           <AboutUsComponent />
