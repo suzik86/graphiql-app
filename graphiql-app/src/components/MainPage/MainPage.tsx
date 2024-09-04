@@ -50,7 +50,6 @@ function MainPage() {
       openNotificationWithIcon("error");
     }
   };
-
   useEffect(() => {
     if (loading) return;
     if (!user) {
@@ -95,15 +94,13 @@ function MainPage() {
                   {t("sign-up")}
                 </Link>
               </div>
-
-
             </div>
           )}
           <MainPageProjectInfo img1={AppImage} img2={AppImage}
-            title={"В нашем проекте вы можете опробовать как Restful,  так и GraphQl клиент"}
+            title={  t("article-1")  }
           />
           <MainPageProjectInfo img1={AppImage} img2={AppImage}
-            title={"Для того чтобы начать работать с приложением, пользователю необходимо авторизоваться"}
+            title={ t("article-2")}
           />
           <AboutUsComponent />
           <TryComponent />

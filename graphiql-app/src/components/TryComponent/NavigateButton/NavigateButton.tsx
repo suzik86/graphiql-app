@@ -1,11 +1,13 @@
 import Link from "next/link";
 import styles from "./NavigateButton.module.scss"
+import { useLocale, useTranslations } from "next-intl";
 const NavigateButton = () => {
+    const t = useTranslations("HomePage");
+    const localActive = useLocale();
     return (
-        <Link href={"/"} className={styles.btn}>
+        <Link href={`/${localActive}/register`} className={styles.btn}>
             <p className={styles.btn__inner}>
-
-            Попробовать
+            {t("try")}
             </p>
         </Link>
     )
