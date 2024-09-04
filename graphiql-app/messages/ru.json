@@ -62,14 +62,14 @@
   "Footer": {
     "message": "© Шаблон на 2024"
   },
-  "History": {
-    "title": "История",
-    "empty": "Вы еще не выполнили ни одного запроса. Попробуйте эти варианты:",
-    "rest": "Rest клиент",
-    "graphiql": "GraphiQl клиент"
-  },
-  "ErrorPage": {
-    "oops": "Ууупс",
-    "retry": "Попробовать снова"
-  }
+"History": {
+    "title": "History",
+    "empty": "You haven't executed any requests yet. Try those options:",
+    "rest": "Rest client",
+    "graphiql": "GraphiQl client"
+},
+"ErrorPage": {
+    "oops": "Ooooops",
+    "retry": "Retry"
+}
 }

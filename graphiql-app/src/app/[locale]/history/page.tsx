@@ -1,10 +1,5 @@
-import { useTranslations } from "next-intl";
+import History from "../../../components/History/History";
 
 export default function HistoryPage() {
-  const t = useTranslations("History");
-  return (
-    <>
-      <h1 style={{ textAlign: "center" }}>{t("title")}</h1>
-    </>
-  );
+  return <History />;
 }
