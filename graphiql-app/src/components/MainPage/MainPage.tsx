@@ -80,40 +80,45 @@ function MainPage() {
               </ul>
             </>
           ) : (
-            <div className={styles.welcome__preview}>
-              <Image
-                className={`${styles.welcome__preview__image} ${styles.welcome__preview__left}`}
-                src={HttpPicture}
-                alt="http"
-              />
-              <Image
-                className={`${styles.welcome__preview__image} ${styles.welcome__preview__right}`}
-                src={GraphQlPicture}
-                alt="graphQl"
-              />
-              <h1 className={styles.welcome__title}>{t("welcome")}</h1>
-              <div className={styles.links__wrapper}>
-                <Link className={styles.link} href={`/${localActive}/login`}>
-                  {t("sign-in")}
-                </Link>
-                <Link className={styles.link} href={`/${localActive}/register`}>
-                  {t("sign-up")}
-                </Link>
+            <>
+              <div className={styles.welcome__preview}>
+                <Image
+                  className={`${styles.welcome__preview__image} ${styles.welcome__preview__left}`}
+                  src={HttpPicture}
+                  alt="http"
+                />
+                <Image
+                  className={`${styles.welcome__preview__image} ${styles.welcome__preview__right}`}
+                  src={GraphQlPicture}
+                  alt="graphQl"
+                />
+                <h1 className={styles.welcome__title}>{t("welcome")}</h1>
+                <div className={styles.links__wrapper}>
+                  <Link className={styles.link} href={`/${localActive}/login`}>
+                    {t("sign-in")}
+                  </Link>
+                  <Link
+                    className={styles.link}
+                    href={`/${localActive}/register`}
+                  >
+                    {t("sign-up")}
+                  </Link>
+                </div>
               </div>
-            </div>
+              <MainPageProjectInfo
+                img1={AppImage}
+                img2={AppImage}
+                title={t("article-1")}
+              />
+              <MainPageProjectInfo
+                img1={AppImage}
+                img2={AppImage}
+                title={t("article-2")}
+              />
+              <AboutUsComponent />
+              <TryComponent />
+            </>
           )}
-          <MainPageProjectInfo
-            img1={AppImage}
-            img2={AppImage}
-            title={t("article-1")}
-          />
-          <MainPageProjectInfo
-            img1={AppImage}
-            img2={AppImage}
-            title={t("article-2")}
-          />
-          <AboutUsComponent />
-          <TryComponent />
         </div>
       </section>
     </>
