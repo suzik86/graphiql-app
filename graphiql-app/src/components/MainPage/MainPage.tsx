@@ -67,8 +67,8 @@ function MainPage() {
             <Spinner />
           ) : user ? (
             <>
-               <div className={styles.welcome__preview}>
-               <Image
+              <div className={styles.welcome__preview}>
+                <Image
                   className={`${styles.welcome__preview__image} ${styles.welcome__preview__left}`}
                   src={HttpPicture}
                   alt="http"
@@ -78,18 +78,18 @@ function MainPage() {
                   src={GraphQlPicture}
                   alt="graphQl"
                 />
-              <h1 className={styles.welcome__title}>
-                {name}, {t("welcome-back")}!
-              </h1>
-              <h2 className={styles.welcome__subtitle}>{t("question")}</h2>
-              <ul className={styles.welcome__btns}>
-                {btns.map((item, index) => (
-                  <li key={index}>
-                    <WelcomeButton to={item.link} text={item.text} />
-                  </li>
-                ))}
-              </ul>
-               </div>
+                <h1 className={styles.welcome__title}>
+                  {name}, {t("welcome-back")}!
+                </h1>
+                <h2 className={styles.welcome__subtitle}>{t("question")}</h2>
+                <ul className={styles.welcome__btns}>
+                  {btns.map((item, index) => (
+                    <li key={index}>
+                      <WelcomeButton to={item.link} text={item.text} />
+                    </li>
+                  ))}
+                </ul>
+              </div>
             </>
           ) : (
             <>
