@@ -67,6 +67,17 @@ function MainPage() {
             <Spinner />
           ) : user ? (
             <>
+               <div className={styles.welcome__preview}>
+               <Image
+                  className={`${styles.welcome__preview__image} ${styles.welcome__preview__left}`}
+                  src={HttpPicture}
+                  alt="http"
+                />
+                <Image
+                  className={`${styles.welcome__preview__image} ${styles.welcome__preview__right}`}
+                  src={GraphQlPicture}
+                  alt="graphQl"
+                />
               <h1 className={styles.welcome__title}>
                 {name}, {t("welcome-back")}!
               </h1>
@@ -78,6 +89,7 @@ function MainPage() {
                   </li>
                 ))}
               </ul>
+               </div>
             </>
           ) : (
             <>
