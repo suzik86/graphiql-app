@@ -16,6 +16,7 @@ import HttpPicture from "../../assets/http.png"
 import MainPageProjectInfo from "../MainPageProjectInfo/MainPageProjectInfo";
 import AppImage from "../../assets/App.png"
 import AboutUsComponent from "../AboutUsComponent/AboutUsComponent";
+import TryComponent from "../TryComponent/TryComponent";
 type NotificationType = "success" | "info" | "warning" | "error";
 
 function MainPage() {
@@ -105,6 +106,7 @@ function MainPage() {
             title={"Для того чтобы начать работать с приложением, пользователю необходимо авторизоваться"}
           />
           <AboutUsComponent />
+          <TryComponent />
         </div>
       </section>
     </>

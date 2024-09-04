@@ -1,0 +1,16 @@
+@import "../../../theme/theme.scss";
+
+
+.btn {
+    border: none;
+    outline: none;
+    user-select: none;
+    padding: 20px 60px;
+    border-radius: 19px;
+    font-weight: 700;
+    font-size: 36px;
+    text-align: center;
+    color: $white;
+    opacity: 0.5;
+    
+}

@@ -8,7 +8,10 @@ interface MemberCardProps {
 const MemberCard = ({ name, describtion, logo }: MemberCardProps) => {
     return (
         <div className={styles.card}>
-            <Image src={logo} alt="logo" className={styles.card__logo} />
+            <Image
+            className={styles.card__avatar}
+            src={logo} alt="logo"
+             />
             <p className={styles.card__title}>
                 {name}
             </p>

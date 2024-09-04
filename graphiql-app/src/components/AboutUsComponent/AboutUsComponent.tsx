@@ -1,4 +1,4 @@
-import Image from "next/image";
+
 import styles from "./AboutUsComponent.module.scss"
 import Avatar from "../../assets/rss-logo.svg"
 import { members } from "./consts";
@@ -11,14 +11,12 @@ const AboutUsComponent = () => {
                     Немного о нас
                 </h2>
                 <div className={styles.info__images}>
-
                     {
                         members.map(item => (
                             <MemberCard
                                 name={item.name}
                                 describtion={item.describtion}
                                 logo={Avatar}
-
                             />
                         ))
                     }
