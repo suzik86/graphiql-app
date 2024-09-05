@@ -6,7 +6,6 @@ interface ErrorProps {
   error: Error;
   reset: () => void;
 }
-
 const ErrorComponent: React.FC<ErrorProps> = ({ error, reset }) => {
   return (
     <div>

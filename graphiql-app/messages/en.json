@@ -40,7 +40,7 @@
     "invalid-email": "The input is not valid E-mail!"
   },
   "HomePage": {
-    "welcome": "Welcome!",
+    "welcome": "Welcome to Mechta team app!",
     "welcome-back": "welcome back",
     "question": "Where are we going?",
     "rest": "Rest client",
@@ -48,7 +48,17 @@
     "history": "History",
     "sign-in": "Sign in",
     "sign-up": "Sign up",
-    "fetch-error": "Failed to fetch user data"
+    "fetch-error": "Failed to fetch user data",
+    "try": "Try app",
+    "article-1": "In our project, you can try both Restful and GraphQl client",
+    "article-2": "In order to start working with the application, the user must log in",
+    "mem-1": "Nikita",
+    "mem-2": "Irina",
+    "mem-3": "Gregory",
+    "describtion-1": "Developed GraphQl client",
+    "describtion-2": "Our project leader. Developed application authorization",
+    "describtion-3": "Developed Restful Client",
+    "about-us": "About us"
   },
   "NotFound": {
     "title": "Page not found",
