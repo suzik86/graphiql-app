@@ -50,6 +50,10 @@ const RequestHandler = forwardRef<
     };
 
     const sendRequest = async () => {
+
+      console.log(method)
+      console.log(111)
+      /*
       try {
         const bodyString =
           body === null
@@ -63,18 +67,19 @@ const RequestHandler = forwardRef<
           ? encodeBase64(bodyWithVariables)
           : "";
 
-        const queryParams = headers
+          const queryParams = headers
           .filter((header) => header.included)
           .map(
             (header) =>
               `${encodeURIComponent(header.key)}=${encodeURIComponent(header.value)}`,
           )
           .join("&");
+          */
           /*
           const url = `/api/${method}/${encodedEndpoint}${encodedBody ? `/${encodedBody}` : ""}${queryParams ? `?${queryParams}` : ""}`;
           
-        const requestHeaders: Record<string, string> = {
-          "Content-Type":
+          const requestHeaders: Record<string, string> = {
+            "Content-Type":
             editorMode === "json" ? "application/json" : "text/plain",
         };
 
@@ -92,11 +97,13 @@ const RequestHandler = forwardRef<
             : `Error: ${response.status} - ${response.statusText}`,
         );
         */
+       /*
       } catch (error) {
         console.error("Error sending request:", error);
         setStatus(500);
         setResponse("Internal Server Error");
       }
+        */
     };
 
     useImperativeHandle(ref, () => ({

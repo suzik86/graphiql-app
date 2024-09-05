@@ -7,6 +7,25 @@ import VariableEditor from "./VariablesEditor"
 import HeaderEditor from "./HeaderEditor"
 import RequestHandler from "./RequestHandler"
 import RequestBodyEditor from "./RequestBodyEditor"
+import { useParams, useSearchParams } from "next/navigation";
+
+
+
+
+
+
+import { ApolloClient, HttpLink, InMemoryCache } from "@apollo/client";
+import { graphql } from "gql.tada";
+import { useLocale } from "next-intl";
+import { usePathname, useRouter } from "next/navigation";
+import { buildClientSchema, getIntrospectionQuery } from "graphql";
+import QueryEditor from "./QueryEditor"
+
+
+
+
+
+
 export interface Header {
   key: string;
   value: string;
@@ -41,110 +60,213 @@ const getHeadersFromParams = (searchParams: URLSearchParams): Header[] => {
   );
 }; */
 const GrafQlContent = () => {
-  const sendRequest = () => {
 
-  }
   const [headers, setHeaders] = useState<Header[]>(
-   [ {
+    [{
       key: "",
       value: "",
       included: false
-    } ]
-   // getHeadersFromParams(searchParams),
+    }]
+    // getHeadersFromParams(searchParams),
   );
   const [currentEndpoint, setEndpoint] = useState("")
+  const searchParams = useSearchParams();
+  const { method, encodedUrl } = useParams<{
+    method: string;
+    encodedUrl: string[];
+  }>();
+
+  const [currentMethod, setMethod] = useState<string>(method || "query");
   let body: object | null = null;
   const [blurredBody, setBlurredBody] = useState<object | string | null>(body);
   const [currentBody, setBody] = useState<object | string | null>(body);
   const [variables, setVariables] = useState<Variable[]>(
     [
-      
+
     ]
-  //  initialVariables || [],
+    //  initialVariables || [],
   );
   const [isVariablesVisible, setIsVariablesVisible] = useState<boolean>(true);
 
   useEffect(() => {
     updateURL("graphql", currentEndpoint, currentBody, headers, variables);
   }, [currentEndpoint, headers, variables, currentBody]);
-/*
-  useEffect(() => {
-    updateURL("graphql", currentEndpoint, blurredBody, headers, variables);
-  }, [blurredBody]);
+  /*
+    useEffect(() => {
+      updateURL("graphql", currentEndpoint, blurredBody, headers, variables);
+    }, [blurredBody]);
+  */
+  const handleBodyUpdate = (updatedBody: string) => {
+    setBody(updatedBody);
+  };
+  const [editorMode, setEditorMode] = useState<"json" | "text">("json");
+  const requestHandlerRef = useRef<React.ElementRef<typeof RequestHandler>>(null);
+
+  const [schema, setSchema] = useState<object | string | null>(body);
+
+
+
+
+  const sendRequest = () => {
+
+
+
+
+
+
+
+    const client = new ApolloClient({
+      cache: new InMemoryCache(),
+      link: new HttpLink({
+        uri: currentEndpoint,
+        //  headers: headersObject,
+      }),
+    });
+
+    /*
+    const CustomQuery = graphql(bodyJson.query);
+    const operationType = bodyJson.query.includes("query")
+      ? "query"
+      : "mutation";
+    try {
+      const parsedVariables = JSON.parse(
+        JSON.stringify(bodyJson.variables || {}, null, 2),
+      );
+
+      let response;
+      if (operationType === "query") {
+        response = await client.query({
+          query: CustomQuery,
+          variables: parsedVariables,
+          context: {
+            fetchOptions: {
+              next: { revalidate: 10 },
+            },
+          },
+        });
+      } else if (operationType === "mutation") {
+        response = await client.mutate({
+          mutation: CustomQuery,
+          variables: parsedVariables,
+          context: {
+            fetchOptions: {
+              next: { revalidate: 10 },
+            },
+          },
+        });
+      }
+
+      setData(response!.data);
+      setStatusCode(200);
+    } catch (error: any) {
+      console.error("Ошибка запроса:", error);
+      setStatusCode(error.networkError?.statusCode || 500);
+    }
+  };
+
+  
+console.log(11)
 */
-const handleBodyUpdate = (updatedBody: string) => {
-  setBody(updatedBody);
-};
-const [editorMode, setEditorMode] = useState<"json" | "text">("json");
-const requestHandlerRef =useRef<React.ElementRef<typeof RequestHandler>>(null);
-  return ( 
+  }
+
+  const handleChangeSchema = (query: string) => {
+    setSchema(query)
+  }
+  return (
 
     <section className={styles.content}>
-    <div className={styles.content__inner}>
-      <div className={styles.content__wrapper}>
-        <h1 className={styles.content__title}>GraphQl Client</h1>
-        <div className={styles.content__background} />
+      <div className={styles.content__inner}>
+        <div className={styles.content__wrapper}>
+          <h1 className={styles.content__title}>GraphQl Client</h1>
+          <div className={styles.content__background} />
 
-       <UrlEditor
-          currentMethod={"graphql"}
-          setMethod={null}
-     //     setMethod={setMethod}
-          currentEndpoint={currentEndpoint}
-          setEndpoint={setEndpoint}
-          onSendRequest={sendRequest}
-        />
-
-        <HeaderEditor
-          title={"Headers"} // название секции
-          method={"graphql"} // метод
-          endpoint={currentEndpoint} // url 
-          body={currentBody} // тело 
-          headers={headers} // заголовки
-          setHeaders={setHeaders} // установить заголовки
-          variables={variables} // переменные
-        />
-
-        <div
-          className={styles.content__toggle}
-          onClick={() => setIsVariablesVisible(!isVariablesVisible)}
-          >
-          Variables {isVariablesVisible ? "-" : "+"}
-        </div>
-
-        {isVariablesVisible && (
-          <VariableEditor
-            variables={variables}
-            setVariables={setVariables}
-            body={blurredBody as string}
-            onUpdateBody={handleBodyUpdate}
+          <UrlEditor
+            currentMethod={currentMethod}
+            setMethod={setMethod}
+            //    currentMethod={"graphql"}
+            //    setMethod={null}
+            //     setMethod={setMethod}
+            currentEndpoint={currentEndpoint}
+            setEndpoint={setEndpoint}
+            onSendRequest={sendRequest}
           />
-        )}
 
+          <HeaderEditor
+            title={"Headers"} // название секции
+            //    method={"graphql"} // метод
+            method={currentMethod}
+
+            endpoint={currentEndpoint} // url 
+            body={currentBody} // тело 
+            headers={headers} // заголовки
+            setHeaders={setHeaders} // установить заголовки
+            variables={variables} // переменные
+          />
+
+          <div
+            className={styles.content__toggle}
+            onClick={() => setIsVariablesVisible(!isVariablesVisible)}
+          >
+            Variables {isVariablesVisible ? "-" : "+"}
+          </div>
+
+          {isVariablesVisible && (
+            <VariableEditor
+              variables={variables}
+              setVariables={setVariables}
+              body={blurredBody as string}
+              onUpdateBody={handleBodyUpdate}
+            />
+          )}
+          {/*
         <RequestBodyEditor
-          title={"Body"}
+        title={"Body"}
           body={currentBody}
+        
           setBlurredBody={setBlurredBody}
           variables={variables}
           editorMode={editorMode}
           setEditorMode={setEditorMode}
         />
+        */}
+          {/*
+          <RequestBodyEditor
+          body={schema}
+            title={"Request editor"}
+            variables={variables}
+            editorMode={"graphql"}
+            setEditorMode={setEditorMode}
+            />
+            */}
 
-        <RequestHandler
-          method={"graphql"}
-          endpoint={currentEndpoint}
-          headers={headers}
-          body={blurredBody}
-          editorMode={editorMode}
-          variables={variables}
-          ref={requestHandlerRef}
-        />
-        
+
+
+          {JSON.stringify(schema)}
+          <QueryEditor
+            body={schema}
+            title={"Request editor"}
+            variables={variables}
+            editorMode={"graphql"}
+            setEditorMode={setEditorMode}
+            handleChangeSchema={handleChangeSchema}
+          //  onChange={}
+          />
+          <RequestHandler
+            method={currentMethod}
+            endpoint={currentEndpoint}
+            headers={headers}
+            body={blurredBody}
+            editorMode={editorMode}
+            variables={variables}
+            ref={requestHandlerRef}
+          />
+
+        </div>
       </div>
-    </div>
-  </section>
-   );
+    </section>
+  );
 }
- 
+
 export default GrafQlContent;
 /*
  <section className={styles.content}>

@@ -27,7 +27,10 @@ const UrlEditor: React.FC<UrlEditorProps> = ({
         }}
         className={styles.editor__select}
       >
-          <option value="graphql">graphql</option>
+        {/*  <option value="graphql">graphql</option>
+        */}
+         <option value="query">query</option>
+         <option value="mutation">mutation</option>
       </select>
 
       <input
