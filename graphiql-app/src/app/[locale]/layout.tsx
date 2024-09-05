@@ -9,6 +9,7 @@ import Spinner from "../../components/Spinner/Spinner";
 import "../../theme/global.scss";
 import "../../theme/normalize.scss";
 import styles from "../../theme/wrappers.module.scss";
+import { ErrorBoundary } from "../../components/ErrorBoundary/ErrorBoundary";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -25,22 +26,24 @@ export default async function RootLayout({
     <html lang={locale}>
       <body className={inter.className}>
         <Suspense fallback={<Spinner />}>
-          <NextIntlClientProvider messages={messages}>
-            <ConfigProvider
-              theme={{
-                token: {
-                  colorPrimary: "#7d81d6",
-                  colorPrimaryHover: "#464bad",
-                },
-              }}
-            >
-              <div className={styles.wrapper}>
-                <HeaderWrapper />
-                <div className={styles.content}>{children}</div>
-                <Footer />
-              </div>
-            </ConfigProvider>
-          </NextIntlClientProvider>
+          <ErrorBoundary>
+            <NextIntlClientProvider messages={messages}>
+              <ConfigProvider
+                theme={{
+                  token: {
+                    colorPrimary: "#7d81d6",
+                    colorPrimaryHover: "#464bad",
+                  },
+                }}
+              >
+                <div className={styles.wrapper}>
+                  <HeaderWrapper />
+                  <div className={styles.content}>{children}</div>
+                  <Footer />
+                </div>
+              </ConfigProvider>
+            </NextIntlClientProvider>
+          </ErrorBoundary>
         </Suspense>
       </body>
     </html>
