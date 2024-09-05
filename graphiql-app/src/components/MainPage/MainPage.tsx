@@ -47,10 +47,9 @@ function MainPage() {
 
   useEffect(() => {
     if (loading) return;
-    if (!user) {
-      router.push("/");
+    if (user) {
+      fetchUserName();
     }
-    fetchUserName();
   }, [user, loading, router]);
 
   return (
