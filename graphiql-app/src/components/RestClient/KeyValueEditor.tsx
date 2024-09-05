@@ -10,7 +10,7 @@ type Item = {
 type KeyValueEditorProps = {
   items: Item[];
   setItems: React.Dispatch<React.SetStateAction<Item[]>>;
-  itemType: "variable" | "header"; 
+  itemType: "variable" | "header";
   onUpdateURL?: (items: Item[]) => void;
 };
 
