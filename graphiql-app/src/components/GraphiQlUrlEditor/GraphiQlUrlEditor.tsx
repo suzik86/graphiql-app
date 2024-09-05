@@ -2,8 +2,10 @@ import styles from "./GraphiqlUrleditor.module.scss";
 interface GrapgiQlTypes {
   handleChangeUrl: React.ChangeEventHandler<HTMLInputElement>;
   url: string;
+  
+  btn: string
 }
-const GraphiQlUrlEditor = ({ handleChangeUrl, url }: GrapgiQlTypes) => {
+const GraphiQlUrlEditor = ({ handleChangeUrl, url, btn }: GrapgiQlTypes) => {
   return (
     <div className={styles.editor}>
       <input
@@ -15,7 +17,8 @@ const GraphiQlUrlEditor = ({ handleChangeUrl, url }: GrapgiQlTypes) => {
         required
       />
       <button className={styles.editor__button} type="submit">
-        Send
+    
+      {btn}
       </button>
     </div>
   );
