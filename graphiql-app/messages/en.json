@@ -67,5 +67,9 @@
     "empty": "You haven't executed any requests yet. Try those options:",
     "rest": "Rest client",
     "graphiql": "GraphiQl client"
+  },
+  "ErrorPage": {
+    "oops": "Ooooops",
+    "retry": "Retry"
   }
 }
