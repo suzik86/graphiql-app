@@ -1,4 +1,4 @@
-import React, { useRef, useEffect, useState, useImperativeHandle } from "react";
+import React, { useRef, useState } from "react";
 import { Editor, type Monaco } from "@monaco-editor/react";
 import * as monaco from "monaco-editor";
 import styles from "./RequestBodyEditor.module.scss";
