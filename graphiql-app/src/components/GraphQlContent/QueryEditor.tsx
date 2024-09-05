@@ -37,6 +37,7 @@ type Variable = {
 };
 
 type RequestBodyEditorProps = {
+   // schema: string
   title: string;
   body: object | string | null;
   setBlurredBody?: React.Dispatch<React.SetStateAction<string>>;
@@ -49,6 +50,7 @@ type RequestBodyEditorProps = {
 
 const QueryEditor: React.FC<RequestBodyEditorProps> = ({
   title,
+ // schema,
   body,
   setBlurredBody = () => { },
   editorMode,

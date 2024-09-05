@@ -103,75 +103,78 @@ const GrafQlContent = () => {
   const requestHandlerRef = useRef<React.ElementRef<typeof RequestHandler>>(null);
 
   const [schema, setSchema] = useState<object | string | null>(body);
+  const [response, setResponse] = useState()
 
 
-
-
-  const sendRequest = () => {
-
-
-
-
-
-
-
-    const client = new ApolloClient({
-      cache: new InMemoryCache(),
-      link: new HttpLink({
-        uri: currentEndpoint,
-        //  headers: headersObject,
-      }),
-    });
-
-    /*
-    const CustomQuery = graphql(bodyJson.query);
-    const operationType = bodyJson.query.includes("query")
-      ? "query"
-      : "mutation";
-    try {
-      const parsedVariables = JSON.parse(
-        JSON.stringify(bodyJson.variables || {}, null, 2),
-      );
-
-      let response;
-      if (operationType === "query") {
-        response = await client.query({
-          query: CustomQuery,
-          variables: parsedVariables,
-          context: {
-            fetchOptions: {
-              next: { revalidate: 10 },
-            },
-          },
-        });
-      } else if (operationType === "mutation") {
-        response = await client.mutate({
-          mutation: CustomQuery,
-          variables: parsedVariables,
-          context: {
-            fetchOptions: {
-              next: { revalidate: 10 },
-            },
-          },
-        });
-      }
-
-      setData(response!.data);
-      setStatusCode(200);
-    } catch (error: any) {
-      console.error("Ошибка запроса:", error);
-      setStatusCode(error.networkError?.statusCode || 500);
-    }
-  };
-
+  /*
+    const sendRequest =async () => {
   
-console.log(11)
-*/
-  }
+  
+  
+  
+  
+  
+  
+      const client = new ApolloClient({
+        cache: new InMemoryCache(),
+        link: new HttpLink({
+          uri: currentEndpoint,
+          //  headers: headersObject,
+        }),
+      });
+      const CustomQuery = graphql(String(schema));
+      const operationType =currentMethod
+  
+  
+   
+      try {
+      //  const parsedVariables = JSON.parse(
+       //   JSON.stringify(bodyJson.variables || {}, null, 2),
+       // );
+  
+        let response;
+        if (operationType === "query") {
+          response = await client.query({
+            query: CustomQuery,
+           // variables: parsedVariables,
+           context: {
+              fetchOptions: {
+                next: { revalidate: 10 },
+              },
+            },
+          });
+  
+          console.log("RESP", response)
+        } else if (operationType === "mutation") {
+          response = await client.mutate({
+            mutation: CustomQuery,
+        //    variables: parsedVariables,
+            context: {
+              fetchOptions: {
+                next: { revalidate: 10 },
+              },
+            },
+          });
+        }
+      
+      //  setData(response!.data);
+     //   setStatusCode(200);
+      } catch (error: any) {
+        console.error("Ошибка запроса:", error);
+     //   setStatusCode(error.networkError?.statusCode || 500);
+      }
+    };
+  */
+
+
 
   const handleChangeSchema = (query: string) => {
     setSchema(query)
   }
+
+  const sendRequest = () => {
+    requestHandlerRef.current?.sendRequest();
+  };
   return (
 
     <section className={styles.content}>
@@ -241,7 +244,7 @@ console.log(11)
 
 
 
-          {JSON.stringify(schema)}
+
           <QueryEditor
             body={schema}
             title={"Request editor"}
@@ -252,6 +255,7 @@ console.log(11)
           //  onChange={}
           />
           <RequestHandler
+            schema={String(schema)}
             method={currentMethod}
             endpoint={currentEndpoint}
             headers={headers}

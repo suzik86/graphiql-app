@@ -160,9 +160,6 @@ const RestClient: React.FC = () => {
             setHeaders={setHeaders}
             variables={variables}
           />
-         body: {JSON.stringify(currentBody)},
-       headers:    {JSON.stringify(headers)},
-      variables:     {JSON.stringify(variables)}
           <div
             className={styles.content__toggle}
             onClick={() => setIsVariablesVisible(!isVariablesVisible)}
