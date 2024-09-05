@@ -22,19 +22,14 @@ export const updateURL = (
   };
 
   const encodedData = encodeBase64(JSON.stringify(dataObject));
-
   const encodedEndpoint = encodeBase64(endpoint);
-
   const currentURL = new URL(window.location.href);
-
   const basePathMatch = currentURL.pathname.match(/^\/[^/]+/);
   const basePath = basePathMatch ? basePathMatch[0] : "";
-
   const newPath = `${basePath}/${method.toUpperCase()}/${encodedEndpoint}/${encodedData}`;
-
+  const includedHeaders = headers.filter((header) => header.included);
   currentURL.pathname = newPath;
 
-  const includedHeaders = headers.filter((header) => header.included);
   currentURL.search = new URLSearchParams(
     includedHeaders.map((header) => [
       header.key,

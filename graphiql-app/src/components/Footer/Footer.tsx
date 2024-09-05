@@ -1,9 +1,10 @@
 import { useTranslations } from "next-intl";
 import Image from "next/image";
-import Logo from "../../assets/logo.png";
+import Logo from "../../assets/rss-logo.svg";
 import Github from "../Github/Github";
 import styles from "./Footer.module.scss";
 import { githubs } from "./consts";
+import Link from "next/link";
 
 const Footer = () => {
   const t = useTranslations("Footer");
@@ -23,7 +24,13 @@ const Footer = () => {
             <p className={styles.footer__copyright}>{t("message")}</p>
           </div>
           <div className={styles.footer__item}>
-            <Image src={Logo} alt="logo" />
+            <Link
+              href="https://rs.school/courses/reactjs"
+              target="blank"
+              className={styles.logo}
+            >
+              <Image src={Logo} alt="logo" />
+            </Link>
           </div>
         </div>
       </div>

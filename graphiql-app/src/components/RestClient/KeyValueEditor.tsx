@@ -33,15 +33,11 @@ export default function KeyValueEditor({
       let newItems;
 
       if (existingItemIndex !== -1) {
-        // Key exists, update value
         newItems = items.map((item, index) =>
-          index === existingItemIndex
-            ? { ...item, value } // No need for isModified here
-            : item,
+          index === existingItemIndex ? { ...item, value } : item,
         );
         setModifiedIndices((prev) => new Set(prev).add(existingItemIndex));
       } else {
-        // Key doesn't exist, add new item
         newItems = [...items, { key, value, included: true }];
       }
 
@@ -114,37 +110,37 @@ export default function KeyValueEditor({
   }, [items]);
 
   return (
-    <div className={styles.keyValueEditor}>
-      <div className={styles.keyValueEditor__form}>
+    <div className={styles.editor}>
+      <div className={styles.editor__wrapper}>
         <input
           type="text"
           value={key}
           onChange={(e) => setKey(e.target.value)}
           placeholder={`${itemType} Key`}
-          className={styles.keyValueEditor__input}
+          className={styles.editor__input}
         />
         <input
           type="text"
           value={value}
           onChange={(e) => setValue(e.target.value)}
           placeholder={`${itemType} Value`}
-          className={styles.keyValueEditor__input}
+          className={styles.editor__input}
         />
-        <button
-          onClick={handleAddItem}
-          className={styles.keyValueEditor__button}
-        >
+        <button onClick={handleAddItem} className={styles.editor__button}>
           Add {itemType}
         </button>
       </div>
-      <ul className={styles.keyValueEditor__list}>
+      <ul className={styles.editor__list}>
         {items.map((item, index) => (
-          <li key={index} className={styles.keyValueEditor__listItem}>
-            <input
-              type="checkbox"
-              checked={item.included}
-              onChange={() => toggleItemInclusion(index)}
-            />
+          <li key={index} className={styles.editor__listItem}>
+            <label className={styles.checkboxWrapper}>
+              <input
+                type="checkbox"
+                checked={item.included}
+                onChange={() => toggleItemInclusion(index)}
+              />
+              <span></span>
+            </label>
             <input
               type="text"
               value={item.key}
@@ -152,25 +148,25 @@ export default function KeyValueEditor({
                 handleEditItem(index, e.target.value, item.value)
               }
               placeholder="Key"
-              className={`${styles.keyValueEditor__input} ${
+              className={`${styles.editor__input} ${
                 modifiedIndices.has(index) ? styles.blinkBorder : ""
-              } ${duplicateKeys.has(index) ? styles.redBorder : ""}`} // Apply red border if duplicate
+              } ${duplicateKeys.has(index) ? styles.redBorder : ""}`}
             />
             <input
               type="text"
               value={item.value}
               onChange={(e) => handleEditItem(index, item.key, e.target.value)}
               placeholder="Value"
-              className={`${styles.keyValueEditor__input} ${
+              className={`${styles.editor__input} ${
                 modifiedIndices.has(index) ? styles.blinkBorder : ""
-              } ${duplicateKeys.has(index) ? styles.redBorder : ""}`} // Apply red border if duplicate
+              } ${duplicateKeys.has(index) ? styles.redBorder : ""}`}
             />
-            <button
+            <span
+              className={styles.editor__deleteText}
               onClick={() => handleDeleteItem(index)}
-              className={styles.keyValueEditor__deleteButton}
             >
               Delete
-            </button>
+            </span>
           </li>
         ))}
       </ul>

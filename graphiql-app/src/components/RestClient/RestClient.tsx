@@ -9,6 +9,7 @@ import { updateURL } from "../../utils/urlUpdater";
 import RequestBodyEditor from "./RequestBodyEditor";
 import VariableEditor from "./VariablesEditor";
 import RequestHandler from "./RequestHandler";
+import UrlEditor from "./UrlEditor";
 
 export interface Header {
   key: string;
@@ -116,6 +117,8 @@ const RestClient: React.FC = () => {
     initialVariables || [],
   );
   const [editorMode, setEditorMode] = useState<"json" | "text">("json");
+  const requestHandlerRef =
+    React.useRef<React.ElementRef<typeof RequestHandler>>(null);
 
   useEffect(() => {
     updateURL(currentMethod, currentEndpoint, currentBody, headers, variables);
@@ -129,75 +132,72 @@ const RestClient: React.FC = () => {
     setBody(updatedBody);
   };
 
+  const sendRequest = () => {
+    requestHandlerRef.current?.sendRequest();
+  };
+
   return (
-    <div className={styles.restClient}>
-      <div className={styles.restClient__controls}>
-        <select
-          value={currentMethod}
-          onChange={(e) => {
-            setMethod(e.target.value);
-          }}
-          className={styles.restClient__select}
-        >
-          <option value="GET">GET</option>
-          <option value="POST">POST</option>
-          <option value="PUT">PUT</option>
-          <option value="DELETE">DELETE</option>
-        </select>
+    <section className={styles.content}>
+      <div className={styles.content__inner}>
+        <div className={styles.content__wrapper}>
+          <h1 className={styles.content__title}>RESTfull Client</h1>
+          <div className={styles.content__background} />
 
-        <input
-          type="text"
-          value={currentEndpoint}
-          onChange={(e) => {
-            setEndpoint(e.target.value);
-          }}
-          placeholder="https://api.example.com/resource"
-          className={styles.restClient__input}
-        />
+          <UrlEditor
+            currentMethod={currentMethod}
+            setMethod={setMethod}
+            currentEndpoint={currentEndpoint}
+            setEndpoint={setEndpoint}
+            onSendRequest={sendRequest}
+          />
+
+          <HeaderEditor
+            title={"Headers"}
+            method={currentMethod}
+            endpoint={currentEndpoint}
+            body={currentBody}
+            headers={headers}
+            setHeaders={setHeaders}
+            variables={variables}
+          />
+
+          <div
+            className={styles.content__toggle}
+            onClick={() => setIsVariablesVisible(!isVariablesVisible)}
+          >
+            Variables {isVariablesVisible ? "-" : "+"}
+          </div>
+
+          {isVariablesVisible && (
+            <VariableEditor
+              variables={variables}
+              setVariables={setVariables}
+              body={blurredBody as string}
+              onUpdateBody={handleBodyUpdate}
+            />
+          )}
+
+          <RequestBodyEditor
+            title={"Body"}
+            body={currentBody}
+            setBlurredBody={setBlurredBody}
+            variables={variables}
+            editorMode={editorMode}
+            setEditorMode={setEditorMode}
+          />
+
+          <RequestHandler
+            method={currentMethod}
+            endpoint={currentEndpoint}
+            headers={headers}
+            body={blurredBody}
+            editorMode={editorMode}
+            variables={variables}
+            ref={requestHandlerRef}
+          />
+        </div>
       </div>
-
-      <HeaderEditor
-        method={currentMethod}
-        endpoint={currentEndpoint}
-        body={currentBody}
-        headers={headers}
-        setHeaders={setHeaders}
-        variables={variables}
-      />
-
-      <div
-        className={styles.restClient__variablesToggle}
-        onClick={() => setIsVariablesVisible(!isVariablesVisible)}
-      >
-        Variables Editor {isVariablesVisible ? "-" : "+"}
-      </div>
-
-      {isVariablesVisible && (
-        <VariableEditor
-          variables={variables}
-          setVariables={setVariables}
-          body={blurredBody as string}
-          onUpdateBody={handleBodyUpdate}
-        />
-      )}
-
-      <RequestBodyEditor
-        body={currentBody}
-        setBlurredBody={setBlurredBody}
-        variables={variables}
-        editorMode={editorMode}
-        setEditorMode={setEditorMode}
-      />
-
-      <RequestHandler
-        method={currentMethod}
-        endpoint={currentEndpoint}
-        headers={headers}
-        body={blurredBody}
-        editorMode={editorMode}
-        variables={variables}
-      />
-    </div>
+    </section>
   );
 };
 

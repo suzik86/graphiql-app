@@ -1,7 +1,7 @@
 @import "../../theme/theme.scss";
 
 .welcome {
-  margin-top: 146px;
+  margin-top: 50px;
   display: flex;
   justify-content: center;
 
@@ -16,14 +16,14 @@
     font-family: "Nunito", sans-serif;
     font-weight: 700;
     font-size: 64px;
-
     color: $black;
+    margin-bottom: 30px;
   }
 
   &__subtitle {
     font-family: "Nunito", sans-serif;
     font-weight: 700;
-    font-size: 48px;
+    font-size: 35px;
     text-align: center;
     color: $black;
     margin-top: 1px;
@@ -33,5 +33,30 @@
     display: flex;
     column-gap: 46px;
     margin-top: 48px;
+  }
+}
+
+.links__wrapper {
+  display: flex;
+  justify-content: center;
+  margin-top: 48px;
+  column-gap: 48px;
+}
+
+.link {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 10px 50px;
+  cursor: pointer;
+  font-weight: 400;
+  font-size: 36px;
+  color: #000;
+  font-family: "Nunito", sans-serif;
+  background-color: $purple;
+  border-radius: 15px;
+  transition: 0.4s ease-in-out;
+  &:hover {
+    background-color: $btn-active;
   }
 }

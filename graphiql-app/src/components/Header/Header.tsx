@@ -3,10 +3,12 @@ import { Dropdown, Space } from "antd";
 import { useLocale, useTranslations } from "next-intl";
 import Image from "next/image";
 import Link from "next/link";
-import React from "react";
+import React, { FC } from "react";
+import { useAuthState } from "react-firebase-hooks/auth";
 import RussianFlag from "../../assets/flag_ru.png";
 import EnglishFlag from "../../assets/flag_uk.png";
 import team_logo from "../../assets/team_logo.png";
+import { auth, logout } from "../../firebase";
 import HeaderButton from "../HeaderButton/HeaderButton";
 import styles from "./Header.module.scss";
 
@@ -15,10 +17,11 @@ interface HeaderProps {
   onMenuClick: (key: string) => void;
 }
 
-const Header: React.FC<HeaderProps> = ({ isSticky, onMenuClick }) => {
+const Header: FC<HeaderProps> = ({ isSticky, onMenuClick }) => {
   const localActive = useLocale();
   const t = useTranslations("Header");
   const selectedFlag = localActive === "en" ? EnglishFlag : RussianFlag;
+  const [user] = useAuthState(auth);
 
   const items: MenuProps["items"] = [
     {
@@ -55,7 +58,17 @@ const Header: React.FC<HeaderProps> = ({ isSticky, onMenuClick }) => {
               </div>
             </Dropdown>
           </Space>
-          <HeaderButton to="#" text={t("sign-out")} />
+          {user && (
+            <button className={styles.logout__btn} onClick={logout}>
+              {t("sign-out")}
+            </button>
+          )}
+          {!user && (
+            <HeaderButton to={`/${localActive}/login`} text={t("sign-in")} />
+          )}
+          {!user && (
+            <HeaderButton to={`/${localActive}/register`} text={t("sign-up")} />
+          )}
         </div>
       </div>
     </header>

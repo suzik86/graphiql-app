@@ -1,7 +1,13 @@
+.spinner__wrapper {
+  margin-top: 146px;
+  display: flex;
+  justify-content: center;
+}
+
 .spinner {
   position: relative;
-  width: 40px;
-  height: 40px;
+  width: 100px;
+  height: 100px;
   display: flex;
   align-items: center;
 

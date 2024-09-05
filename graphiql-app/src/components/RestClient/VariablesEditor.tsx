@@ -1,5 +1,5 @@
 import React, { useState, useCallback } from "react";
-import KeyValueEditor from "../KeyValueEditor/KeyValueEditor";
+import KeyValueEditor from "./KeyValueEditor";
 
 type Variable = {
   key: string;
@@ -82,10 +82,6 @@ const VariableEditor: React.FC<VariableEditorProps> = ({
 
   const updateBody = useCallback(
     (updatedVariables: Variable[]) => {
-      console.log("Updating body with variables...");
-      console.log("Current body:", body);
-      console.log("Variables:", updatedVariables);
-
       const variableMap = createVariableMap(updatedVariables);
 
       try {

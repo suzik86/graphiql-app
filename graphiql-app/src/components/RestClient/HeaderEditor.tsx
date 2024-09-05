@@ -1,10 +1,11 @@
 import React, { useCallback } from "react";
 import styles from "./HeaderEditor.module.scss";
-import KeyValueEditor from "../KeyValueEditor/KeyValueEditor";
-import { Header, Variable } from "../RestClient/RestClient";
+import KeyValueEditor from "./KeyValueEditor";
+import { Header, Variable } from "./RestClient";
 import { updateURL } from "../../utils/urlUpdater";
 
 type HeaderEditorProps = {
+  title: string;
   method: string;
   endpoint: string;
   body: object | string | null;
@@ -14,6 +15,7 @@ type HeaderEditorProps = {
 };
 
 export default function HeaderEditor({
+  title,
   method,
   endpoint,
   body,
@@ -29,8 +31,8 @@ export default function HeaderEditor({
   );
 
   return (
-    <div className={styles.headerEditor}>
-      <h2 className={styles.headerEditor__title}>Headers Editor</h2>
+    <div className={styles.headers}>
+      <p className={styles.headers__title}>{title}</p>
       <KeyValueEditor
         items={headers}
         setItems={setHeaders}

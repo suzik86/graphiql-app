@@ -1,8 +1,12 @@
-.headerEditor {
-  margin: 1rem 0;
-}
+@import "../../theme/theme.scss";
+.headers {
+  width: 100%;
 
-.headerEditor__title {
-  font-size: 1.2rem;
-  margin-bottom: 0.5rem;
+  &__title {
+    color: $white;
+    font-size: 32px;
+    text-align: left;
+    font-family: "Nunito", sans-serif;
+    margin-bottom: 10px;
+  }
 }

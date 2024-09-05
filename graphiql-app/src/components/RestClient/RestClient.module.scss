@@ -1,10 +1,35 @@
-// components/RestClient/RestClient.module.scss
-.restClient {
-  margin: 20px;
-  padding: 20px;
-  border: 1px solid #ccc;
-  border-radius: 8px;
-  background-color: #f9f9f9;
+@import "../../theme/variables.scss";
+.content {
+  margin: 47px 0px 190px 0px;
+
+  &__inner {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    max-width: 1154px;
+    margin: 0 auto;
+  }
+
+  &__title {
+    font-weight: 700;
+    font-size: 48px;
+    color: $white;
+    font-family: "Nunito", sans-serif;
+  }
+
+  &__wrapper {
+    width: 100%;
+  }
+  &__background {
+    position: fixed;
+    left: 0;
+    top: 0;
+    background-color: $black-content;
+    height: 100vh;
+    width: 100%;
+    z-index: -1;
+  }
 
   &__controls {
     display: flex;
@@ -76,13 +101,24 @@
     word-wrap: break-word;
   }
 
-  .restClient__variablesToggle {
+  &__toggle {
+    color: $white;
+    font-size: 32px;
+    text-align: left;
+    font-family: "Nunito", sans-serif;
+    margin-bottom: 10px;
+    display: flex;
+    align-items: center;
     cursor: pointer;
-    font-weight: bold;
-    margin: 10px 0;
-  }
+    font-family: "Nunito", sans-serif;
+    position: relative;
+    border-radius: 5px;
+    transition:
+      background-color 0.3s,
+      color 0.3s;
 
-  .restClient__variablesToggle:hover {
-    text-decoration: underline;
+    &:hover {
+      color: #6c63ff;
+    }
   }
 }
