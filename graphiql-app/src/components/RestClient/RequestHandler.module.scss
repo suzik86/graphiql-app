@@ -54,18 +54,4 @@
       background-color: $pastel-red; // Red
     }
   }
-
-  .editorWrapper {
-    position: relative;
-  }
-
-  .placeholder {
-    position: absolute;
-    top: 10px;
-    left: 15px;
-    color: #999;
-    pointer-events: none;
-    font-size: 16px;
-    font-family: Nunito, sans-serif;
-  }
 }

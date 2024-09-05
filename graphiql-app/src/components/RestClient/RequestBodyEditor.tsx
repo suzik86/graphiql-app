@@ -67,7 +67,6 @@ const RequestBodyEditor: React.FC<RequestBodyEditorProps> = ({
     if (readOnly) {
       editor.updateOptions({ readOnly: true });
     }
-    const checkPlaceholder = () => {};
 
     editor.onDidBlurEditorWidget(() => {
       if (!readOnly) {

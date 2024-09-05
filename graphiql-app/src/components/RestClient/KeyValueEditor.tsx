@@ -10,8 +10,8 @@ type Item = {
 type KeyValueEditorProps = {
   items: Item[];
   setItems: React.Dispatch<React.SetStateAction<Item[]>>;
-  itemType: "variable" | "header"; // or use string enum
-  onUpdateURL?: (items: Item[]) => void; // Callback for URL update
+  itemType: "variable" | "header"; 
+  onUpdateURL?: (items: Item[]) => void;
 };
 
 export default function KeyValueEditor({
