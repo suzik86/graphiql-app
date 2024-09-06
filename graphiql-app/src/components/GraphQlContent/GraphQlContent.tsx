@@ -15,7 +15,7 @@ import QueryEditor from "./QueryEditor"
 import SdlEditor from "./SdlEditor"
 import RequestHandlerSdl from "./RequestHandlerSdl"
 
-
+import { decodeBase64 } from "../../utils/base64";
 
 
 
@@ -37,18 +37,52 @@ interface ExtractedData {
   variables: Variable[];
 }
  
+
+
+
+
+
+
+
+
+
+
+const getHeadersFromParams = (searchParams: URLSearchParams): Header[] => {
+  return Array.from(searchParams.entries()).reduce<Header[]>(
+    (acc, [key, value]) => {
+      if (
+        key !== "method" &&
+        key !== "encodedEndpoint" &&
+        key !== "encodedData"
+      ) {
+        acc.push({ key, value: decodeURIComponent(value), included: true });
+      }
+      return acc;
+    },
+    [],
+  );
+};
+
+
+
+
 const GrafQlContent = () => {
- 
+ /*
   const [headers, setHeaders] = useState<Header[]>(
+    
     [{
       key: "",
       value: "",
       included: false
     }]
- 
-  );
+    );
+ */
+
+const searchParams = useSearchParams();
+    const [headers, setHeaders] = useState<Header[]>(
+      getHeadersFromParams(searchParams),
+    );
   const [currentEndpoint, setEndpoint] = useState("")
-  const searchParams = useSearchParams();
   const { method, encodedUrl } = useParams<{
     method: string;
     encodedUrl: string[];
@@ -116,6 +150,33 @@ useEffect(() => {
     console.log("BOD", JSON.stringify(currentBody))
     updateURL("graphql", currentEndpoint, currentBody, headers, variables);
   }, [currentEndpoint, schema, headers, variables, currentBody]);
+
+
+  
+
+
+function extractBodyAndVariables(
+  encodedData: string | undefined,
+): ExtractedData {
+  if (!encodedData) {
+    return { body: null, variables: [] };
+  }
+
+  try {
+    const decodedString = decodeBase64(encodedData);
+    const dataObject = JSON.parse(decodedString);
+    const body = dataObject.body || null;
+    const variables = dataObject.variables || [];
+
+    return { body, variables };
+  } catch (error) {
+    console.error("Error decoding or parsing data:", error);
+    return { body: null, variables: [] };
+  }
+}
+
+
+
   return (
 
     <section className={styles.content}>

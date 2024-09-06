@@ -143,8 +143,7 @@ const QueryEditor: React.FC<RequestBodyEditorProps> = ({
     }
   };
   
-  //testPrettier();
-  
+
   return (
     <>
       <div className={styles.body}>
