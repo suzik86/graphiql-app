@@ -6,6 +6,8 @@
   background-color: $strong-dark;
   display: flex;
   border-radius: 5px;
+ position: relative;
+ 
 
   &__input {
     flex-grow: 1;

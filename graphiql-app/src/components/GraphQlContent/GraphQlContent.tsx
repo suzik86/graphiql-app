@@ -21,6 +21,7 @@ import { usePathname, useRouter } from "next/navigation";
 import { buildClientSchema, getIntrospectionQuery } from "graphql";
 import QueryEditor from "./QueryEditor"
 import SdlEditor from "./SdlEditor"
+import RequestHandlerSdl from "./RequestHandlerSdl"
 
 
 
@@ -104,68 +105,6 @@ const GrafQlContent = () => {
   const requestHandlerRef = useRef<React.ElementRef<typeof RequestHandler>>(null);
 
   const [schema, setSchema] = useState<object | string | null>(body);
-  const [response, setResponse] = useState()
-
-
-  /*
-    const sendRequest =async () => {
-  
-  
-  
-  
-  
-  
-  
-      const client = new ApolloClient({
-        cache: new InMemoryCache(),
-        link: new HttpLink({
-          uri: currentEndpoint,
-          //  headers: headersObject,
-        }),
-      });
-      const CustomQuery = graphql(String(schema));
-      const operationType =currentMethod
-  
-  
-   
-      try {
-      //  const parsedVariables = JSON.parse(
-       //   JSON.stringify(bodyJson.variables || {}, null, 2),
-       // );
-  
-        let response;
-        if (operationType === "query") {
-          response = await client.query({
-            query: CustomQuery,
-           // variables: parsedVariables,
-           context: {
-              fetchOptions: {
-                next: { revalidate: 10 },
-              },
-            },
-          });
-  
-          console.log("RESP", response)
-        } else if (operationType === "mutation") {
-          response = await client.mutate({
-            mutation: CustomQuery,
-        //    variables: parsedVariables,
-            context: {
-              fetchOptions: {
-                next: { revalidate: 10 },
-              },
-            },
-          });
-        }
-      
-      //  setData(response!.data);
-     //   setStatusCode(200);
-      } catch (error: any) {
-        console.error("Ошибка запроса:", error);
-     //   setStatusCode(error.networkError?.statusCode || 500);
-      }
-    };
-  */
 
 
 
@@ -176,8 +115,11 @@ const GrafQlContent = () => {
   const sendRequest = () => {
     requestHandlerRef.current?.sendRequest();
   };
-
+  const requestHandlerSdlRef = useRef<React.ElementRef<typeof RequestHandlerSdl>>(null);
   const [sdlSchema, setSdlSchema] = useState("")
+  const sendRequestSdl = () => {
+    requestHandlerSdlRef.current?.sendRequest();
+  };
   return (
 
     <section className={styles.content}>
@@ -185,25 +127,27 @@ const GrafQlContent = () => {
         <div className={styles.content__wrapper}>
           <h1 className={styles.content__title}>GraphQl Client</h1>
           <div className={styles.content__background} />
+          <div className={styles.content__inputs}>
 
-          <UrlEditor
-            currentMethod={currentMethod}
-            setMethod={setMethod}
-           
-            currentEndpoint={currentEndpoint}
-            setEndpoint={setEndpoint}
-            onSendRequest={sendRequest}
-          />
+            <UrlEditor
+              currentMethod={currentMethod}
+              setMethod={setMethod}
 
-          <SdlEditor 
-           currentMethod={currentMethod}
-           setMethod={setMethod}
-          
-           currentEndpoint={currentEndpoint}
-           setEndpoint={setEndpoint}
-           onSendRequest={sendRequest}
-          
-          />
+              currentEndpoint={currentEndpoint}
+              setEndpoint={setEndpoint}
+              onSendRequest={sendRequest}
+            />
+
+            <SdlEditor
+              currentMethod={currentMethod}
+              setMethod={setMethod}
+
+              currentEndpoint={sdlSchema}
+              setEndpoint={setEndpoint}
+              onSendRequest={sendRequest}
+
+            />
+          </div>
 
           <HeaderEditor
             title={"Headers"} // название секции
@@ -274,6 +218,18 @@ const GrafQlContent = () => {
             editorMode={editorMode}
             variables={variables}
             ref={requestHandlerRef}
+          />
+
+          <RequestHandlerSdl
+            schema={String(schema)}
+            method={currentMethod}
+            endpoint={currentEndpoint}
+            headers={headers}
+            body={blurredBody}
+            editorMode={editorMode}
+            variables={variables}
+            ref={requestHandlerRef}
+
           />
 
         </div>

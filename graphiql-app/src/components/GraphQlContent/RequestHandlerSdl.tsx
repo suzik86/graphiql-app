@@ -23,7 +23,7 @@ interface RequestHandlerProps {
   variables: { key: string; value: string; included: boolean }[];
 }
 
-const RequestHandler = forwardRef<
+const RequestHandlerSdl = forwardRef<
   {
     sendRequest: () => void;
   },
@@ -66,59 +66,7 @@ const RequestHandler = forwardRef<
       console.log(method)
       console.log(111)
 
-
-      const client = new ApolloClient({
-        cache: new InMemoryCache(),
-      link: new HttpLink({
-        uri: endpoint
-      //  uri: currentEndpoint,
-        //  headers: headersObject,
-      }),
-    });
-    const CustomQuery = graphql(String(schema));
-    const operationType =method
-    
-    
  
-    try {
-      //  const parsedVariables = JSON.parse(
-        //   JSON.stringify(bodyJson.variables || {}, null, 2),
-     // );
-
-      let response;
-      if (operationType === "query") {
-        response = await client.query({
-          query: CustomQuery,
-         // variables: parsedVariables,
-         context: {
-            fetchOptions: {
-              next: { revalidate: 10 },
-            },
-          },
-        });
-
-        console.log("RESP", response)
-      } else if (operationType === "mutation") {
-        response = await client.mutate({
-          mutation: CustomQuery,
-      //    variables: parsedVariables,
-          context: {
-            fetchOptions: {
-              next: { revalidate: 10 },
-            },
-          },
-        });
-      }
-    console.log("RESSSSSS", JSON.stringify(response))
-    setResponse(JSON.stringify(response))
-   // setResponse(String(response))
-    //  setData(response!.data);
-   //   setStatusCode(200);
-    } catch (error: any) {
-      console.error("Ошибка запроса:", error);
-   //   setStatusCode(error.networkError?.statusCode || 500);
-    }
-  
     };
 
     useImperativeHandle(ref, () => ({
@@ -147,7 +95,7 @@ const RequestHandler = forwardRef<
 
     return (
       <div className={styles.response}>
-        <p className={styles.response__title}>Response</p>
+        <p className={styles.response__title}>Documentation (Sdl) </p>
 
         <div className={styles.response__status}>
           <p className={styles.response__status__text}>Status:</p>
@@ -169,4 +117,4 @@ const RequestHandler = forwardRef<
   },
 );
 
-export default RequestHandler;
+export default RequestHandlerSdl;
