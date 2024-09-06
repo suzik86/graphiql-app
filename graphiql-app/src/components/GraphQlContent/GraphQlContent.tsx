@@ -20,6 +20,7 @@ import { useLocale } from "next-intl";
 import { usePathname, useRouter } from "next/navigation";
 import { buildClientSchema, getIntrospectionQuery } from "graphql";
 import QueryEditor from "./QueryEditor"
+import SdlEditor from "./SdlEditor"
 
 
 
@@ -175,6 +176,8 @@ const GrafQlContent = () => {
   const sendRequest = () => {
     requestHandlerRef.current?.sendRequest();
   };
+
+  const [sdlSchema, setSdlSchema] = useState("")
   return (
 
     <section className={styles.content}>
@@ -186,12 +189,20 @@ const GrafQlContent = () => {
           <UrlEditor
             currentMethod={currentMethod}
             setMethod={setMethod}
-            //    currentMethod={"graphql"}
-            //    setMethod={null}
-            //     setMethod={setMethod}
+           
             currentEndpoint={currentEndpoint}
             setEndpoint={setEndpoint}
             onSendRequest={sendRequest}
+          />
+
+          <SdlEditor 
+           currentMethod={currentMethod}
+           setMethod={setMethod}
+          
+           currentEndpoint={currentEndpoint}
+           setEndpoint={setEndpoint}
+           onSendRequest={sendRequest}
+          
           />
 
           <HeaderEditor
