@@ -10,8 +10,7 @@ interface UrlEditorProps {
 }
 
 const SdlEditor: React.FC<UrlEditorProps> = ({
-  currentMethod,
-  setMethod,
+ 
   currentEndpoint,
   setEndpoint,
   onSendRequest,

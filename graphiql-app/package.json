@@ -17,6 +17,7 @@
     "@apollo/experimental-nextjs-app-support": "^0.11.2",
     "@codemirror/lang-javascript": "^6.2.2",
     "@codemirror/theme-one-dark": "^6.1.2",
+    "@graphql-eslint/eslint-plugin": "^3.20.1",
     "@monaco-editor/react": "^4.6.0",
     "@reduxjs/toolkit": "^2.2.7",
     "@types/codemirror": "^5.60.15",

@@ -41,7 +41,6 @@ type RequestBodyEditorProps = {
   body: object | string | null;
   setBlurredBody?: React.Dispatch<React.SetStateAction<string>>;
   variables?: Variable[];
- // editorMode: "json" | "text";
  editorMode: "graphql" | "json" |"text"
   setEditorMode?: (mode: "json" | "text") => void;
   readOnly?: boolean;

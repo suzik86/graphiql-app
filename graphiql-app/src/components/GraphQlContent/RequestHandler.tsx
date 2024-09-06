@@ -1,17 +1,8 @@
 import React, { useState, forwardRef, useImperativeHandle } from "react";
 import styles from "./RequestHandler.module.scss";
-import { encodeBase64 } from "../../utils/base64";
 import RequestBodyEditor from "./RequestBodyEditor";
-
-
-
-
 import { ApolloClient, HttpLink, InMemoryCache } from "@apollo/client";
 import { graphql } from "gql.tada";
-import { useLocale } from "next-intl";
-import { usePathname, useRouter } from "next/navigation";
-import { buildClientSchema, getIntrospectionQuery } from "graphql";
-
 
 interface RequestHandlerProps {
   schema: string;
@@ -34,10 +25,6 @@ const RequestHandler = forwardRef<
       schema,
       method,
       endpoint,
-      headers,
-      body,
-      editorMode,
-      variables,
     }: RequestHandlerProps,
     ref,
   ) => {
@@ -62,64 +49,56 @@ const RequestHandler = forwardRef<
     };
 
     const sendRequest = async () => {
-
-      console.log(method)
-      console.log(111)
-
-
-      const client = new ApolloClient({
-        cache: new InMemoryCache(),
-      link: new HttpLink({
-        uri: endpoint
-      //  uri: currentEndpoint,
-        //  headers: headersObject,
-      }),
-    });
-    const CustomQuery = graphql(String(schema));
-    const operationType =method
-    
-    
- 
-    try {
-      //  const parsedVariables = JSON.parse(
-        //   JSON.stringify(bodyJson.variables || {}, null, 2),
-     // );
-
-      let response;
-      if (operationType === "query") {
-        response = await client.query({
-          query: CustomQuery,
-         // variables: parsedVariables,
-         context: {
-            fetchOptions: {
-              next: { revalidate: 10 },
-            },
-          },
+      try {
+        const client = new ApolloClient({
+          cache: new InMemoryCache(),
+          link: new HttpLink({
+            uri: endpoint,
+          }),
         });
-
-        console.log("RESP", response)
-      } else if (operationType === "mutation") {
-        response = await client.mutate({
-          mutation: CustomQuery,
-      //    variables: parsedVariables,
-          context: {
-            fetchOptions: {
-              next: { revalidate: 10 },
+    
+        const CustomQuery = graphql(String(schema));
+        const operationType = method;
+    
+        let response;
+    
+        if (operationType === "query") {
+          response = await client.query({
+            query: CustomQuery,
+            context: {
+              fetchOptions: {
+                next: { revalidate: 10 },
+              },
             },
-          },
-        });
+          });
+    
+         
+          setStatus(response.errors ? 400 : 200);
+        } else if (operationType === "mutation") {
+          response = await client.mutate({
+            mutation: CustomQuery,
+            context: {
+              fetchOptions: {
+                next: { revalidate: 10 },
+              },
+            },
+          });
+    
+       
+          setStatus(response.errors ? 400 : 200);
+        }
+    
+        setResponse(JSON.stringify(response));
+      } catch (error: any) {
+        console.error("Ошибка запроса:", error);
+    
+   
+        setStatus(500);
+    
+        setResponse(error.message);
       }
-    console.log("RESSSSSS", JSON.stringify(response))
-    setResponse(JSON.stringify(response))
-   // setResponse(String(response))
-    //  setData(response!.data);
-   //   setStatusCode(200);
-    } catch (error: any) {
-      console.error("Ошибка запроса:", error);
-   //   setStatusCode(error.networkError?.statusCode || 500);
-    }
-  
     };
+    
 
     useImperativeHandle(ref, () => ({
       sendRequest,
@@ -170,3 +149,6 @@ const RequestHandler = forwardRef<
 );
 
 export default RequestHandler;
+
+
+ 
