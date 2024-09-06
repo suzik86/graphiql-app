@@ -1,7 +1,9 @@
 import React, { useRef, useState } from "react";
+import Image from "next/image";
 import { Editor, type Monaco } from "@monaco-editor/react";
 import * as monaco from "monaco-editor";
 import styles from "./RequestBodyEditor.module.scss";
+import wand from "../../assets/magic-stick.svg";
 
 const myCustomTheme: monaco.editor.IStandaloneThemeData = {
   base: "vs-dark",
@@ -59,7 +61,7 @@ const RequestBodyEditor: React.FC<RequestBodyEditorProps> = ({
   const maxHeight = 500;
 
   const handleEditorDidMount = (
-    editor: monaco.editor.IStandaloneCodeEditor,
+    editor: monaco.editor.IStandaloneCodeEditor
   ) => {
     editorRef.current = editor;
     handleBeautify();
@@ -79,7 +81,6 @@ const RequestBodyEditor: React.FC<RequestBodyEditorProps> = ({
       const contentHeight = editor.getContentHeight();
       const newHeight = Math.min(Math.max(contentHeight, 200), maxHeight);
       setEditorHeight(newHeight);
-      checkPlaceholder();
     });
   };
 
@@ -132,6 +133,7 @@ const RequestBodyEditor: React.FC<RequestBodyEditorProps> = ({
                   onClick={handleBeautify}
                 >
                   Beautify
+                  <Image src={wand} alt="magic-stick" className={styles.body__beautify__icon} />
                 </span>
               )}
             </div>

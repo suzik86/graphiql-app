@@ -113,14 +113,17 @@ const RequestHandler = forwardRef<
     };
 
     const formatJson = (jsonString: string): string => {
+      if (!jsonString || jsonString.trim() === "") {
+        return ""; 
+      }
       try {
         const json = JSON.parse(jsonString);
         return JSON.stringify(json, null, 2);
-      } catch (e) {
-        console.error("Invalid JSON:", e);
+      } catch {
         return jsonString;
       }
     };
+    
 
     return (
       <div className={styles.response}>
