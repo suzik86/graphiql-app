@@ -1,3 +1,4 @@
+ 
 "use client"
 import UrlEditor from "./UrlEditor"
 import { useState, useEffect, useRef } from "react"
@@ -7,7 +8,7 @@ import VariableEditor from "./VariablesEditor"
 import HeaderEditor from "./HeaderEditor"
 import RequestHandler from "./RequestHandler"
  
-import { useParams, useSearchParams } from "next/navigation";
+import { useParams, useSearchParams, usePathname } from "next/navigation";
 
 
  
@@ -67,16 +68,7 @@ const getHeadersFromParams = (searchParams: URLSearchParams): Header[] => {
 
 
 const GrafQlContent = () => {
- /*
-  const [headers, setHeaders] = useState<Header[]>(
-    
-    [{
-      key: "",
-      value: "",
-      included: false
-    }]
-    );
- */
+ 
 
 const searchParams = useSearchParams();
     const [headers, setHeaders] = useState<Header[]>(
@@ -96,15 +88,11 @@ const searchParams = useSearchParams();
     [
 
     ]
-    //  initialVariables || [],
+    
   );
   const [isVariablesVisible, setIsVariablesVisible] = useState<boolean>(true);
 
-  /*
-  useEffect(() => {
-      updateURL("graphql", currentEndpoint, blurredBody, headers, variables);
-    }, [blurredBody]);
-  */
+ 
   const handleBodyUpdate = (updatedBody: string) => {
     setBody(updatedBody);
   };
@@ -177,6 +165,166 @@ function extractBodyAndVariables(
 
 
 
+
+/*
+ useEffect(() => {
+    const segments = pathname.split("/");
+    const bodyBase64String = segments.pop();
+    const endpointBase64String = segments.pop();
+
+    if (endpointBase64String && bodyBase64String) {
+      try {
+        const decodedUrl = decodeBase64(endpointBase64String);
+        const decodedBody = decodeBase64(bodyBase64String);
+
+        const bodyJson = JSON.parse(decodedBody);
+        setRequestData((prevState) => ({
+          ...prevState,
+          url: decodedUrl,
+          schema: bodyJson.query || "query {}",
+          variables: JSON.stringify(bodyJson.variables || {}, null, 2),
+        }));
+
+        const params = new URLSearchParams(searchParam.toString());
+
+        const result: Row[] = [];
+        for (const [key, value] of params.entries()) {
+          if (key) {
+            result.push({ key, value });
+          }
+        }
+        result.push({ key: "", value: "" });
+        setRows(result);
+
+        const headersObject: Record<string, string> = result.reduce(
+          (acc, { key, value }) => {
+            if (key) {
+              acc[key] = value;
+            }
+            return acc;
+          },
+          {} as Record<string, string>,
+        );
+
+        const handleReceive = async () => {
+          const client = new ApolloClient({
+            cache: new InMemoryCache(),
+            link: new HttpLink({
+              uri: decodedUrl,
+              headers: headersObject,
+            }),
+          });
+
+          const CustomQuery = graphql(bodyJson.query);
+          const operationType = bodyJson.query.includes("query")
+            ? "query"
+            : "mutation";
+          try {
+            const parsedVariables = JSON.parse(
+              JSON.stringify(bodyJson.variables || {}, null, 2),
+            );
+
+            let response;
+            if (operationType === "query") {
+              response = await client.query({
+                query: CustomQuery,
+                variables: parsedVariables,
+                context: {
+                  fetchOptions: {
+                    next: { revalidate: 10 },
+                  },
+                },
+              });
+            } else if (operationType === "mutation") {
+              response = await client.mutate({
+                mutation: CustomQuery,
+                variables: parsedVariables,
+                context: {
+                  fetchOptions: {
+                    next: { revalidate: 10 },
+                  },
+                },
+              });
+            }
+
+            setData(response!.data);
+            setStatusCode(200);
+          } catch (error: any) {
+            console.error("Ошибка запроса:", error);
+            setStatusCode(error.networkError?.statusCode || 500);
+          }
+        };
+        handleReceive();
+      } catch (error) {
+        console.error("Ошибка при декодировании или парсинге:", error);
+      }
+    }
+  }, [pathname, searchParam]);
+*/
+const pathname = usePathname();
+useEffect(()=> {
+  const segments = pathname.split("/");
+  const bodyBase64String = segments.pop();
+  const endpointBase64String = segments.pop();
+
+  if (endpointBase64String && bodyBase64String) {
+    try {
+      const decodedUrl = decodeBase64(endpointBase64String);
+      /*
+      DECODED savda "{\"body\":\"{\\n  \\\"csa\\\": \\\"{{csa}}\\\"\\n}\",\"variables\":[{\"key\":\"csa\",\"value\":\"sca\",\"included\":true}]}" JSON {"body":"{\n  \"csa\": \"{{csa}}\"\n}","variables":[{"key":"csa","value":"sca","included":true}]}
+      */
+   //   const decodedBody = decodeBase64(bodyBase64String) as string;
+   const decodedBody = decodeBase64(bodyBase64String);
+      const bodyJson = JSON.parse(decodedBody);
+      console.log("DECODED", decodedUrl, JSON.stringify(decodedBody),"JSON", JSON.stringify(bodyJson))
+     console.log( bodyJson.variables )
+      setEndpoint(decodedUrl)
+      setVariables(bodyJson.variables )
+   //   setVariables
+    } catch(e) {
+
+    }
+  }
+}, [pathname, searchParams])
+/*
+const encodedUrlArray = Array.isArray(encodedUrl) ? encodedUrl : [];
+console.log("ENCODED URL ARRAY", encodedUrlArray)
+let endpoint = "";
+ 
+let initialVariables: Variable[] = [];
+
+if (encodedUrlArray.length === 1) {
+  const singleEncoded = encodedUrlArray[0];
+  const decodedString = decodeBase64(singleEncoded);
+
+  try {
+    const parsedData = JSON.parse(decodedString);
+
+    if (
+      parsedData &&
+      typeof parsedData === "object" &&
+      !Array.isArray(parsedData)
+    ) {
+      body = parsedData.body || null;
+      initialVariables = parsedData.variables || [];
+      console.log("DECODEEEEEE", body, initialVariables)
+    } else {
+      endpoint = decodedString;
+    }
+  } catch (error) {
+    console.error("Error parsing single encoded parameter:", error);
+    endpoint = decodedString;
+  }
+} else if (encodedUrlArray.length === 2) {
+  const [encodedEndpoint, encodedData] = encodedUrlArray;
+  endpoint = decodeBase64(encodedEndpoint);
+  const extractedData = extractBodyAndVariables(encodedData);
+  body = extractedData.body;
+  initialVariables = extractedData.variables;
+}
+useEffect(() => {
+  updateURL(currentMethod, currentEndpoint, blurredBody, headers, variables);
+}, [blurredBody]); */
   return (
 
     <section className={styles.content}>
@@ -278,7 +426,7 @@ function extractBodyAndVariables(
 }
 
 export default GrafQlContent; 
-
+ 
 
 /* http://localhost:5137/GRAPHQL/{endpointUrlBase64encoded}/{bodyBase64encoded}?header1=header1value&header2=header2value...
   const handleSubmit = async (event: React.FormEvent) => {
