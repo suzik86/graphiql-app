@@ -6,19 +6,11 @@ import styles from "./GraphQlContent.module.scss"
 import VariableEditor from "./VariablesEditor"
 import HeaderEditor from "./HeaderEditor"
 import RequestHandler from "./RequestHandler"
-import RequestBodyEditor from "./RequestBodyEditor"
+ 
 import { useParams, useSearchParams } from "next/navigation";
 
 
-
-
-
-
-import { ApolloClient, HttpLink, InMemoryCache } from "@apollo/client";
-import { graphql } from "gql.tada";
-import { useLocale } from "next-intl";
-import { usePathname, useRouter } from "next/navigation";
-import { buildClientSchema, getIntrospectionQuery } from "graphql";
+ 
 import QueryEditor from "./QueryEditor"
 import SdlEditor from "./SdlEditor"
 import RequestHandlerSdl from "./RequestHandlerSdl"
@@ -44,34 +36,16 @@ interface ExtractedData {
   body: object | null;
   variables: Variable[];
 }
-
-/*
-const getHeadersFromParams = (searchParams: URLSearchParams): Header[] => {
-  return Array.from(searchParams.entries()).reduce<Header[]>(
-    (acc, [key, value]) => {
-      if (
-        key !== "method" &&
-        key !== "encodedEndpoint" &&
-        key !== "encodedData"
-      ) {
-        acc.push({ key, value: decodeURIComponent(value), included: true });
-      }
-      return acc;
-    },
-    [],
-  );
-}; */
+ 
 const GrafQlContent = () => {
- /* const [headers, setHeaders] = useState<Header[]>(
-    getHeadersFromParams(searchParams),
-  ); */
+ 
   const [headers, setHeaders] = useState<Header[]>(
     [{
       key: "",
       value: "",
       included: false
     }]
-    // getHeadersFromParams(searchParams),
+ 
   );
   const [currentEndpoint, setEndpoint] = useState("")
   const searchParams = useSearchParams();
@@ -92,11 +66,8 @@ const GrafQlContent = () => {
   );
   const [isVariablesVisible, setIsVariablesVisible] = useState<boolean>(true);
 
-  useEffect(() => {
-    updateURL("graphql", currentEndpoint, currentBody, headers, variables);
-  }, [currentEndpoint, headers, variables, currentBody]);
   /*
-    useEffect(() => {
+  useEffect(() => {
       updateURL("graphql", currentEndpoint, blurredBody, headers, variables);
     }, [blurredBody]);
   */
@@ -119,14 +90,32 @@ const GrafQlContent = () => {
   };
   const requestHandlerSdlRef = useRef<React.ElementRef<typeof RequestHandlerSdl>>(null);
   const [sdlEndpoint, setSdlEndpoint] = useState("")
-  const handleChangeSdlEndpoint = (value: string) => {
-   setSdlEndpoint(value)
-  }
+  
   const sendRequestSdl = (endpoint: string) => {
-
-    console.log(endpoint)
-  requestHandlerSdlRef.current?.sendRequest(endpoint);
+    requestHandlerSdlRef.current?.sendRequest(endpoint);
   };
+ 
+useEffect(() => {
+  setBody(prev => {
+    if (typeof prev === 'object' && prev !== null) {
+    
+      return {
+        ...prev,
+        schema: schema
+      };
+    } else {
+     
+      return {
+        schema: schema
+      };
+    }
+  });
+}, [schema]);
+
+  useEffect(() => {
+    console.log("BOD", JSON.stringify(currentBody))
+    updateURL("graphql", currentEndpoint, currentBody, headers, variables);
+  }, [currentEndpoint, schema, headers, variables, currentBody]);
   return (
 
     <section className={styles.content}>
@@ -151,23 +140,22 @@ const GrafQlContent = () => {
 
               currentEndpoint={sdlEndpoint}
               setEndpoint={setSdlEndpoint}
-            //  setEndpoint={handleChangeSdlEndpoint}
-        //      setEndpoint={setEndpoint}
+           
               onSendRequest={sendRequestSdl}
 
             />
           </div>
 
           <HeaderEditor
-            title={"Headers"} // название секции
-            //    method={"graphql"} // метод
+            title={"Headers"}  
+         
             method={currentMethod}
 
-            endpoint={currentEndpoint} // url 
-            body={currentBody} // тело 
-            headers={headers} // заголовки
-            setHeaders={setHeaders} // установить заголовки
-            variables={variables} // переменные
+            endpoint={currentEndpoint} 
+            body={currentBody} 
+            headers={headers}  
+            setHeaders={setHeaders}  
+            variables={variables}  
           />
 
           <div
@@ -229,3 +217,26 @@ const GrafQlContent = () => {
 }
 
 export default GrafQlContent; 
+
+
+/* http://localhost:5137/GRAPHQL/{endpointUrlBase64encoded}/{bodyBase64encoded}?header1=header1value&header2=header2value...
+  const handleSubmit = async (event: React.FormEvent) => {
+    event.preventDefault();
+
+    const { url, schema, variables, headers } = requestData;
+    const encodedUrl = encodeBase64(url);
+
+    const requestBody = JSON.stringify({
+      query: schema,
+      variables: JSON.parse(variables),
+    });
+    const encodedBody = encodeBase64(requestBody);
+
+    const parsedHeaders = JSON.parse(headers);
+    const queryParams = new URLSearchParams(parsedHeaders).toString();
+
+    const graphqlUrl = `/${localActive}/GRAPHQL/${encodedUrl}/${encodedBody}?${queryParams}`;
+    router.push(graphqlUrl);
+  };
+
+  */
