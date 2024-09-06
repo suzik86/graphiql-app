@@ -25,7 +25,7 @@ interface RequestHandlerProps {
 
 const RequestHandlerSdl = forwardRef<
   {
-    sendRequest: () => void;
+    sendRequest: (endpoint: string) => void;
   },
   RequestHandlerProps
 >(
@@ -60,19 +60,42 @@ const RequestHandlerSdl = forwardRef<
       });
       return updatedText;
     };
-
     const sendRequest = async () => {
+if(endpoint.includes("sdl")) {
 
-      console.log(method)
-      console.log(111)
+  console.log(method)
+  console.log(111)
 
- 
+      console.log("ENDPOINT", endpoint)
+
+      const response = await fetch(endpoint, {
+        method: 'Post',
+        headers: {
+          'Content-Type': 'application/json',
+
+        },
+        body: JSON.stringify({
+          query: getIntrospectionQuery(),
+        }),
+      });
+
+
+      const results = await response.json()
+      const schema = buildClientSchema(results.data)
+
+      console.log(schema)
+      setResponse(JSON.stringify(schema))
+    }
+      //    setSdl(JSON.stringify(schema))
+      // return schema
+
     };
-
     useImperativeHandle(ref, () => ({
       sendRequest,
     }));
 
+    /*
+*/
     const getStatusClassName = (status: number | null) => {
       if (status === null) return styles.response__status__default;
       if (status >= 200 && status < 300)
@@ -92,7 +115,11 @@ const RequestHandlerSdl = forwardRef<
         return jsonString;
       }
     };
-
+    if (!response  ) {
+      return (
+        <></>
+      )
+    }
     return (
       <div className={styles.response}>
         <p className={styles.response__title}>Documentation (Sdl) </p>

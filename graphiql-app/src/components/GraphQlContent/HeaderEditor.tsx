@@ -1,9 +1,10 @@
 import React, { useCallback } from "react";
 import styles from "./HeaderEditor.module.scss";
 import KeyValueEditor from "./KeyValueEditor";
-import { Header, Variable } from "./RestClient";
+//import { Header, Variable } from "./RestClient";
+import { Header, Variable } from "./GraphQlContent";
 import { updateURL } from "../../utils/urlUpdater";
-
+//import Header
 type HeaderEditorProps = {
   title: string;
   method: string;

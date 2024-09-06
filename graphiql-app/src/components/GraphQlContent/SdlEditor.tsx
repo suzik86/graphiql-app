@@ -6,7 +6,7 @@ interface UrlEditorProps {
   setMethod: React.Dispatch<React.SetStateAction<string>> | null;
   currentEndpoint: string;
   setEndpoint: React.Dispatch<React.SetStateAction<string>>;
-  onSendRequest: () => void;
+  onSendRequest: (endpoint: string) => void;
 }
 
 const SdlEditor: React.FC<UrlEditorProps> = ({
@@ -31,7 +31,7 @@ const SdlEditor: React.FC<UrlEditorProps> = ({
       />
       <button
         onClick={() => {
-          onSendRequest();
+         onSendRequest(currentEndpoint);
         }}
         className={styles.editor__button}
       >

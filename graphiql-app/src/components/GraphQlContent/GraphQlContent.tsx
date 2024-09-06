@@ -62,7 +62,9 @@ const getHeadersFromParams = (searchParams: URLSearchParams): Header[] => {
   );
 }; */
 const GrafQlContent = () => {
-
+ /* const [headers, setHeaders] = useState<Header[]>(
+    getHeadersFromParams(searchParams),
+  ); */
   const [headers, setHeaders] = useState<Header[]>(
     [{
       key: "",
@@ -116,9 +118,14 @@ const GrafQlContent = () => {
     requestHandlerRef.current?.sendRequest();
   };
   const requestHandlerSdlRef = useRef<React.ElementRef<typeof RequestHandlerSdl>>(null);
-  const [sdlSchema, setSdlSchema] = useState("")
-  const sendRequestSdl = () => {
-    requestHandlerSdlRef.current?.sendRequest();
+  const [sdlEndpoint, setSdlEndpoint] = useState("")
+  const handleChangeSdlEndpoint = (value: string) => {
+   setSdlEndpoint(value)
+  }
+  const sendRequestSdl = (endpoint: string) => {
+
+    console.log(endpoint)
+  requestHandlerSdlRef.current?.sendRequest(endpoint);
   };
   return (
 
@@ -142,9 +149,11 @@ const GrafQlContent = () => {
               currentMethod={currentMethod}
               setMethod={setMethod}
 
-              currentEndpoint={sdlSchema}
-              setEndpoint={setEndpoint}
-              onSendRequest={sendRequest}
+              currentEndpoint={sdlEndpoint}
+              setEndpoint={setSdlEndpoint}
+            //  setEndpoint={handleChangeSdlEndpoint}
+        //      setEndpoint={setEndpoint}
+              onSendRequest={sendRequestSdl}
 
             />
           </div>
@@ -223,12 +232,13 @@ const GrafQlContent = () => {
           <RequestHandlerSdl
             schema={String(schema)}
             method={currentMethod}
-            endpoint={currentEndpoint}
+        //    endpoint={currentEndpoint}
+        endpoint={sdlEndpoint}
             headers={headers}
             body={blurredBody}
             editorMode={editorMode}
             variables={variables}
-            ref={requestHandlerRef}
+            ref={requestHandlerSdlRef}
 
           />
 
