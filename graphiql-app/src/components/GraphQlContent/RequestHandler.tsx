@@ -60,8 +60,7 @@ const RequestHandler = forwardRef<
     
         const CustomQuery = graphql(String(schema));
         const operationType = method;
-    
-        // Transform variables array into an object
+     
         const parsedVariables = variables.reduce(
           (acc, { key, value, included }) => {
             if (included) {
@@ -108,63 +107,6 @@ const RequestHandler = forwardRef<
       }
     };
     
-    /*
-
-    const sendRequest = async () => {
-
-      console.log("VAR", variables)
-      try {
-        const client = new ApolloClient({
-          cache: new InMemoryCache(),
-          link: new HttpLink({
-            uri: endpoint,
-          }),
-        });
-    
-        const CustomQuery = graphql(String(schema));
-        const operationType = method;
-    
-        let response;
-    
-        if (operationType === "query") {
-          response = await client.query({
-            query: CustomQuery,
-            variables: {userId: 1},
-         //   variables: parsedVariables,
-            context: {
-              fetchOptions: {
-                next: { revalidate: 10 },
-              },
-            },
-          });
-    
-         
-          setStatus(response.errors ? 400 : 200);
-        } else if (operationType === "mutation") {
-          response = await client.mutate({
-            mutation: CustomQuery,
-            context: {
-              fetchOptions: {
-                next: { revalidate: 10 },
-              },
-            },
-          });
-    
-       
-          setStatus(response.errors ? 400 : 200);
-        }
-    
-        setResponse(JSON.stringify(response));
-      } catch (error: any) {
-        console.error("Ошибка запроса:", error);
-    
-   
-        setStatus(500);
-    
-        setResponse(error.message);
-      }
-    };
-    */
 
     useImperativeHandle(ref, () => ({
       sendRequest,

@@ -162,6 +162,7 @@ const GrafQlContent = () => {
             editorMode={"graphql"}
             setEditorMode={setEditorMode}
             handleChangeSchema={setSchema}
+            method={currentMethod}
           />
           {JSON.stringify(schema)}
           <RequestHandler
