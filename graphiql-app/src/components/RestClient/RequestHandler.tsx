@@ -1,4 +1,4 @@
-import React, { useState, forwardRef, useImperativeHandle } from "react";
+import React, { useState, useImperativeHandle } from "react";
 import styles from "./RequestHandler.module.scss";
 import { encodeBase64 } from "../../utils/base64";
 import RequestBodyEditor from "./RequestBodyEditor";
@@ -12,7 +12,7 @@ interface RequestHandlerProps {
   variables: { key: string; value: string; included: boolean }[];
 }
 
-const RequestHandler = forwardRef<
+const RequestHandler = React.forwardRef<
   {
     sendRequest: () => void;
   },

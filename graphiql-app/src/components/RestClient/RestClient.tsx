@@ -133,9 +133,11 @@ const RestClient: React.FC = () => {
   };
 
   const sendRequest = () => {
-    requestHandlerRef.current?.sendRequest();
+    if (requestHandlerRef.current) {
+      requestHandlerRef.current.sendRequest();
+    }
   };
-
+  
   return (
     <section className={styles.content}>
       <div className={styles.content__inner}>
