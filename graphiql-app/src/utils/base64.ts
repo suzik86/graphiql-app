@@ -24,7 +24,7 @@ export function decodeBase64(str: string): string {
       return decodeURIComponent(escape(atob(paddedStr)));
     } catch (e) {
       console.error("Base64 decoding failed:", e);
-      return ""; 
+      return "";
     }
   } else {
     // Server-side environment
@@ -33,7 +33,7 @@ export function decodeBase64(str: string): string {
       return Buffer.from(decodedStr, "base64").toString("utf-8");
     } catch (e) {
       console.error("Base64 decoding failed on server:", e);
-      return ""; 
+      return "";
     }
   }
 }
