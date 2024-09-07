@@ -80,7 +80,7 @@ const RequestBodyEditor: React.FC<RequestBodyEditorProps> = ({
       const contentHeight = editor.getContentHeight();
       const newHeight = Math.min(Math.max(contentHeight, 200), maxHeight);
       setEditorHeight(newHeight);
-      //   checkPlaceholder();
+   
     });
   };
 
