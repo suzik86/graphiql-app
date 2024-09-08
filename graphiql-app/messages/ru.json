@@ -81,5 +81,21 @@
   "ErrorPage": {
     "oops": "Упсс",
     "retry": "Попробовать снова"
+  },
+  "GraphQl": {
+    "title": "GraphQl клиент",
+    "send": "Отправить",
+    "sdl": "Получить схему",
+    "headers": "Заголовки",
+    "variables": "Переменные",
+    "editor": "Редактор запроса",
+    "response": "Ответ",
+    "status": "Статус",
+    "body": "Тело",
+    "add-header": "Добавить",
+    "add-variable": "Добавить",
+    "Delete": "Удалить",
+    "Documentation": "Документация (Sdl)",
+      "beautify": "Форматировать"
   }
 }

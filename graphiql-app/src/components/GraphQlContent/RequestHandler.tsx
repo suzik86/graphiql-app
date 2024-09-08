@@ -3,7 +3,7 @@ import styles from "./RequestHandler.module.scss";
 import RequestBodyEditor from "./RequestBodyEditor";
 import { ApolloClient, HttpLink, InMemoryCache } from "@apollo/client";
 import { graphql } from "gql.tada";
-
+import { useTranslations } from "next-intl";
 interface RequestHandlerProps {
   schema: string;
   method: string;
@@ -57,10 +57,10 @@ const RequestHandler = forwardRef<
             uri: endpoint,
           }),
         });
-    
+
         const CustomQuery = graphql(String(schema));
         const operationType = method;
-     
+
         const parsedVariables = variables.reduce(
           (acc, { key, value, included }) => {
             if (included) {
@@ -70,10 +70,11 @@ const RequestHandler = forwardRef<
           },
           {} as { [key: string]: string }
         );
-    
+
         let response;
-    
+
         if (operationType === "query") {
+          console.log("QUERU", CustomQuery)
           response = await client.query({
             query: CustomQuery,
             variables: parsedVariables,
@@ -83,7 +84,7 @@ const RequestHandler = forwardRef<
               },
             },
           });
-    
+
           setStatus(response.errors ? 400 : 200);
         } else if (operationType === "mutation") {
           response = await client.mutate({
@@ -95,10 +96,10 @@ const RequestHandler = forwardRef<
               },
             },
           });
-    
+
           setStatus(response.errors ? 400 : 200);
         }
-    
+
         setResponse(JSON.stringify(response));
       } catch (error: any) {
         console.error("Request error:", error);
@@ -106,7 +107,7 @@ const RequestHandler = forwardRef<
         setResponse(error.message);
       }
     };
-    
+
 
     useImperativeHandle(ref, () => ({
       sendRequest,
@@ -131,13 +132,13 @@ const RequestHandler = forwardRef<
         return jsonString;
       }
     };
-
+    const t = useTranslations("GraphQl");
     return (
       <div className={styles.response}>
-        <p className={styles.response__title}>Response</p>
+        <p className={styles.response__title}>{t("response")}</p>
 
         <div className={styles.response__status}>
-          <p className={styles.response__status__text}>Status:</p>
+          <p className={styles.response__status__text}>{t("status")}:</p>
           <div
             className={`${styles.response__status__code} ${getStatusClassName(status)}`}
           >
@@ -146,7 +147,7 @@ const RequestHandler = forwardRef<
         </div>
 
         <RequestBodyEditor
-          title={"Body"}
+          title={t("body")}
           body={formatJson(response)}
           editorMode="json"
           readOnly={true}
@@ -159,4 +160,3 @@ const RequestHandler = forwardRef<
 export default RequestHandler;
 
 
- 

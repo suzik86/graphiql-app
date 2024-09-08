@@ -1,0 +1,25 @@
+.info {
+  width: 100vw;
+  margin-top: 50px;
+}
+.info__inner {
+  padding: 48px 0;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  background-color: #313130;
+}
+.info__images {
+  display: flex;
+  justify-content: center;
+  -moz-column-gap: 68px;
+       column-gap: 68px;
+}
+.info__title {
+  font-weight: 500;
+  font-size: 36px;
+  text-align: center;
+  color: #fbf5f5;
+  margin-bottom: 60px;
+  font-family: "Nunito", sans-serif;
+}/*# sourceMappingURL=AboutUsComponent.module.css.map */

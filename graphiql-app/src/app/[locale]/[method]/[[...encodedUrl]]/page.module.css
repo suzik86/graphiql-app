@@ -1,0 +1,18 @@
+.content__background {
+  position: absolute;
+  left: 0;
+  top: 0;
+  background-color: #2c2c2c;
+  height: 100%;
+  width: 100%;
+  z-index: -1;
+}
+.content__theme {
+  display: flex;
+  flex-direction: column;
+  min-height: 100%;
+}
+.content__inner {
+  position: relative;
+  flex-grow: 1;
+}/*# sourceMappingURL=page.module.css.map */

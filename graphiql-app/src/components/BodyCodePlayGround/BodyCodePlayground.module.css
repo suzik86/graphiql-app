@@ -1,0 +1,13 @@
+.code {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+.code__title {
+  color: #fbf5f5;
+  font-size: 32px;
+  text-align: left;
+  font-family: "Nunito", sans-serif;
+  margin-bottom: 10px;
+}/*# sourceMappingURL=BodyCodePlayground.module.css.map */

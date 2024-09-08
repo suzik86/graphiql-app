@@ -1,6 +1,6 @@
 import React from "react";
 import styles from "./UrlEditor.module.scss";
-
+import { useTranslations } from "next-intl";
 interface UrlEditorProps {
   currentMethod: string;
   setMethod: React.Dispatch<React.SetStateAction<string>> | null;
@@ -10,14 +10,15 @@ interface UrlEditorProps {
 }
 
 const SdlEditor: React.FC<UrlEditorProps> = ({
- 
+
   currentEndpoint,
   setEndpoint,
   onSendRequest,
 }) => {
+  const t = useTranslations("GraphQl");
   return (
     <div className={styles.editor}>
- 
+
 
       <input
         type="text"
@@ -30,11 +31,11 @@ const SdlEditor: React.FC<UrlEditorProps> = ({
       />
       <button
         onClick={() => {
-         onSendRequest(currentEndpoint);
+          onSendRequest(currentEndpoint);
         }}
         className={styles.editor__button}
       >
-       Get schema
+        {t("sdl")}
       </button>
     </div>
   );

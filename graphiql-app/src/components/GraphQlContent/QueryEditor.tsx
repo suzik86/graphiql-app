@@ -1,9 +1,8 @@
-
-import React, { useEffect, useRef, useState } from "react";
+import React, { useRef, useState, useEffect } from "react";
 import { Editor, type Monaco } from "@monaco-editor/react";
 import * as monaco from "monaco-editor";
-import styles from "./RequestBodyEditor.module.scss";
 import { parse, print } from 'graphql';
+import styles from "./RequestBodyEditor.module.scss";
 
 const myCustomTheme: monaco.editor.IStandaloneThemeData = {
   base: "vs-dark",
@@ -41,56 +40,49 @@ type Variable = {
 type RequestBodyEditorProps = {
   title: string;
   body: object | string | null;
-  setBlurredBody?: React.Dispatch<React.SetStateAction<string>>;
+  setBlurredBody?: React.Dispatch<React.SetStateAction<object | string | null>>;
+  setSchema?: React.Dispatch<React.SetStateAction<string>>;
   variables?: Variable[];
-  editorMode: "graphql" | "json" | "text";
+  editorMode: "json" | "text" | "graphql";
   setEditorMode?: (mode: "json" | "text") => void;
   readOnly?: boolean;
-  handleChangeSchema: (schema: string) => void;
-  method: string;
   schema: string;
+  method: string;
 };
 
 const QueryEditor: React.FC<RequestBodyEditorProps> = ({
   title,
-  setBlurredBody = () => { },
-  editorMode,
+  body,
+  setBlurredBody = () => {},
+  setSchema = () => {},
   readOnly = false,
-  handleChangeSchema,
+  editorMode,
+  setEditorMode = () => {},
+  schema,
   method,
-  schema, // добавил schema в параметры
 }) => {
   const editorRef = useRef<monaco.editor.IStandaloneCodeEditor | null>(null);
   const [editorHeight, setEditorHeight] = useState<number>(200);
-  const [editorValue, setEditorValue] = useState(schema || ""); // инициализация из schema
   const maxHeight = 500;
 
   useEffect(() => {
-    setEditorValue(`${method} {\n\n}`);
-  }, [method]);
-
-  // Следим за изменением schema и обновляем editorValue
-  useEffect(() => {
-    setEditorValue(schema || "");
     if (editorRef.current) {
-      editorRef.current.setValue(schema || "");
+      editorRef.current.setValue(body as string);
     }
-  }, [schema]);
+  }, [body]);
 
-  const handleEditorDidMount = (
-    editor: monaco.editor.IStandaloneCodeEditor
-  ) => {
+  const handleEditorDidMount = (editor: monaco.editor.IStandaloneCodeEditor) => {
     editorRef.current = editor;
 
-    if (readOnly) {
-      editor.updateOptions({ readOnly: true });
-    }
+    editor.onDidChangeModelContent(() => {
+      const content = editorRef.current?.getValue() || "";
+      console.log("Editor content:", content);
+      setSchema(content);
+    });
 
     editor.onDidBlurEditorWidget(() => {
-      if (!readOnly) {
-        const latestBody = editorRef.current?.getValue() || "";
-        setBlurredBody(latestBody);
-      }
+      const latestBody = editorRef.current?.getValue() || "";
+      setBlurredBody(latestBody);
     });
 
     editor.onDidContentSizeChange(() => {
@@ -99,6 +91,39 @@ const QueryEditor: React.FC<RequestBodyEditorProps> = ({
       setEditorHeight(newHeight);
     });
   };
+/*
+  const handleBeautify = async () => {
+    const editor = editorRef.current;
+    if (editor && editorMode === "graphql") {
+      try {
+        const formatAction = editor.getAction("editor.action.formatDocument");
+        if (formatAction) {
+          await formatAction.run();
+        } else {
+          console.warn("Format action is not available for the current editor instance.");
+        }
+      } catch (error) {
+        console.error("Error formatting document:", error);
+      }
+    }
+  };
+*/
+
+const handleBeautify = () => {
+  try {
+    if (editorRef.current) {
+      const currentSchema = editorRef.current.getValue();   
+      const ast = parse(currentSchema);   
+      const formatted = print(ast);   
+      setSchema(formatted)
+   //   handleChangeSchema(formatted);  
+      editorRef.current.setValue(formatted);  
+    }
+  } catch (error) {
+    setSchema("Something went wrong...")
+    console.error('Error formatting code:', error);
+  }
+};
 
   const handleEditorTheme = (monaco: Monaco) => {
     monaco.editor.defineTheme("myCustomTheme", {
@@ -109,102 +134,56 @@ const QueryEditor: React.FC<RequestBodyEditorProps> = ({
       tsx: "react",
     });
   };
-/*
-  const handleBeautify = () => {
-    try {
-      if (editorRef.current) {
-        const currentSchema = editorRef.current.getValue();
-        const ast = parse(currentSchema);
-        const formatted = print(ast);
-        handleChangeSchema(formatted);
-        editorRef.current.setValue(formatted);
-      }
-    } catch (error) {
-      console.error('Error formatting code:', error);
-      handleChangeSchema("Something went wrong...");
-    }
-  };
-*/
-const handleBeautify = () => {
-  try {
-    if (editorRef.current) {
-      const currentSchema = editorRef.current.getValue();
-      let formatted = currentSchema;
-
-      // Парсинг и форматирование
-      const ast = parse(currentSchema);
-      formatted = print(ast);
-
-      // Если ключевое слово `query` отсутствует и тело запроса начинается с {, добавляем его
-      if (!formatted.startsWith('query') && formatted.trim().startsWith('{')) {
-        formatted = `query ${formatted}`;
-      }
-
-      handleChangeSchema(formatted);
-      editorRef.current.setValue(formatted);
-    }
-  } catch (error) {
-    console.error('Error formatting code:', error);
-    handleChangeSchema("Something went wrong...");
-  }
-};
 
   const handleEditorChange = (value: string | undefined) => {
-    setEditorValue(value || "");
-    handleChangeSchema(value || "");
+    if (value !== undefined) {
+      setSchema(value);
+    }
   };
 
   return (
-    <div className={styles.body}>
-      <p className={styles.body__title}>{title}</p>
-      <div className={styles.body__container}>
-        {!readOnly && (
-          <div className={styles.body__controls}>
-            {editorMode === "graphql" && (
-              <span className={styles.body__beautify} onClick={handleBeautify}>
-                Beautify
-              </span>
-            )}
-          </div>
-        )}
-        <Editor
-          height={editorHeight}
-          language="graphql"
-          theme="myCustomTheme"
-          loading="Loading..."
-          value={editorValue}
-          onMount={handleEditorDidMount}
-          beforeMount={handleEditorTheme}
-          options={{
-            fixedOverflowWidgets: true,
-            placeholder: "Enter your GraphQL query...",
-            minimap: { enabled: false },
-            wordWrap: "on",
-            automaticLayout: true,
-            scrollBeyondLastLine: false,
-            lineNumbers: "on",
-            fontFamily: "Nunito",
-            readOnly,
-            formatOnType: !readOnly,
-            formatOnPaste: readOnly,
-            fontSize: 22,
-          }}
-          onChange={handleEditorChange}
-        />
+    <>
+      <div className={styles.body}>
+        <p className={styles.body__title}>{title}</p>
+        <div className={styles.body__container}>
+          {!readOnly && (
+            <div className={styles.body__controls}>
+              {editorMode === "graphql" && (
+                <span className={styles.body__beautify} onClick={handleBeautify}>
+                  Beautify
+                </span>
+              )}
+            </div>
+          )}
+          <Editor
+            height={editorHeight}
+            language={editorMode}
+            value={schema}
+            theme="myCustomTheme"
+            loading="Loading..."
+            defaultValue={`${method} {\n\n}`}
+            beforeMount={handleEditorTheme}
+            onChange={handleEditorChange}
+            options={{
+              fontSize: 14,
+              minimap: { enabled: false },
+              scrollBeyondLastLine: false,
+            }}
+          />
+        </div>
       </div>
-    </div>
+    </>
   );
 };
 
 export default QueryEditor;
-
-/*
-
-import React, { useEffect, useRef, useState } from "react";
+ 
+ 
+ /*
+import React, { useRef, useState, useEffect } from "react";
 import { Editor, type Monaco } from "@monaco-editor/react";
 import * as monaco from "monaco-editor";
 import styles from "./RequestBodyEditor.module.scss";
-import { parse, print } from 'graphql';
 
 const myCustomTheme: monaco.editor.IStandaloneThemeData = {
   base: "vs-dark",
@@ -242,47 +221,51 @@ type Variable = {
 type RequestBodyEditorProps = {
   title: string;
   body: object | string | null;
-  setBlurredBody?: React.Dispatch<React.SetStateAction<string>>;
+  setBlurredBody?: React.Dispatch<React.SetStateAction<object | string | null>>;
+  setSchema?: React.Dispatch<React.SetStateAction<string>>;
   variables?: Variable[];
-  editorMode: "graphql" | "json" | "text";
+  editorMode: "json" | "text" | "graphql";
   setEditorMode?: (mode: "json" | "text") => void;
   readOnly?: boolean;
-  handleChangeSchema: (schema: string) => void;
-  method: string;
-  schema: string
+  schema: string,
+  method: string
 };
+
 
 const QueryEditor: React.FC<RequestBodyEditorProps> = ({
   title,
+  body,
   setBlurredBody = () => { },
-  editorMode,
+  setSchema = () => { },
   readOnly = false,
-  handleChangeSchema,
-  method,
+  editorMode,
+  setEditorMode = () => { }, schema,
+  method
 }) => {
   const editorRef = useRef<monaco.editor.IStandaloneCodeEditor | null>(null);
   const [editorHeight, setEditorHeight] = useState<number>(200);
-  const [editorValue, setEditorValue] = useState(`${method} {\n\n}`);
   const maxHeight = 500;
 
   useEffect(() => {
-    setEditorValue(`${method} {\n\n}`);
-  }, [method]);
+    if (editorRef.current) {
+      editorRef.current.setValue(body as string);
+    }
+  }, [body]);
 
   const handleEditorDidMount = (
-    editor: monaco.editor.IStandaloneCodeEditor
+    editor: monaco.editor.IStandaloneCodeEditor,
   ) => {
     editorRef.current = editor;
-
-    if (readOnly) {
-      editor.updateOptions({ readOnly: true });
-    }
+ 
+    editor.onDidChangeModelContent(() => {
+      const content = editorRef.current?.getValue() || "";
+      console.log("Editor content:", content);
+      setSchema(content)
+    });
 
     editor.onDidBlurEditorWidget(() => {
-      if (!readOnly) {
-        const latestBody = editorRef.current?.getValue() || "";
-        setBlurredBody(latestBody);
-      }
+      const latestBody = editorRef.current?.getValue() || "";
+      setBlurredBody(latestBody);
     });
 
     editor.onDidContentSizeChange(() => {
@@ -292,6 +275,23 @@ const QueryEditor: React.FC<RequestBodyEditorProps> = ({
     });
   };
 
+ 
+ 
+  const handleBeautify = () => {
+    const editor = editorRef.current;
+    if (editor && editorMode === "graphql") {
+      const formatAction = editor.getAction("editor.action.formatDocument");
+      if (formatAction) {
+        formatAction
+          .run()
+          .catch((error: Error) => {
+            console.error("Error formatting document:", error);
+          });
+      } else {
+        console.warn("Format action is not available for the current editor instance.");
+      }
+    }
+  };
   const handleEditorTheme = (monaco: Monaco) => {
     monaco.editor.defineTheme("myCustomTheme", {
       ...myCustomTheme,
@@ -301,68 +301,45 @@ const QueryEditor: React.FC<RequestBodyEditorProps> = ({
       tsx: "react",
     });
   };
-   
-  const handleBeautify = () => {
-    try {
-      if (editorRef.current) {
-        const currentSchema = editorRef.current.getValue();   
-        const ast = parse(currentSchema);   
-        const formatted = print(ast);   
-        handleChangeSchema(formatted);  
-        editorRef.current.setValue(formatted);  
-      }
-    } catch (error) {
-      console.error('Error formatting code:', error);
-      handleChangeSchema("Something went wrong...");  
-    }
-  };
-  
 
   const handleEditorChange = (value: string | undefined) => {
-    setEditorValue(value || "");
-    handleChangeSchema(value || "");
+    if (value !== undefined) {
+      setSchema(value)
+    }
   };
-
   return (
-    <div className={styles.body}>
-      <p className={styles.body__title}>{title}</p>
-      <div className={styles.body__container}>
-        {!readOnly && (
-          <div className={styles.body__controls}>
-            {editorMode === "graphql" && (
-              <span className={styles.body__beautify} onClick={handleBeautify}>
-                Beautify
-              </span>
-            )}
-          </div>
-        )}
-        <Editor
-          height={editorHeight}
-          language="graphql"
-          theme="myCustomTheme"
-
-          loading="Loading..."
-          value={editorValue}
-          onMount={handleEditorDidMount}
-          beforeMount={handleEditorTheme}
-          options={{
-            fixedOverflowWidgets: true,
-            placeholder: "Enter your GraphQL query...",
-            minimap: { enabled: false },
-            wordWrap: "on",
-            automaticLayout: true,
-            scrollBeyondLastLine: false,
-            lineNumbers: "on",
-            fontFamily: "Nunito",
-            readOnly,
-            formatOnType: !readOnly,
-            formatOnPaste: readOnly,
-            fontSize: 22,
-          }}
-          onChange={handleEditorChange}
-        />
+    <>
+      <div className={styles.body}>
+        <p className={styles.body__title}>{title}</p>
+        <div className={styles.body__container}>
+          {!readOnly && (
+            <div className={styles.body__controls}>
+              {editorMode === "graphql" && (
+                <span className={styles.body__beautify} onClick={handleBeautify}>
+                  Beautify
+                </span>
+              )}
+            </div>
+          )}
+          <Editor
+       
+            height={editorHeight}
+            language={editorMode}
+            value={schema}
+            theme="myCustomTheme"
+            loading="Loading..."
+            defaultValue={`${method} {\n\n}`}
+            beforeMount={handleEditorTheme}
+            onChange={handleEditorChange}
+            options={{
+              fontSize: 14,
+              minimap: { enabled: false },
+              scrollBeyondLastLine: false,
+            }}
+          />
+        </div>
       </div>
-    </div>
+    </>
   );
 };
 

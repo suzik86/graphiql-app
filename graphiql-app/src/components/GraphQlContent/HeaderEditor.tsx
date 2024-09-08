@@ -1,7 +1,7 @@
 import React, { useCallback } from "react";
 import styles from "./HeaderEditor.module.scss";
 import KeyValueEditor from "./KeyValueEditor";
-//import { Header, Variable } from "./RestClient";
+import { useTranslations } from "next-intl";
 import { Header, Variable } from "./GraphQlContent";
 import { updateURL } from "../../utils/urlUpdater";
 //import Header
@@ -30,14 +30,15 @@ export default function HeaderEditor({
     },
     [method, endpoint, body, variables],
   );
-
+  const t = useTranslations("GraphQl");
   return (
     <div className={styles.headers}>
-      <p className={styles.headers__title}>{title}</p>
+      <p className={styles.headers__title}>{t("headers")}</p>
       <KeyValueEditor
         items={headers}
         setItems={setHeaders}
-        itemType="header"
+       itemType="header"
+      
         onUpdateURL={handleUpdateURL}
       />
     </div>

@@ -1,0 +1,16 @@
+.btn {
+  border: none;
+  outline: none;
+  -webkit-user-select: none;
+     -moz-user-select: none;
+          user-select: none;
+  padding: 20px 60px;
+  border-radius: 19px;
+  font-weight: 700;
+  font-size: 36px;
+  text-align: center;
+  color: #fbf5f5;
+  opacity: 0.5;
+  position: absolute;
+  box-shadow: 0 4px 4px 0 rgba(0, 0, 0, 0.25);
+}/*# sourceMappingURL=Button.module.css.map */

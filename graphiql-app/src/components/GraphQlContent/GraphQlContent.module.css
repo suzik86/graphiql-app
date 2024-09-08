@@ -1,0 +1,107 @@
+.content {
+  margin: 47px 0px 190px 0px;
+}
+.content__inputs {
+  display: flex;
+  flex-direction: column;
+  row-gap: 20px;
+}
+.content__inner {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  max-width: 1154px;
+  margin: 0 auto;
+}
+.content__title {
+  font-weight: 700;
+  font-size: 48px;
+  color: #fbf5f5;
+  font-family: "Nunito", sans-serif;
+}
+.content__wrapper {
+  width: 100%;
+}
+.content__background {
+  position: fixed;
+  left: 0;
+  top: 0;
+  background-color: #2c2c2c;
+  height: 100vh;
+  width: 100%;
+  z-index: -1;
+}
+.content__controls {
+  display: flex;
+  margin-bottom: 10px;
+}
+.content__select {
+  margin-right: 10px;
+  padding: 5px;
+}
+.content__input {
+  flex: 1;
+  padding: 5px;
+}
+.content__headers {
+  margin-bottom: 10px;
+}
+.content__headerRow {
+  display: flex;
+  margin-bottom: 5px;
+}
+.content__headerKey, .content__headerValue {
+  flex: 1;
+  padding: 5px;
+  margin-right: 5px;
+}
+.content__addHeaderButton {
+  padding: 5px;
+}
+.content__textarea {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 10px;
+}
+.content__sendButton {
+  padding: 10px 20px;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  cursor: pointer;
+  border-radius: 4px;
+  margin-bottom: 20px;
+}
+.content__sendButton:hover {
+  background-color: #0056b3;
+}
+.content__response {
+  background-color: #e9ecef;
+  padding: 10px;
+  border-radius: 4px;
+}
+.content__status {
+  margin-bottom: 10px;
+}
+.content__responseBody {
+  white-space: pre-wrap;
+  word-wrap: break-word;
+}
+.content__toggle {
+  color: #fbf5f5;
+  font-size: 32px;
+  text-align: left;
+  font-family: "Nunito", sans-serif;
+  margin-bottom: 10px;
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  font-family: "Nunito", sans-serif;
+  position: relative;
+  border-radius: 5px;
+  transition: background-color 0.3s, color 0.3s;
+}
+.content__toggle:hover {
+  color: #6c63ff;
+}/*# sourceMappingURL=GraphQlContent.module.css.map */

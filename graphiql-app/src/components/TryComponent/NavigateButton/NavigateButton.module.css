@@ -1,0 +1,37 @@
+.btn {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #7d81d6;
+  padding: 24px 130px;
+  border: none;
+  outline: none;
+  font-weight: 400;
+  font-size: 48px;
+  color: #000;
+  font-family: "Nunito", sans-serif;
+  border-radius: 15px;
+  cursor: pointer;
+  transition: 0.4s ease-in-out;
+  position: relative;
+  overflow: hidden;
+}
+.btn__inner {
+  transition: 0.4s ease-in-out;
+}
+.btn::after {
+  content: ">";
+  position: absolute;
+  right: 0;
+  transform: translateX(100%);
+  transition: 0.4s ease-in-out;
+}
+.btn:hover {
+  background-color: #464bad;
+}
+.btn:hover .btn__inner {
+  transform: translateX(-30px);
+}
+.btn:hover::after {
+  transform: translateX(-100px);
+}/*# sourceMappingURL=NavigateButton.module.css.map */

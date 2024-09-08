@@ -1,0 +1,110 @@
+@keyframes move1 {
+  0% {
+    transform: translateY(0px) rotate(-9.46deg);
+  }
+  50% {
+    transform: translateY(25px) rotate(-9.46deg);
+  }
+  100% {
+    transform: translateY(0px) rotate(-9.46deg);
+  }
+}
+@keyframes move2 {
+  0% {
+    transform: translateY(0px) rotate(27deg);
+  }
+  50% {
+    transform: translateY(25px) rotate(27deg);
+  }
+  100% {
+    transform: translateY(0px) rotate(27deg);
+  }
+}
+.welcome {
+  margin-top: 50px;
+  display: flex;
+  justify-content: center;
+  width: 100vw;
+}
+.welcome__inner {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  max-width: 1155px;
+  width: 100%;
+}
+.welcome__preview {
+  max-width: 1087px;
+  width: 100%;
+  position: relative;
+}
+.welcome__preview__image {
+  position: absolute;
+}
+.welcome__preview__left {
+  left: 0;
+  top: 0;
+  transform: rotate(-9.46deg);
+  box-shadow: 22px 25px 13px 0 rgba(0, 0, 0, 0.25);
+  border-radius: 17px;
+  animation: move1 5s ease-in-out infinite;
+}
+.welcome__preview__right {
+  right: 0;
+  top: 0;
+  transform: rotate(27deg);
+  box-shadow: -18px 42px 13px 0 rgba(0, 0, 0, 0.25);
+  border-radius: 37px;
+  animation: move2 5s ease-in-out infinite;
+}
+.welcome__title {
+  font-family: "Nunito", sans-serif;
+  font-weight: 700;
+  font-size: 64px;
+  color: #000;
+  margin-bottom: 30px;
+  max-width: 439px;
+  margin: 0 auto;
+}
+.welcome__subtitle {
+  font-family: "Nunito", sans-serif;
+  font-weight: 700;
+  font-size: 35px;
+  text-align: center;
+  color: #000;
+  margin-top: 1px;
+}
+.welcome__btns {
+  display: flex;
+  -moz-column-gap: 46px;
+       column-gap: 46px;
+  margin-top: 48px;
+  justify-content: center;
+}
+
+.links__wrapper {
+  display: flex;
+  justify-content: center;
+  margin-top: 48px;
+  -moz-column-gap: 48px;
+       column-gap: 48px;
+}
+
+.link {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 10px 50px;
+  cursor: pointer;
+  font-weight: 400;
+  font-size: 36px;
+  color: #000;
+  font-family: "Nunito", sans-serif;
+  background-color: #7d81d6;
+  border-radius: 15px;
+  transition: 0.4s ease-in-out;
+}
+.link:hover {
+  background-color: #464bad;
+}/*# sourceMappingURL=MainPage.module.css.map */

@@ -1,0 +1,51 @@
+.editor {
+  max-width: 558px;
+  width: 100%;
+  background-color: #212121;
+  display: flex;
+  border-radius: 5px;
+}
+.editor__input {
+  flex-grow: 1;
+  border: none;
+  outline: none;
+  background-color: transparent;
+  color: #fbf5f5;
+  padding: 8px 20px;
+}
+.editor__select {
+  background-color: transparent;
+  color: #fbf5f5;
+  border: 1px solid #fbf5f5;
+  border-radius: 5px;
+  padding: 8px 20px;
+  cursor: pointer;
+  -webkit-appearance: none;
+     -moz-appearance: none;
+          appearance: none;
+  outline: none;
+  transition: background-color 0.4s ease-in-out, color 0.4s ease-in-out;
+}
+.editor__select:hover {
+  background-color: #464bad;
+}
+.editor__select:focus {
+  outline: 2px solid #464bad;
+}
+.editor__button {
+  margin: 4px 7px 4px 0px;
+  cursor: pointer;
+  background-color: #7d81d6;
+  border: none;
+  outline: none;
+  display: flex;
+  padding: 4px 21px;
+  font-weight: 400;
+  font-size: 20px;
+  color: #fbf5f5;
+  border-radius: 5px;
+  transition: 0.4s ease-in-out;
+}
+.editor__button:hover {
+  background-color: #464bad;
+}/*# sourceMappingURL=UrlEditor.module.css.map */

@@ -81,5 +81,21 @@
   "ErrorPage": {
     "oops": "Ooooops",
     "retry": "Retry"
+  },
+  "GraphQl": {
+    "title": "GraphQl client",
+    "send": "Send",
+    "sdl": "Get schema",
+    "headers": "Headers",
+    "variables": "Variables",
+    "editor": "Request Editor",
+    "response": "Response",
+    "status": "Status",
+    "body": "Body",
+    "add-header": "header",
+    "add-variable": "variable",
+    "delete": "Delete",
+    "Documentation": "Documentation (Sdl)",
+    "beautify": "Beautify"
   }
 }

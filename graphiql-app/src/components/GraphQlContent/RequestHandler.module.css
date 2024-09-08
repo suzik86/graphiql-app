@@ -1,0 +1,48 @@
+.response {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.response__title {
+  font-weight: 700;
+  font-size: 48px;
+  color: #fbf5f5;
+  font-family: "Nunito", sans-serif;
+}
+.response__status {
+  display: flex;
+  -moz-column-gap: 8px;
+       column-gap: 8px;
+  align-items: center;
+  border-radius: 5px;
+}
+.response__status__text {
+  font-weight: 400;
+  font-size: 24px;
+  color: #fbf5f5;
+  font-family: "Nunito", sans-serif;
+}
+.response__status__code {
+  padding: 5px 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 5px;
+  font-weight: 700;
+  font-size: 20px;
+  font-family: "Nunito", sans-serif;
+  color: #fbf5f5;
+}
+.response__status__default {
+  background-color: #9e9e9e;
+}
+.response__status__success {
+  background-color: #4caf50;
+}
+.response__status__clientError {
+  background-color: #ffeb3b;
+}
+.response__status__serverError {
+  background-color: #ff6b6b;
+}/*# sourceMappingURL=RequestHandler.module.css.map */

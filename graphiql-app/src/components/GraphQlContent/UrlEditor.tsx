@@ -1,6 +1,6 @@
 import React from "react";
 import styles from "./UrlEditor.module.scss";
-
+import { useTranslations } from "next-intl";
 interface UrlEditorProps {
   currentMethod: string;
   setMethod: React.Dispatch<React.SetStateAction<string>> | null;
@@ -16,20 +16,21 @@ const UrlEditor: React.FC<UrlEditorProps> = ({
   setEndpoint,
   onSendRequest,
 }) => {
+  const t = useTranslations("GraphQl");
   return (
     <div className={styles.editor}>
       <select
         value={currentMethod}
         onChange={(e) => {
-          if(setMethod) {
+          if (setMethod) {
             setMethod(e.target.value);
           }
         }}
         className={styles.editor__select}
       >
-       
-         <option value="query">query</option>
-         <option value="mutation">mutation</option>
+
+        <option value="query">query</option>
+        <option value="mutation">mutation</option>
       </select>
 
       <input
@@ -47,7 +48,7 @@ const UrlEditor: React.FC<UrlEditorProps> = ({
         }}
         className={styles.editor__button}
       >
-        Send
+        {t("send")}
       </button>
     </div>
   );

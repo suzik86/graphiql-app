@@ -2,7 +2,7 @@ import React, { useState, forwardRef, useImperativeHandle } from "react";
 import styles from "./RequestHandler.module.scss";
 import RequestBodyEditor from "./RequestBodyEditor";
 import { buildClientSchema, getIntrospectionQuery } from "graphql";
-
+import { useTranslations } from "next-intl";
 interface RequestHandlerProps {
   schema: string;
   method: string;
@@ -21,7 +21,7 @@ const RequestHandlerSdl = forwardRef<
 >(
   (
     {
-      method,
+
       endpoint,
     }: RequestHandlerProps,
     ref,
@@ -67,10 +67,10 @@ const RequestHandlerSdl = forwardRef<
             const schema = buildClientSchema(results.data);
             console.log(schema);
 
-            setStatus(200); // Successful request
+            setStatus(200);
             setResponse(JSON.stringify(schema));
           } else {
-            setStatus(response.status); // Server errors
+            setStatus(response.status);
             setResponse(JSON.stringify(results));
           }
         } catch (error: unknown) {
@@ -84,7 +84,7 @@ const RequestHandlerSdl = forwardRef<
 
           console.error("Request error:", errorMessage);
 
-          setStatus(500); 
+          setStatus(500);
           setResponse(errorMessage);
         }
       }
@@ -117,10 +117,10 @@ const RequestHandlerSdl = forwardRef<
     if (!response) {
       return <></>;
     }
-
+ //   const t = useTranslations("GraphQl");
     return (
       <div className={styles.response}>
-        <p className={styles.response__title}>Documentation (SDL)</p>
+        <p className={styles.response__title}>Documnetation (Sdl)</p>
 
         <div className={styles.response__status}>
           <p className={styles.response__status__text}>Status:</p>
@@ -132,7 +132,7 @@ const RequestHandlerSdl = forwardRef<
         </div>
 
         <RequestBodyEditor
-          title={"Body"}
+          title="Body"
           body={formatJson(response)}
           editorMode="json"
           readOnly={true}
