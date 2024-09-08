@@ -53,6 +53,12 @@
     user-select: none;
     transition: color 0.3s ease-in-out;
 
+    &__icon {
+      margin-left: 3px;
+      width: 15px;
+      height: 15px;
+    }
+
     &:hover {
       color: $btn-active;
     }
