@@ -11,7 +11,7 @@ import QueryEditor from "./QueryEditor";
 import SdlEditor from "./SdlEditor";
 import RequestHandlerSdl from "./RequestHandlerSdl";
 import { decodeBase64 } from "../../utils/base64";
-
+import GraphQLBeautifier from "./Beautifier";
 export interface Header {
   key: string;
   value: string;
@@ -163,8 +163,9 @@ const GrafQlContent = () => {
             setEditorMode={setEditorMode}
             handleChangeSchema={setSchema}
             method={currentMethod}
+            schema={String(schema)}
           />
-          {JSON.stringify(schema)}
+       
           <RequestHandler
             schema={String(schema)}
             method={currentMethod}
@@ -187,6 +188,8 @@ const GrafQlContent = () => {
           />
         </div>
       </div>
+
+      <GraphQLBeautifier />
     </section>
   );
 };

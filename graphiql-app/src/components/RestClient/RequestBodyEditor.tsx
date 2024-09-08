@@ -101,6 +101,7 @@ const RequestBodyEditor: React.FC<RequestBodyEditorProps> = ({
   const handleBeautify = () => {
     const editor = editorRef.current;
     if (editor && editorMode === "json" && !readOnly) {
+      console.log("REF", editorRef.current)
       editor
         .getAction("editor.action.formatDocument")
         ?.run()

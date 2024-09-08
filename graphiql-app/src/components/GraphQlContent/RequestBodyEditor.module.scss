@@ -7,7 +7,6 @@
   flex-direction: column;
   border-radius: 5px;
   height: 100%;
-
   &__title {
     color: $white;
     font-size: 32px;
@@ -52,6 +51,7 @@
     cursor: pointer;
     user-select: none;
     transition: color 0.3s ease-in-out;
+    margin-left: auto;
 
     &:hover {
       color: $btn-active;
