@@ -81,10 +81,6 @@ const RequestBodyEditor: React.FC<RequestBodyEditorProps> = ({
       const contentHeight = editor.getContentHeight();
       const newHeight = Math.min(Math.max(contentHeight, 200), maxHeight);
       setEditorHeight(newHeight);
-<<<<<<< HEAD
-    checkPlaceholder();
-=======
->>>>>>> 29a6bb5572edcf75a08e9f21cbab686b9815043e
     });
   };
 
@@ -106,7 +102,6 @@ const RequestBodyEditor: React.FC<RequestBodyEditorProps> = ({
   const handleBeautify = () => {
     const editor = editorRef.current;
     if (editor && editorMode === "json" && !readOnly) {
-      console.log("REF", editorRef.current)
       editor
         .getAction("editor.action.formatDocument")
         ?.run()
