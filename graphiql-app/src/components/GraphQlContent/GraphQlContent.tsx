@@ -39,7 +39,7 @@ const GrafQlContent = () => {
   const t = useTranslations("GraphQl");
   const searchParams = useSearchParams();
   const pathname = usePathname();
- // const { method } = useParams<{ method: string }>();
+  // const { method } = useParams<{ method: string }>();
 
   const initialState = useMemo(() => {
     const segments = pathname.split("/");
@@ -62,6 +62,8 @@ const GrafQlContent = () => {
 
         if (bodyJson.body && bodyJson.body.schema) {
           schema = bodyJson.body.schema;
+
+        
         }
         headers = getHeadersFromParams(searchParams);
       } catch (e) {
@@ -69,7 +71,7 @@ const GrafQlContent = () => {
       }
     }
 
-    console.log("Initial state:", { headers, currentEndpoint, variables, schema });
+    console.log("Initial state:", { headers, currentEndpoint, variables, schema});
     return { headers, currentEndpoint, variables, schema };
   }, [pathname, searchParams]);
 
@@ -78,7 +80,11 @@ const GrafQlContent = () => {
   const [currentMethod, setMethod] = useState<string>("query ");
   const [currentEndpoint, setEndpoint] = useState<string>(initialState.currentEndpoint);
   const [variables, setVariables] = useState<Variable[]>(initialState.variables);
-  const [schema, setSchema] = useState<object | string>(initialState.schema || currentMethod);
+  // const [schema, setSchema] = useState<object | string>(initialState.schema || currentMethod);
+
+  const [selectedMethod, setSelectedMethod] = useState("query")
+  const [schema, setSchema] = useState<object | string>(initialState.schema || selectedMethod);
+// const [schema, setSchema] = useState<object | string>(String(initialState.schema) );
   const [currentBody, setBody] = useState<object | string | null>(null);
   const [isVariablesVisible, setIsVariablesVisible] = useState<boolean>(true);
   const [editorMode, setEditorMode] = useState<"json" | "text">("json");
@@ -86,10 +92,8 @@ const GrafQlContent = () => {
   const requestHandlerRef = useRef<React.ElementRef<typeof RequestHandler>>(null);
   const requestHandlerSdlRef = useRef<React.ElementRef<typeof RequestHandlerSdl>>(null);
   const [sdlEndpoint, setSdlEndpoint] = useState<string>("");
-useEffect(()=> {
-  //`${e.target.value} {\n\n}`
-  setSchema(`${currentMethod} {\n\n}`)
-}, [currentMethod])
+
+  
   const sendRequest = useCallback(() => {
     requestHandlerRef.current?.sendRequest();
   }, []);
@@ -127,11 +131,14 @@ useEffect(()=> {
           <div className={styles.content__background} />
           <div className={styles.content__inputs}>
             <UrlEditor
-              currentMethod={currentMethod}
-              setMethod={setMethod}
+            
+              setMethod={setSelectedMethod}
+      
+              currentMethod={selectedMethod}
               currentEndpoint={currentEndpoint}
               setEndpoint={setEndpoint}
               onSendRequest={sendRequest}
+              setSchema={setSchema}
             />
             <SdlEditor
               currentMethod={currentMethod}
@@ -165,19 +172,19 @@ useEffect(()=> {
             />
           )}
           <QueryEditor
-          body={schema}
+            body={schema}
             title={t("editor")}
-         //   title={"Request editor"}
+            //   title={"Request editor"}
             variables={variables}
             editorMode={"graphql"}
             setEditorMode={setEditorMode}
             setBlurredBody={setSchema}
             setSchema={setSchema}
-                  method={currentMethod}
+            method={currentMethod}
             schema={String(schema)}
-            />
+          />
 
-        
+
           <RequestHandler
             schema={String(schema)}
             method={currentMethod}

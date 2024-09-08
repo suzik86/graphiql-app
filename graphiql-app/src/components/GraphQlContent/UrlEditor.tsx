@@ -4,6 +4,7 @@ import { useTranslations } from "next-intl";
 interface UrlEditorProps {
   currentMethod: string;
   setMethod: React.Dispatch<React.SetStateAction<string>> | null;
+  setSchema: React.Dispatch<React.SetStateAction<string>>;
   currentEndpoint: string;
   setEndpoint: React.Dispatch<React.SetStateAction<string>>;
   onSendRequest: () => void;
@@ -15,6 +16,7 @@ const UrlEditor: React.FC<UrlEditorProps> = ({
   currentEndpoint,
   setEndpoint,
   onSendRequest,
+  setSchema
 }) => {
   const t = useTranslations("GraphQl");
   return (
@@ -24,8 +26,8 @@ const UrlEditor: React.FC<UrlEditorProps> = ({
         onChange={(e) => {
           if (setMethod) {
             setMethod(e.target.value)
-        //    setMethod(`${e.target.value} {\n\n}`);
-            //`${method} {\n\n}`
+            setSchema(String(e.target.value))
+      
           }
         }}
         className={styles.editor__select}
