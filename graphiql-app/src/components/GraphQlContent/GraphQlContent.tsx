@@ -172,7 +172,7 @@ const GrafQlContent = () => {
           <QueryEditor
             body={schema}
             title={t("editor")}
-            //   title={"Request editor"}
+          
             variables={variables}
             editorMode={"graphql"}
             setEditorMode={setEditorMode}
@@ -185,13 +185,15 @@ const GrafQlContent = () => {
 
           <RequestHandler
             schema={String(schema)}
-            method={currentMethod}
+            method={selectedMethod}
+           
             endpoint={currentEndpoint}
             headers={headers}
             body={currentBody}
             editorMode={editorMode}
             variables={variables}
             ref={requestHandlerRef}
+         
           />
           <RequestHandlerSdl
             schema={String(schema)}

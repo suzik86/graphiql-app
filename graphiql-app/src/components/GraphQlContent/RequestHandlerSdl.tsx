@@ -117,7 +117,7 @@ const RequestHandlerSdl = forwardRef<
     if (!response) {
       return <></>;
     }
- //   const t = useTranslations("GraphQl");
+ 
     return (
       <div className={styles.response}>
         <p className={styles.response__title}>Documnetation (Sdl)</p>
@@ -136,6 +136,7 @@ const RequestHandlerSdl = forwardRef<
           body={formatJson(response)}
           editorMode="json"
           readOnly={true}
+          
         />
       </div>
     );
