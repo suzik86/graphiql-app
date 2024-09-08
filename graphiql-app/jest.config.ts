@@ -23,6 +23,7 @@ const config: Config = {
     ],
   },
   moduleNameMapper: {
+    '^monaco-editor$': '<rootDir>/tests/mocks/@monaco-editor/react.js',
     "\\.(gif|ttf|eot|svg|png)$": "<rootDir>/test/mocks/fileMock.js",
     "^@app/(.*)$": "<rootDir>/$1",
     "\\.(css)$": "identity-obj-proxy",

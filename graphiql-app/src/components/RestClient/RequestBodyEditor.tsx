@@ -3,6 +3,8 @@ import { Editor, type Monaco } from "@monaco-editor/react";
 import * as monaco from "monaco-editor";
 import styles from "./RequestBodyEditor.module.scss";
 
+
+
 const myCustomTheme: monaco.editor.IStandaloneThemeData = {
   base: "vs-dark",
   inherit: true,
@@ -79,7 +81,6 @@ const RequestBodyEditor: React.FC<RequestBodyEditorProps> = ({
       const contentHeight = editor.getContentHeight();
       const newHeight = Math.min(Math.max(contentHeight, 200), maxHeight);
       setEditorHeight(newHeight);
-      checkPlaceholder();
     });
   };
 
@@ -109,6 +110,7 @@ const RequestBodyEditor: React.FC<RequestBodyEditorProps> = ({
         });
     }
   };
+  
   const defaultValue = readOnly ? undefined : '{"key": "value"}';
 
   return (
