@@ -32,22 +32,7 @@ const RequestHandler = forwardRef<RequestHandlerRef, RequestHandlerProps>(
     const [response, setResponse] = useState<string>("");
     const [status, setStatus] = useState<number | null>(null);
 
-    const replacePlaceholders = (
-      text: string,
-      variables: { key: string; value: string; included: boolean }[],
-    ): string => {
-      let updatedText = text;
-      variables.forEach((variable) => {
-        if (variable.included) {
-          const placeholder = `{{${variable.key}}}`;
-          updatedText = updatedText.replace(
-            new RegExp(placeholder, "g"),
-            variable.value,
-          );
-        }
-      });
-      return updatedText;
-    };
+    
 
     const sendRequest = async () => {
       try {

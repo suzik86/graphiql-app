@@ -2,7 +2,7 @@ import React, { useState, forwardRef, useImperativeHandle } from "react";
 import styles from "./RequestHandler.module.scss";
 import RequestBodyEditor from "./RequestBodyEditor";
 import { buildClientSchema, getIntrospectionQuery } from "graphql";
-import { useTranslations } from "next-intl";
+ 
 interface RequestHandlerProps {
   schema: string;
   method: string;
@@ -29,23 +29,7 @@ const RequestHandlerSdl = forwardRef<
     const [response, setResponse] = useState<string>("");
     const [status, setStatus] = useState<number | null>(null);
 
-    const replacePlaceholders = (
-      text: string,
-      variables: { key: string; value: string; included: boolean }[],
-    ) => {
-      let updatedText = text;
-      variables.forEach((variable) => {
-        if (variable.included) {
-          const placeholder = `{{${variable.key}}}`;
-          updatedText = updatedText.replace(
-            new RegExp(placeholder, "g"),
-            variable.value,
-          );
-        }
-      });
-      return updatedText;
-    };
-
+    
     const sendRequest = async () => {
       if (endpoint.includes("sdl")) {
         try {
@@ -136,7 +120,7 @@ const RequestHandlerSdl = forwardRef<
           body={formatJson(response)}
           editorMode="json"
           readOnly={true}
-          
+
         />
       </div>
     );

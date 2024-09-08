@@ -53,7 +53,7 @@ type RequestBodyEditorProps = {
 const QueryEditor: React.FC<RequestBodyEditorProps> = ({
   title,
   body,
-  setBlurredBody = () => {},
+  
   setSchema = () => {},
   readOnly = false,
   editorMode,
@@ -62,7 +62,7 @@ const QueryEditor: React.FC<RequestBodyEditorProps> = ({
 }) => {
   const editorRef = useRef<monaco.editor.IStandaloneCodeEditor | null>(null);
   const [editorHeight, setEditorHeight] = useState<number>(200);
-  const maxHeight = 500;
+ 
 
   useEffect(() => {
     if (editorRef.current) {
@@ -70,27 +70,7 @@ const QueryEditor: React.FC<RequestBodyEditorProps> = ({
     }
   }, [body]);
 
-  const handleEditorDidMount = (editor: monaco.editor.IStandaloneCodeEditor) => {
-    editorRef.current = editor;
-
-    editor.onDidChangeModelContent(() => {
-      const content = editorRef.current?.getValue() || "";
-      console.log("Editor content:", content);
-      setSchema(content);
-    });
-
-    editor.onDidBlurEditorWidget(() => {
-      const latestBody = editorRef.current?.getValue() || "";
-      setBlurredBody(latestBody);
-    });
-
-    editor.onDidContentSizeChange(() => {
-      const contentHeight = editor.getContentHeight();
-      const newHeight = Math.min(Math.max(contentHeight, 200), maxHeight);
-      setEditorHeight(newHeight);
-    });
-  };
-
+ 
   const handleFormat = () => {
     try {
       const parsedQuery = parse(schema);

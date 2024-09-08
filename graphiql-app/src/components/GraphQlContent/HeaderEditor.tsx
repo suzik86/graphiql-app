@@ -16,7 +16,7 @@ type HeaderEditorProps = {
 };
 
 export default function HeaderEditor({
-  title,
+ 
   method,
   endpoint,
   body,

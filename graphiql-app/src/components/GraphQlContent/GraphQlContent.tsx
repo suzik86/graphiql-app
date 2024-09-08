@@ -12,7 +12,7 @@ import SdlEditor from "./SdlEditor";
 import RequestHandlerSdl from "./RequestHandlerSdl";
 import { decodeBase64 } from "../../utils/base64";
 import { useTranslations } from "next-intl";
-import GraphQLFormatter from "./Code";
+ 
 export interface Header {
   key: string;
   value: string;
