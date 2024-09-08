@@ -39,7 +39,7 @@ const GrafQlContent = () => {
   const t = useTranslations("GraphQl");
   const searchParams = useSearchParams();
   const pathname = usePathname();
-  const { method } = useParams<{ method: string }>();
+ // const { method } = useParams<{ method: string }>();
 
   const initialState = useMemo(() => {
     const segments = pathname.split("/");
@@ -74,10 +74,11 @@ const GrafQlContent = () => {
   }, [pathname, searchParams]);
 
   const [headers, setHeaders] = useState<Header[]>(initialState.headers);
+  //`${currentMethod} {\n\n}`
+  const [currentMethod, setMethod] = useState<string>("query ");
   const [currentEndpoint, setEndpoint] = useState<string>(initialState.currentEndpoint);
   const [variables, setVariables] = useState<Variable[]>(initialState.variables);
-  const [schema, setSchema] = useState<object | string | null>(initialState.schema);
-  const [currentMethod, setMethod] = useState<string>(method || "query");
+  const [schema, setSchema] = useState<object | string>(initialState.schema || currentMethod);
   const [currentBody, setBody] = useState<object | string | null>(null);
   const [isVariablesVisible, setIsVariablesVisible] = useState<boolean>(true);
   const [editorMode, setEditorMode] = useState<"json" | "text">("json");
@@ -85,7 +86,10 @@ const GrafQlContent = () => {
   const requestHandlerRef = useRef<React.ElementRef<typeof RequestHandler>>(null);
   const requestHandlerSdlRef = useRef<React.ElementRef<typeof RequestHandlerSdl>>(null);
   const [sdlEndpoint, setSdlEndpoint] = useState<string>("");
-
+useEffect(()=> {
+  //`${e.target.value} {\n\n}`
+  setSchema(`${currentMethod} {\n\n}`)
+}, [currentMethod])
   const sendRequest = useCallback(() => {
     requestHandlerRef.current?.sendRequest();
   }, []);
@@ -169,22 +173,11 @@ const GrafQlContent = () => {
             setEditorMode={setEditorMode}
             setBlurredBody={setSchema}
             setSchema={setSchema}
-            method={currentMethod}
+                  method={currentMethod}
             schema={String(schema)}
             />
 
-            {/*
-          <QueryEditor
-            body={schema}
-            title={"Request editor"}
-            variables={variables}
-            editorMode={"graphql"}
-            setEditorMode={setEditorMode}
-            handleChangeSchema={setSchema}
-            method={currentMethod}
-            schema={String(schema)}
-          />
-          */}
+        
           <RequestHandler
             schema={String(schema)}
             method={currentMethod}

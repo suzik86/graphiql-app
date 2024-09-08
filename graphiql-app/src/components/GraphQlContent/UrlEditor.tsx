@@ -23,7 +23,9 @@ const UrlEditor: React.FC<UrlEditorProps> = ({
         value={currentMethod}
         onChange={(e) => {
           if (setMethod) {
-            setMethod(e.target.value);
+            setMethod(e.target.value)
+        //    setMethod(`${e.target.value} {\n\n}`);
+            //`${method} {\n\n}`
           }
         }}
         className={styles.editor__select}
