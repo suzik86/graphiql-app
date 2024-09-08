@@ -150,7 +150,6 @@ const RestClient: React.FC = () => {
             setEndpoint={setEndpoint}
             onSendRequest={sendRequest}
           />
-          {currentEndpoint}
           <HeaderEditor
             title={"Headers"}
             method={currentMethod}

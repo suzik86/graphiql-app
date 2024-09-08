@@ -1,6 +1,5 @@
 import React, { useState, useCallback } from "react";
 import KeyValueEditor from "./KeyValueEditor";
-import { useTranslations } from "next-intl";
 type Variable = {
   key: string;
   value: string;
@@ -101,7 +100,7 @@ const VariableEditor: React.FC<VariableEditorProps> = ({
     },
     [body, onUpdateBody],
   );
-  const t = useTranslations("GraphQl");
+
   return (
     <div>
       <KeyValueEditor

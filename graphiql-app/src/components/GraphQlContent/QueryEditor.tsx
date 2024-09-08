@@ -1,4 +1,4 @@
-import React, { useRef, useState, useEffect } from "react";
+import React, { useRef, useEffect } from "react";
 import { Editor, type Monaco } from "@monaco-editor/react";
 import * as monaco from "monaco-editor";
 import { parse, print } from 'graphql';
@@ -61,7 +61,7 @@ const QueryEditor: React.FC<RequestBodyEditorProps> = ({
   schema,
 }) => {
   const editorRef = useRef<monaco.editor.IStandaloneCodeEditor | null>(null);
-  const [editorHeight, setEditorHeight] = useState<number>(200);
+ // const [editorHeight, setEditorHeight] = useState<number>(200);
  
 
   useEffect(() => {
@@ -115,7 +115,7 @@ const QueryEditor: React.FC<RequestBodyEditorProps> = ({
             </div>
           )}
           <Editor
-            height={editorHeight}
+            height={200}
             language={editorMode}
             value={schema }
        
