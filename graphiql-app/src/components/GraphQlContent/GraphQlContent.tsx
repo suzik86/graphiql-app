@@ -205,7 +205,6 @@ const GrafQlContent = () => {
           />
         </div>
       </div>
- <GraphQLFormatter />
     </section>
   );
 };
