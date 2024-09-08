@@ -59,7 +59,6 @@ const QueryEditor: React.FC<RequestBodyEditorProps> = ({
   editorMode,
  
   schema,
-  method,
 }) => {
   const editorRef = useRef<monaco.editor.IStandaloneCodeEditor | null>(null);
   const [editorHeight, setEditorHeight] = useState<number>(200);
@@ -92,24 +91,15 @@ const QueryEditor: React.FC<RequestBodyEditorProps> = ({
     });
   };
 
-  const handleBeautify = () => {
+  const handleFormat = () => {
     try {
-      if (editorRef.current && editorMode === "graphql") {
-        const currentSchema = editorRef.current.getValue();
-        console.log("Current schema:", currentSchema); // Debugging statement
-
-        const ast = parse(currentSchema);
-        console.log("Parsed AST:", ast); // Debugging statement
-
-        const formatted = print(ast);
-        console.log("Formatted schema:", formatted);
-
-        setSchema(formatted);
-        editorRef.current.setValue(formatted);
-      }
+      const parsedQuery = parse(schema);
+      const printedQuery = print(parsedQuery);
+      setSchema(printedQuery)
+   //   setFormattedQuery(printedQuery);
     } catch (error) {
-      setSchema("Something went wrong...");
-      console.error('Error formatting code:', error);
+      console.error('Invalid GraphQL query:', error);
+     // setFormattedQuery('Invalid GraphQL query.');
     }
   };
 
@@ -129,10 +119,7 @@ const QueryEditor: React.FC<RequestBodyEditorProps> = ({
     }
   };
 
-useEffect(()=> {
-console.log("METHOD", method)
-}, [method])
-
+ 
   return (
     <>
       <div className={styles.body}>
@@ -141,7 +128,7 @@ console.log("METHOD", method)
           {!readOnly && (
             <div className={styles.body__controls}>
               {editorMode === "graphql" && (
-                <span className={styles.body__beautify} onClick={handleBeautify}>
+                <span className={styles.body__beautify} onClick={handleFormat}>
                   Beautify
                 </span>
               )}
@@ -172,4 +159,48 @@ console.log("METHOD", method)
 
 export default QueryEditor;
 
- 
+ /*
+ import React, { useState } from 'react';
+import { parse, print } from 'graphql';
+
+const GraphQLFormatter: React.FC = () => {
+  const [query, setQuery] = useState<string>('');
+  const [formattedQuery, setFormattedQuery] = useState<string>('');
+
+  const handleFormat = () => {
+    try {
+      const parsedQuery = parse(query);
+      const printedQuery = print(parsedQuery);
+      setFormattedQuery(printedQuery);
+    } catch (error) {
+      console.error('Invalid GraphQL query:', error);
+      setFormattedQuery('Invalid GraphQL query.');
+    }
+  };
+
+  return (
+    <div>
+      <textarea
+        value={query}
+        onChange={(e) => setQuery(e.target.value)}
+        placeholder="Enter your GraphQL query here..."
+        rows={10}
+        cols={50}
+      />
+      <br />
+      <button onClick={handleFormat}>Format Query</button>
+      <br />
+      <textarea
+        value={formattedQuery}
+        readOnly
+        placeholder="Formatted query will appear here..."
+        rows={10}
+        cols={50}
+      />
+    </div>
+  );
+};
+
+export default GraphQLFormatter;
+
+*/

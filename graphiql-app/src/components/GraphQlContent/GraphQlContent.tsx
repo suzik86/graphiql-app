@@ -6,14 +6,13 @@ import styles from "./GraphQlContent.module.scss";
 import VariableEditor from "./VariablesEditor";
 import HeaderEditor from "./HeaderEditor";
 import RequestHandler from "./RequestHandler";
-import { useParams, useSearchParams, usePathname } from "next/navigation";
+import { useSearchParams, usePathname } from "next/navigation";
 import QueryEditor from "./QueryEditor";
 import SdlEditor from "./SdlEditor";
 import RequestHandlerSdl from "./RequestHandlerSdl";
 import { decodeBase64 } from "../../utils/base64";
 import { useTranslations } from "next-intl";
-import CodeEditorForm from "./Code";
-
+import GraphQLFormatter from "./Code";
 export interface Header {
   key: string;
   value: string;
@@ -39,7 +38,7 @@ const GrafQlContent = () => {
   const t = useTranslations("GraphQl");
   const searchParams = useSearchParams();
   const pathname = usePathname();
-  // const { method } = useParams<{ method: string }>();
+
 
   const initialState = useMemo(() => {
     const segments = pathname.split("/");
@@ -76,15 +75,14 @@ const GrafQlContent = () => {
   }, [pathname, searchParams]);
 
   const [headers, setHeaders] = useState<Header[]>(initialState.headers);
-  //`${currentMethod} {\n\n}`
+ 
   const [currentMethod, setMethod] = useState<string>("query ");
   const [currentEndpoint, setEndpoint] = useState<string>(initialState.currentEndpoint);
   const [variables, setVariables] = useState<Variable[]>(initialState.variables);
-  // const [schema, setSchema] = useState<object | string>(initialState.schema || currentMethod);
 
   const [selectedMethod, setSelectedMethod] = useState("query")
   const [schema, setSchema] = useState<object | string>(initialState.schema || selectedMethod);
-// const [schema, setSchema] = useState<object | string>(String(initialState.schema) );
+ 
   const [currentBody, setBody] = useState<object | string | null>(null);
   const [isVariablesVisible, setIsVariablesVisible] = useState<boolean>(true);
   const [editorMode, setEditorMode] = useState<"json" | "text">("json");
@@ -207,7 +205,7 @@ const GrafQlContent = () => {
           />
         </div>
       </div>
-
+ <GraphQLFormatter />
     </section>
   );
 };

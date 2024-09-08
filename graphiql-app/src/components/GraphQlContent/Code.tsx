@@ -1,41 +1,42 @@
-import React, { useEffect, useState } from 'react';
-import { Editor, type Monaco } from '@monaco-editor/react';
+import React, { useState } from 'react';
+import { parse, print } from 'graphql';
 
-const CodeEditorForm: React.FC = () => {
-  const [code, setCode] = useState<string>('');
+const GraphQLFormatter: React.FC = () => {
+  const [query, setQuery] = useState<string>('');
+  const [formattedQuery, setFormattedQuery] = useState<string>('');
 
-  const handleEditorChange = (value: string | undefined) => {
-    if (value !== undefined) {
-      setCode(value);
+  const handleFormat = () => {
+    try {
+      const parsedQuery = parse(query);
+      const printedQuery = print(parsedQuery);
+      setFormattedQuery(printedQuery);
+    } catch (error) {
+      console.error('Invalid GraphQL query:', error);
+      setFormattedQuery('Invalid GraphQL query.');
     }
-  };
-useEffect(()=> {
-    console.log("code", code)
-}, [code])
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    console.log('Submitted code:', code);
-    // Здесь вы можете добавить логику для обработки отправки кода
   };
 
   return (
-    <form onSubmit={handleSubmit}>
-      <div style={{ height: '400px', border: '1px solid #ccc' }}>
-        <Editor
-          height="100%"
-          defaultLanguage="javascript"
-          defaultValue="// Напишите ваш код здесь"
-          onChange={handleEditorChange}
-          options={{
-            fontSize: 14,
-            minimap: { enabled: false },
-            scrollBeyondLastLine: false,
-          }}
-        />
-      </div>
-      <button type="submit">Submit</button>
-    </form>
+    <div>
+      <textarea
+        value={query}
+        onChange={(e) => setQuery(e.target.value)}
+        placeholder="Enter your GraphQL query here..."
+        rows={10}
+        cols={50}
+      />
+      <br />
+      <button onClick={handleFormat}>Format Query</button>
+      <br />
+      <textarea
+        value={formattedQuery}
+        readOnly
+        placeholder="Formatted query will appear here..."
+        rows={10}
+        cols={50}
+      />
+    </div>
   );
 };
 
-export default CodeEditorForm;
+export default GraphQLFormatter;

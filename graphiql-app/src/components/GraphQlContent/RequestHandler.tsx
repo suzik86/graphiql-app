@@ -4,6 +4,7 @@ import RequestBodyEditor from "./RequestBodyEditor";
 import { ApolloClient, HttpLink, InMemoryCache } from "@apollo/client";
 import { graphql } from "gql.tada";
 import { useTranslations } from "next-intl";
+
 interface RequestHandlerProps {
   schema: string;
   method: string;
@@ -14,21 +15,12 @@ interface RequestHandlerProps {
   variables: { key: string; value: string; included: boolean }[];
 }
 
-const RequestHandler = forwardRef<
-  {
-    sendRequest: () => void;
-  },
-  RequestHandlerProps
->(
-  (
-    {
-      schema,
-      method,
-      endpoint,
-      variables
-    }: RequestHandlerProps,
-    ref,
-  ) => {
+interface RequestHandlerRef {
+  sendRequest: () => void;
+}
+
+const RequestHandler = forwardRef<RequestHandlerRef, RequestHandlerProps>(
+  ({ schema, method, endpoint, variables }: RequestHandlerProps, ref) => {
     const [response, setResponse] = useState<string>("");
     const [status, setStatus] = useState<number | null>(null);
 
@@ -68,13 +60,13 @@ const RequestHandler = forwardRef<
             }
             return acc;
           },
-          {} as { [key: string]: string }
+          {} as { [key: string]: string },
         );
 
         let response;
 
         if (operationType === "query") {
-          console.log("QUERU", CustomQuery)
+          console.log("QUERY", CustomQuery);
           response = await client.query({
             query: CustomQuery,
             variables: parsedVariables,
@@ -101,13 +93,18 @@ const RequestHandler = forwardRef<
         }
 
         setResponse(JSON.stringify(response));
-      } catch (error: any) {
-        console.error("Request error:", error);
-        setStatus(500);
-        setResponse(error.message);
+      } catch (error) {
+        if (error instanceof Error) {
+          console.error("Request error:", error);
+          setStatus(500);
+          setResponse(error.message);
+        } else {
+          console.error("Unexpected error:", error);
+          setStatus(500);
+          setResponse("An unexpected error occurred");
+        }
       }
     };
-
 
     useImperativeHandle(ref, () => ({
       sendRequest,
@@ -132,6 +129,7 @@ const RequestHandler = forwardRef<
         return jsonString;
       }
     };
+
     const t = useTranslations("GraphQl");
     return (
       <div className={styles.response}>
@@ -158,5 +156,3 @@ const RequestHandler = forwardRef<
 );
 
 export default RequestHandler;
-
-
