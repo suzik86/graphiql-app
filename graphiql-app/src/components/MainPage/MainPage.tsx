@@ -2,21 +2,24 @@
 import { notification } from "antd";
 import { collection, getDocs, query, where } from "firebase/firestore";
 import { useLocale, useTranslations } from "next-intl";
-import Link from "next/link";
 import Image from "next/image";
+import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { useAuthState } from "react-firebase-hooks/auth";
-import { auth, db } from "../../firebase";
-import Spinner from "../Spinner/Spinner";
-import WelcomeButton from "../WelcomeButton/WelcomeButton";
-import styles from "./MainPage.module.scss";
+import GraphiqlImage from "../../assets/graphiql.png";
+import RestImage from "../../assets/rest.png";
 import GraphQlPicture from "../../assets/graphql.png";
 import HttpPicture from "../../assets/http.png";
-import MainPageProjectInfo from "../MainPageProjectInfo/MainPageProjectInfo";
-import AppImage from "../../assets/App.png";
+import { auth, db } from "../../firebase";
+import AboutCourseComponent from "../AboutCourseComponent/AboutCourseComponent";
 import AboutUsComponent from "../AboutUsComponent/AboutUsComponent";
+import MainPageProjectInfo from "../MainPageProjectInfo/MainPageProjectInfo";
+import Spinner from "../Spinner/Spinner";
 import TryComponent from "../TryComponent/TryComponent";
+import WelcomeButton from "../WelcomeButton/WelcomeButton";
+import styles from "./MainPage.module.scss";
+
 type NotificationType = "success" | "info" | "warning" | "error";
 
 function MainPage() {
@@ -116,15 +119,11 @@ function MainPage() {
                   </Link>
                 </div>
               </div>
+              <AboutCourseComponent />
               <MainPageProjectInfo
-                img1={AppImage}
-                img2={AppImage}
+                img1={GraphiqlImage}
+                img2={RestImage}
                 title={t("article-1")}
-              />
-              <MainPageProjectInfo
-                img1={AppImage}
-                img2={AppImage}
-                title={t("article-2")}
               />
               <AboutUsComponent />
               <TryComponent />

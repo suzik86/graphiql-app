@@ -50,15 +50,17 @@
     "sign-up": "Sign up",
     "fetch-error": "Failed to fetch user data",
     "try": "Try app",
-    "article-1": "In our project, you can try both Restful and GraphQl client",
-    "article-2": "In order to start working with the application, the user must log in",
+    "article-1": "In our project, you can try both Restful and GraphQl client",    
     "mem-1": "Nikita",
     "mem-2": "Irina",
     "mem-3": "Gregory",
     "describtion-1": "Developed GraphQl client",
     "describtion-2": "Our project leader. Developed application authorization",
     "describtion-3": "Developed Restful Client",
-    "about-us": "About us"
+    "about-us": "About us",
+    "about-course": "About the course",
+    "about-course-text": "Everyone can study at RS School, regardless of age, professional employment, or place of residence. However, you should have sufficient base knowledge before the program begins.",
+    "about-course-text-2": "After successful completion of the course, students will receive an electronic certificate."
   },
   "NotFound": {
     "title": "Page not found",

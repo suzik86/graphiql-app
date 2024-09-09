@@ -17,6 +17,7 @@ const AboutUsComponent = () => {
               name={item.name}
               describtion={item.describtion}
               logo={Avatar}
+              link={item.link}
             />
           ))}
         </div>
