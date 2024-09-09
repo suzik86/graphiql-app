@@ -1,8 +1,9 @@
+
 import React, { useState, forwardRef, useImperativeHandle } from "react";
 import styles from "./RequestHandler.module.scss";
 import RequestBodyEditor from "./RequestBodyEditor";
 import { buildClientSchema, getIntrospectionQuery } from "graphql";
- 
+ import { useTranslations } from "next-intl";
 interface RequestHandlerProps {
   schema: string;
   method: string;
@@ -98,16 +99,17 @@ const RequestHandlerSdl = forwardRef<
       }
     };
 
-    if (!response) {
-      return <></>;
-    }
- 
+    const t = useTranslations("GraphQl");
+  
     return (
-      <div className={styles.response}>
-        <p className={styles.response__title}>Documnetation (Sdl)</p>
+  <>
+  {response && (
+
+    <div className={styles.response}>
+        <p className={styles.response__title}>{t("Documentation")}</p>
 
         <div className={styles.response__status}>
-          <p className={styles.response__status__text}>Status:</p>
+          <p className={styles.response__status__text}>{t("status")}:</p>
           <div
             className={`${styles.response__status__code} ${getStatusClassName(status)}`}
           >
@@ -116,13 +118,16 @@ const RequestHandlerSdl = forwardRef<
         </div>
 
         <RequestBodyEditor
-          title="Body"
+   
+       title={t("body")}
           body={formatJson(response)}
           editorMode="json"
           readOnly={true}
 
         />
       </div>
+        )}
+  </>
     );
   },
 );

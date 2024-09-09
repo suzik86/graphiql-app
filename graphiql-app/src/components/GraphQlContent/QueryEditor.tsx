@@ -3,7 +3,7 @@ import { Editor, type Monaco } from "@monaco-editor/react";
 import * as monaco from "monaco-editor";
 import { parse, print } from 'graphql';
 import styles from "./RequestBodyEditor.module.scss";
-
+import { useTranslations } from "next-intl";
 const myCustomTheme: monaco.editor.IStandaloneThemeData = {
   base: "vs-dark",
   inherit: true,
@@ -47,21 +47,20 @@ type RequestBodyEditorProps = {
   setEditorMode?: (mode: "json" | "text") => void;
   readOnly?: boolean;
   schema: string;
-  method:string
+  method: string
 };
 
 const QueryEditor: React.FC<RequestBodyEditorProps> = ({
   title,
   body,
-  
-  setSchema = () => {},
+
+  setSchema = () => { },
   readOnly = false,
   editorMode,
- 
+
   schema,
 }) => {
   const editorRef = useRef<monaco.editor.IStandaloneCodeEditor | null>(null);
- // const [editorHeight, setEditorHeight] = useState<number>(200);
  
 
   useEffect(() => {
@@ -70,16 +69,16 @@ const QueryEditor: React.FC<RequestBodyEditorProps> = ({
     }
   }, [body]);
 
- 
+
   const handleFormat = () => {
     try {
       const parsedQuery = parse(schema);
       const printedQuery = print(parsedQuery);
       setSchema(printedQuery)
- 
+
     } catch (error) {
       console.error('Invalid GraphQL query:', error);
-     
+
     }
   };
 
@@ -98,8 +97,8 @@ const QueryEditor: React.FC<RequestBodyEditorProps> = ({
       setSchema(value);
     }
   };
+  const t = useTranslations("GraphQl");
 
- 
   return (
     <>
       <div className={styles.body}>
@@ -109,7 +108,7 @@ const QueryEditor: React.FC<RequestBodyEditorProps> = ({
             <div className={styles.body__controls}>
               {editorMode === "graphql" && (
                 <span className={styles.body__beautify} onClick={handleFormat}>
-                  Beautify
+                  {t("beautify")}
                 </span>
               )}
             </div>
@@ -117,12 +116,12 @@ const QueryEditor: React.FC<RequestBodyEditorProps> = ({
           <Editor
             height={200}
             language={editorMode}
-            value={schema }
-       
+            value={schema}
+
             theme="myCustomTheme"
-       
+
             loading="Loading..."
-        
+
             beforeMount={handleEditorTheme}
             onChange={handleEditorChange}
             options={{
@@ -138,4 +137,3 @@ const QueryEditor: React.FC<RequestBodyEditorProps> = ({
 };
 
 export default QueryEditor;
- 

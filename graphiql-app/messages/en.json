@@ -96,6 +96,15 @@
     "add-variable": "variable",
     "delete": "Delete",
     "Documentation": "Documentation (Sdl)",
-    "beautify": "Beautify"
+    "beautify": "Beautify",
+    "header-key": "Key",
+    "header-value": "Value",
+    "variable-key": "Key",
+    "variable-value": "Value",
+    "key": "Key", 
+    "value": "Value",
+    "header": "Header",  
+    "variable": "Variable",
+      "add": "Add"
   }
 }

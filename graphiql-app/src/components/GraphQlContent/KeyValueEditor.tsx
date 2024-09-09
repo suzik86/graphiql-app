@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import styles from "./KeyValueEditor.module.scss";
- 
+import { useTranslations } from "next-intl";
 type Item = {
   key: string;
   value: string;
@@ -10,8 +10,8 @@ type Item = {
 type KeyValueEditorProps = {
   items: Item[];
   setItems: React.Dispatch<React.SetStateAction<Item[]>>;
- // itemType: "variable" | "header" | "Добавить";
- itemType: string,
+
+  itemType: string,
   onUpdateURL?: (items: Item[]) => void;
 };
 
@@ -21,6 +21,7 @@ export default function KeyValueEditor({
   itemType,
   onUpdateURL,
 }: KeyValueEditorProps) {
+  const t = useTranslations("GraphQl");
   const [key, setKey] = useState("");
   const [value, setValue] = useState("");
   const [modifiedIndices, setModifiedIndices] = useState<Set<number>>(
@@ -109,7 +110,7 @@ export default function KeyValueEditor({
     const timer = setTimeout(() => setModifiedIndices(new Set()), 1000);
     return () => clearTimeout(timer);
   }, [items]);
- 
+
   return (
     <div className={styles.editor}>
       <div className={styles.editor__wrapper}>
@@ -117,18 +118,23 @@ export default function KeyValueEditor({
           type="text"
           value={key}
           onChange={(e) => setKey(e.target.value)}
-          placeholder={`${itemType} Key`}
+       
+          placeholder={t("header-key")}
           className={styles.editor__input}
         />
         <input
           type="text"
           value={value}
           onChange={(e) => setValue(e.target.value)}
-          placeholder={`${itemType} Value`}
+        
+          placeholder={t("header-value")}
           className={styles.editor__input}
         />
         <button onClick={handleAddItem} className={styles.editor__button}>
-          Add {itemType}
+        
+
+        {t("add")} {t(itemType)}
+        
         </button>
       </div>
       <ul className={styles.editor__list}>
@@ -148,25 +154,23 @@ export default function KeyValueEditor({
               onChange={(e) =>
                 handleEditItem(index, e.target.value, item.value)
               }
-              placeholder="Key"
-              className={`${styles.editor__input} ${
-                modifiedIndices.has(index) ? styles.blinkBorder : ""
-              } ${duplicateKeys.has(index) ? styles.redBorder : ""}`}
+              placeholder={t("key")}
+              className={`${styles.editor__input} ${modifiedIndices.has(index) ? styles.blinkBorder : ""
+                } ${duplicateKeys.has(index) ? styles.redBorder : ""}`}
             />
             <input
               type="text"
               value={item.value}
               onChange={(e) => handleEditItem(index, item.key, e.target.value)}
-              placeholder="Value"
-              className={`${styles.editor__input} ${
-                modifiedIndices.has(index) ? styles.blinkBorder : ""
-              } ${duplicateKeys.has(index) ? styles.redBorder : ""}`}
+              placeholder={t("value")}
+              className={`${styles.editor__input} ${modifiedIndices.has(index) ? styles.blinkBorder : ""
+                } ${duplicateKeys.has(index) ? styles.redBorder : ""}`}
             />
             <span
               className={styles.editor__deleteText}
               onClick={() => handleDeleteItem(index)}
             >
-           Delete
+              Delete
             </span>
           </li>
         ))}
