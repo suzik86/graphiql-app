@@ -3,7 +3,7 @@ import { Editor, type Monaco } from "@monaco-editor/react";
 import * as monaco from "monaco-editor";
 import { parse, print } from "graphql";
 import styles from "./RequestBodyEditor.module.scss";
-
+import { useTranslations } from "next-intl";
 const myCustomTheme: monaco.editor.IStandaloneThemeData = {
   base: "vs-dark",
   inherit: true,
@@ -53,16 +53,13 @@ type RequestBodyEditorProps = {
 const QueryEditor: React.FC<RequestBodyEditorProps> = ({
   title,
   body,
-
   setSchema = () => {},
   readOnly = false,
   editorMode,
-
   schema,
 }) => {
   const editorRef = useRef<monaco.editor.IStandaloneCodeEditor | null>(null);
-  // const [editorHeight, setEditorHeight] = useState<number>(200);
-
+ 
   useEffect(() => {
     if (editorRef.current) {
       editorRef.current.setValue(body as string);
@@ -75,7 +72,7 @@ const QueryEditor: React.FC<RequestBodyEditorProps> = ({
       const printedQuery = print(parsedQuery);
       setSchema(printedQuery);
     } catch (error) {
-      console.error("Invalid GraphQL query:", error);
+      console.error('Invalid GraphQL query:', error);
     }
   };
 
@@ -94,6 +91,7 @@ const QueryEditor: React.FC<RequestBodyEditorProps> = ({
       setSchema(value);
     }
   };
+  const t = useTranslations("GraphQl");
 
   return (
     <>
@@ -104,7 +102,7 @@ const QueryEditor: React.FC<RequestBodyEditorProps> = ({
             <div className={styles.body__controls}>
               {editorMode === "graphql" && (
                 <span className={styles.body__beautify} onClick={handleFormat}>
-                  Beautify
+                  {t("beautify")}
                 </span>
               )}
             </div>

@@ -1,7 +1,8 @@
-import React, { useState, forwardRef, useImperativeHandle } from "react";
-import styles from "./RequestHandler.module.scss";
-import RequestBodyEditor from "./RequestBodyEditor";
 import { buildClientSchema, getIntrospectionQuery } from "graphql";
+import { useTranslations } from "next-intl";
+import { forwardRef, useImperativeHandle, useState } from "react";
+import RequestBodyEditor from "./RequestBodyEditor";
+import styles from "./RequestHandler.module.scss";
 
 interface RequestHandlerProps {
   schema: string;
@@ -89,30 +90,32 @@ const RequestHandlerSdl = forwardRef<
     }
   };
 
-  if (!response) {
-    return <></>;
-  }
+  const t = useTranslations("GraphQl");
 
   return (
-    <div className={styles.response}>
-      <p className={styles.response__title}>Documnetation (Sdl)</p>
+    <>
+      {response && (
+        <div className={styles.response}>
+          <p className={styles.response__title}>{t("Documentation")}</p>
 
-      <div className={styles.response__status}>
-        <p className={styles.response__status__text}>Status:</p>
-        <div
-          className={`${styles.response__status__code} ${getStatusClassName(status)}`}
-        >
-          {status !== null ? status : "N/A"}
+          <div className={styles.response__status}>
+            <p className={styles.response__status__text}>{t("status")}:</p>
+            <div
+              className={`${styles.response__status__code} ${getStatusClassName(status)}`}
+            >
+              {status !== null ? status : "N/A"}
+            </div>
+          </div>
+
+          <RequestBodyEditor
+            title={t("body")}
+            body={formatJson(response)}
+            editorMode="json"
+            readOnly={true}
+          />
         </div>
-      </div>
-
-      <RequestBodyEditor
-        title="Body"
-        body={formatJson(response)}
-        editorMode="json"
-        readOnly={true}
-      />
-    </div>
+      )}
+    </>
   );
 });
 

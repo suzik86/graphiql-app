@@ -141,8 +141,7 @@ const RequestBodyEditor: React.FC<RequestBodyEditorProps> = ({
           )}
 
           <Editor
-            height={editorHeight}
-            //   language="graphql"
+            height={editorHeight}        
             language={editorMode}
             theme="myCustomTheme"
             loading="Loading..."
@@ -166,7 +165,6 @@ const RequestBodyEditor: React.FC<RequestBodyEditorProps> = ({
                 value:
                   "This editor is in read-only mode. You cannot edit the content.",
               },
-
               fontSize: 22,
             }}
           />

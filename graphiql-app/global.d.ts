@@ -1,9 +1,7 @@
-//import * as gqlTada from "gql.tada";
 declare const introspection: {
-  __schema: {
-    /*...*/
-  };
+  __schema: object;
 };
+
 
 declare module "gql.tada" {
   interface setupSchema {
