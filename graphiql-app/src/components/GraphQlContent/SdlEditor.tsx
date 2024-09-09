@@ -10,7 +10,6 @@ interface UrlEditorProps {
 }
 
 const SdlEditor: React.FC<UrlEditorProps> = ({
-
   currentEndpoint,
   setEndpoint,
   onSendRequest,
@@ -18,8 +17,6 @@ const SdlEditor: React.FC<UrlEditorProps> = ({
   const t = useTranslations("GraphQl");
   return (
     <div className={styles.editor}>
-
-
       <input
         type="text"
         value={currentEndpoint}

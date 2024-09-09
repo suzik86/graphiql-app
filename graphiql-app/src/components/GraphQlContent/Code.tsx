@@ -1,9 +1,9 @@
-import React, { useState } from 'react';
-import { parse, print } from 'graphql';
+import React, { useState } from "react";
+import { parse, print } from "graphql";
 
 const GraphQLFormatter: React.FC = () => {
-  const [query, setQuery] = useState<string>('');
-  const [formattedQuery, setFormattedQuery] = useState<string>('');
+  const [query, setQuery] = useState<string>("");
+  const [formattedQuery, setFormattedQuery] = useState<string>("");
 
   const handleFormat = () => {
     try {
@@ -11,8 +11,8 @@ const GraphQLFormatter: React.FC = () => {
       const printedQuery = print(parsedQuery);
       setFormattedQuery(printedQuery);
     } catch (error) {
-      console.error('Invalid GraphQL query:', error);
-      setFormattedQuery('Invalid GraphQL query.');
+      console.error("Invalid GraphQL query:", error);
+      setFormattedQuery("Invalid GraphQL query.");
     }
   };
 

@@ -20,7 +20,9 @@ const AboutCourseComponent = () => {
           </Link>
           <div className={styles.info__text}>
             <p className={styles.info__text__block}>{t("about-course-text")}</p>
-            <p className={styles.info__text__block}>{t("about-course-text-2")}</p>
+            <p className={styles.info__text__block}>
+              {t("about-course-text-2")}
+            </p>
           </div>
         </div>
       </div>

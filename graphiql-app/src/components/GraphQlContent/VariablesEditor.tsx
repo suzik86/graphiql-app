@@ -106,14 +106,13 @@ const VariableEditor: React.FC<VariableEditorProps> = ({
       <KeyValueEditor
         items={variables}
         setItems={setVariables}
-     //   itemType={t("variables")}
+        //   itemType={t("variables")}
         itemType="variable"
         onUpdateURL={updateBody}
       />
       {errorMessage && (
         <div style={{ color: "red", marginTop: "10px" }}>{errorMessage}</div>
       )}
-      
     </div>
   );
 };

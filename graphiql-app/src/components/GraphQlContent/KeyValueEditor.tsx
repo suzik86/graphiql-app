@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import styles from "./KeyValueEditor.module.scss";
- 
+
 type Item = {
   key: string;
   value: string;
@@ -10,8 +10,8 @@ type Item = {
 type KeyValueEditorProps = {
   items: Item[];
   setItems: React.Dispatch<React.SetStateAction<Item[]>>;
- // itemType: "variable" | "header" | "Добавить";
- itemType: string,
+  // itemType: "variable" | "header" | "Добавить";
+  itemType: string;
   onUpdateURL?: (items: Item[]) => void;
 };
 
@@ -109,7 +109,7 @@ export default function KeyValueEditor({
     const timer = setTimeout(() => setModifiedIndices(new Set()), 1000);
     return () => clearTimeout(timer);
   }, [items]);
- 
+
   return (
     <div className={styles.editor}>
       <div className={styles.editor__wrapper}>
@@ -166,7 +166,7 @@ export default function KeyValueEditor({
               className={styles.editor__deleteText}
               onClick={() => handleDeleteItem(index)}
             >
-           Delete
+              Delete
             </span>
           </li>
         ))}

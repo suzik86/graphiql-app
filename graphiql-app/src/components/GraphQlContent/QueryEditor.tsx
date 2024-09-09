@@ -1,7 +1,7 @@
 import React, { useRef, useEffect } from "react";
 import { Editor, type Monaco } from "@monaco-editor/react";
 import * as monaco from "monaco-editor";
-import { parse, print } from 'graphql';
+import { parse, print } from "graphql";
 import styles from "./RequestBodyEditor.module.scss";
 
 const myCustomTheme: monaco.editor.IStandaloneThemeData = {
@@ -47,22 +47,21 @@ type RequestBodyEditorProps = {
   setEditorMode?: (mode: "json" | "text") => void;
   readOnly?: boolean;
   schema: string;
-  method:string
+  method: string;
 };
 
 const QueryEditor: React.FC<RequestBodyEditorProps> = ({
   title,
   body,
-  
+
   setSchema = () => {},
   readOnly = false,
   editorMode,
- 
+
   schema,
 }) => {
   const editorRef = useRef<monaco.editor.IStandaloneCodeEditor | null>(null);
- // const [editorHeight, setEditorHeight] = useState<number>(200);
- 
+  // const [editorHeight, setEditorHeight] = useState<number>(200);
 
   useEffect(() => {
     if (editorRef.current) {
@@ -70,16 +69,13 @@ const QueryEditor: React.FC<RequestBodyEditorProps> = ({
     }
   }, [body]);
 
- 
   const handleFormat = () => {
     try {
       const parsedQuery = parse(schema);
       const printedQuery = print(parsedQuery);
-      setSchema(printedQuery)
- 
+      setSchema(printedQuery);
     } catch (error) {
-      console.error('Invalid GraphQL query:', error);
-     
+      console.error("Invalid GraphQL query:", error);
     }
   };
 
@@ -99,7 +95,6 @@ const QueryEditor: React.FC<RequestBodyEditorProps> = ({
     }
   };
 
- 
   return (
     <>
       <div className={styles.body}>
@@ -117,12 +112,9 @@ const QueryEditor: React.FC<RequestBodyEditorProps> = ({
           <Editor
             height={200}
             language={editorMode}
-            value={schema }
-       
+            value={schema}
             theme="myCustomTheme"
-       
             loading="Loading..."
-        
             beforeMount={handleEditorTheme}
             onChange={handleEditorChange}
             options={{
@@ -138,4 +130,3 @@ const QueryEditor: React.FC<RequestBodyEditorProps> = ({
 };
 
 export default QueryEditor;
- 

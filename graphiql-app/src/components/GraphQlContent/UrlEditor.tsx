@@ -16,7 +16,7 @@ const UrlEditor: React.FC<UrlEditorProps> = ({
   currentEndpoint,
   setEndpoint,
   onSendRequest,
-  setSchema
+  setSchema,
 }) => {
   const t = useTranslations("GraphQl");
   return (
@@ -25,14 +25,12 @@ const UrlEditor: React.FC<UrlEditorProps> = ({
         value={currentMethod}
         onChange={(e) => {
           if (setMethod) {
-            setMethod(e.target.value)
-            setSchema(String(e.target.value))
-      
+            setMethod(e.target.value);
+            setSchema(String(e.target.value));
           }
         }}
         className={styles.editor__select}
       >
-
         <option value="query">query</option>
         <option value="mutation">mutation</option>
       </select>

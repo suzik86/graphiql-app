@@ -1,9 +1,12 @@
- 
-
 import React, { useState, forwardRef, useImperativeHandle } from "react";
 import styles from "./RequestHandler.module.scss";
 import RequestBodyEditor from "./RequestBodyEditor";
-import { ApolloClient, HttpLink, InMemoryCache, NormalizedCacheObject } from "@apollo/client";
+import {
+  ApolloClient,
+  HttpLink,
+  InMemoryCache,
+  NormalizedCacheObject,
+} from "@apollo/client";
 import { graphql } from "gql.tada";
 
 interface RequestHandlerProps {
@@ -32,23 +35,23 @@ const RequestHandler = forwardRef<RequestHandlerRef, RequestHandlerProps>(
     const [response, setResponse] = useState<string>("");
     const [status, setStatus] = useState<number | null>(null);
 
-    
-
     const sendRequest = async () => {
       try {
- 
-        const parsedHeaders = headers.reduce((acc, { key, value, included }) => {
-          if (included) {
-            acc[key] = value;
-          }
-          return acc;
-        }, {} as Record<string, string>);
+        const parsedHeaders = headers.reduce(
+          (acc, { key, value, included }) => {
+            if (included) {
+              acc[key] = value;
+            }
+            return acc;
+          },
+          {} as Record<string, string>,
+        );
 
         const client: ApolloClient<NormalizedCacheObject> = new ApolloClient({
           cache: new InMemoryCache(),
           link: new HttpLink({
             uri: endpoint,
-            headers: parsedHeaders, 
+            headers: parsedHeaders,
           }),
         });
 
@@ -62,7 +65,7 @@ const RequestHandler = forwardRef<RequestHandlerRef, RequestHandlerProps>(
             }
             return acc;
           },
-          {} as ParsedVariables
+          {} as ParsedVariables,
         );
 
         let responseData;
@@ -109,7 +112,8 @@ const RequestHandler = forwardRef<RequestHandlerRef, RequestHandlerProps>(
 
     const getStatusClassName = (status: number | null): string => {
       if (status === null) return styles.response__status__default;
-      if (status >= 200 && status < 300) return styles.response__status__success;
+      if (status >= 200 && status < 300)
+        return styles.response__status__success;
       if (status >= 400 && status < 500)
         return styles.response__status__clientError;
       if (status >= 500) return styles.response__status__serverError;

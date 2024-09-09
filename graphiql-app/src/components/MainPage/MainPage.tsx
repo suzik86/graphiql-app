@@ -5,7 +5,7 @@ import { useLocale, useTranslations } from "next-intl";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { useAuthState } from "react-firebase-hooks/auth";
 import GraphiqlImage from "../../assets/graphiql.png";
 import RestImage from "../../assets/rest.png";
@@ -20,8 +20,6 @@ import TryComponent from "../TryComponent/TryComponent";
 import WelcomeButton from "../WelcomeButton/WelcomeButton";
 import styles from "./MainPage.module.scss";
 
-type NotificationType = "success" | "info" | "warning" | "error";
-
 function MainPage() {
   const [user, loading] = useAuthState(auth);
   const [name, setName] = useState("");
@@ -30,19 +28,13 @@ function MainPage() {
   const localActive = useLocale();
   const [api, contextHolder] = notification.useNotification();
 
-  const openNotificationWithIcon = (type: NotificationType) => {
-    api[type]({
-      message: t("fetch-error"),
-    });
-  };
-
   const btns = [
     { link: `/${localActive}/GET/`, text: t("rest") },
     { link: `/${localActive}/GRAPHQL/{}`, text: t("graphiql") },
     { link: `/${localActive}/history`, text: t("history") },
   ];
 
-  const fetchUserName = async () => {
+  const fetchUserName = useCallback(async () => {
     try {
       const q = query(collection(db, "users"), where("uid", "==", user?.uid));
       const doc = await getDocs(q);
@@ -50,15 +42,18 @@ function MainPage() {
       setName(data.name);
     } catch (err) {
       console.error((err as Error).message);
-      openNotificationWithIcon("error");
+      api.error({
+        message: t("fetch-error"),
+      });
     }
-  };
+  }, [user, setName, api, t]);
+
   useEffect(() => {
     if (loading) return;
     if (user) {
       fetchUserName();
     }
-  }, [user, loading, router]);
+  }, [user, loading, router, fetchUserName]);
 
   return (
     <>
