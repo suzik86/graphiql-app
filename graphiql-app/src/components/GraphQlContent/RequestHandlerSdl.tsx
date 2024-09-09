@@ -100,9 +100,7 @@ const RequestHandlerSdl = forwardRef<
     };
 
     const t = useTranslations("GraphQl");
-    if (!response) {
-   //   return <></>;
-    }
+  
     return (
   <>
   {response && (
