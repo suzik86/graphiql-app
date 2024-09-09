@@ -16,7 +16,6 @@ type HeaderEditorProps = {
 };
 
 export default function HeaderEditor({
-
   method,
   endpoint,
   body,
@@ -38,7 +37,6 @@ export default function HeaderEditor({
         items={headers}
         setItems={setHeaders}
         itemType="header"
-
         onUpdateURL={handleUpdateURL}
       />
     </div>

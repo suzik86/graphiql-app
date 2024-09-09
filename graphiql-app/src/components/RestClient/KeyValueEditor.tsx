@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import styles from "./KeyValueEditor.module.scss";
-
+import { useTranslations } from "next-intl";
 type Item = {
   key: string;
   value: string;
@@ -108,7 +108,7 @@ export default function KeyValueEditor({
     const timer = setTimeout(() => setModifiedIndices(new Set()), 1000);
     return () => clearTimeout(timer);
   }, [items]);
-
+  const t = useTranslations("Rest");
   return (
     <div className={styles.editor}>
       <div className={styles.editor__wrapper}>
@@ -116,18 +116,18 @@ export default function KeyValueEditor({
           type="text"
           value={key}
           onChange={(e) => setKey(e.target.value)}
-          placeholder={`${itemType} Key`}
+          placeholder={t("key")}
           className={styles.editor__input}
         />
         <input
           type="text"
           value={value}
           onChange={(e) => setValue(e.target.value)}
-          placeholder={`${itemType} Value`}
+          placeholder={t("value")}
           className={styles.editor__input}
         />
         <button onClick={handleAddItem} className={styles.editor__button}>
-          Add {itemType}
+          {t("add")} {t(itemType)}
         </button>
       </div>
       <ul className={styles.editor__list}>

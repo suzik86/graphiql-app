@@ -41,18 +41,17 @@ type RequestBodyEditorProps = {
   body: object | string | null;
   setBlurredBody?: React.Dispatch<React.SetStateAction<string>>;
   variables?: Variable[];
- editorMode: "graphql" | "json" |"text"
+  editorMode: "graphql" | "json" | "text";
   setEditorMode?: (mode: "json" | "text") => void;
   readOnly?: boolean;
- 
 };
 
 const RequestBodyEditor: React.FC<RequestBodyEditorProps> = ({
   title,
   body,
-  setBlurredBody = () => { },
+  setBlurredBody = () => {},
   editorMode,
-  setEditorMode = () => { },
+  setEditorMode = () => {},
   readOnly = false,
 }) => {
   const editorRef = useRef<monaco.editor.IStandaloneCodeEditor | null>(null);
@@ -80,7 +79,6 @@ const RequestBodyEditor: React.FC<RequestBodyEditorProps> = ({
       const contentHeight = editor.getContentHeight();
       const newHeight = Math.min(Math.max(contentHeight, 200), maxHeight);
       setEditorHeight(newHeight);
-   
     });
   };
 
@@ -110,7 +108,9 @@ const RequestBodyEditor: React.FC<RequestBodyEditorProps> = ({
         });
     }
   };
-  const defaultValue = readOnly ? undefined : `query {
+  const defaultValue = readOnly
+    ? undefined
+    : `query {
   
   }`;
 
@@ -142,8 +142,7 @@ const RequestBodyEditor: React.FC<RequestBodyEditorProps> = ({
 
           <Editor
             height={editorHeight}
-        
-               language={editorMode}
+            language={editorMode}
             theme="myCustomTheme"
             loading="Loading..."
             defaultValue={defaultValue}

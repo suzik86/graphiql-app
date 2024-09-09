@@ -2,7 +2,7 @@ import React, { useState, forwardRef, useImperativeHandle } from "react";
 import styles from "./RequestHandler.module.scss";
 import { encodeBase64 } from "../../utils/base64";
 import RequestBodyEditor from "./RequestBodyEditor";
-
+import { useTranslations } from "next-intl";
 interface RequestHandlerProps {
   method: string;
   endpoint: string;
@@ -114,7 +114,7 @@ const RequestHandler = forwardRef<
 
     const formatJson = (jsonString: string): string => {
       if (!jsonString || jsonString.trim() === "") {
-        return ""; 
+        return "";
       }
       try {
         const json = JSON.parse(jsonString);
@@ -123,14 +123,14 @@ const RequestHandler = forwardRef<
         return jsonString;
       }
     };
-    
 
+    const t = useTranslations("Rest");
     return (
       <div className={styles.response}>
-        <p className={styles.response__title}>Response</p>
+        <p className={styles.response__title}>{t("response")}</p>
 
         <div className={styles.response__status}>
-          <p className={styles.response__status__text}>Status:</p>
+          <p className={styles.response__status__text}>{t("status")}:</p>
           <div
             className={`${styles.response__status__code} ${getStatusClassName(status)}`}
           >
