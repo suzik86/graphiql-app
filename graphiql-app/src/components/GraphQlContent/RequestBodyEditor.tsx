@@ -1,9 +1,7 @@
 import React, { useRef, useState } from "react";
-import Image from "next/image";
 import { Editor, type Monaco } from "@monaco-editor/react";
 import * as monaco from "monaco-editor";
 import styles from "./RequestBodyEditor.module.scss";
-import wand from "../../assets/magic-stick.svg";
 
 const myCustomTheme: monaco.editor.IStandaloneThemeData = {
   base: "vs-dark",
@@ -43,17 +41,18 @@ type RequestBodyEditorProps = {
   body: object | string | null;
   setBlurredBody?: React.Dispatch<React.SetStateAction<string>>;
   variables?: Variable[];
-  editorMode: "json" | "text";
+ editorMode: "graphql" | "json" |"text"
   setEditorMode?: (mode: "json" | "text") => void;
   readOnly?: boolean;
+ 
 };
 
 const RequestBodyEditor: React.FC<RequestBodyEditorProps> = ({
   title,
   body,
-  setBlurredBody = () => {},
+  setBlurredBody = () => { },
   editorMode,
-  setEditorMode = () => {},
+  setEditorMode = () => { },
   readOnly = false,
 }) => {
   const editorRef = useRef<monaco.editor.IStandaloneCodeEditor | null>(null);
@@ -61,7 +60,7 @@ const RequestBodyEditor: React.FC<RequestBodyEditorProps> = ({
   const maxHeight = 500;
 
   const handleEditorDidMount = (
-    editor: monaco.editor.IStandaloneCodeEditor
+    editor: monaco.editor.IStandaloneCodeEditor,
   ) => {
     editorRef.current = editor;
     handleBeautify();
@@ -81,6 +80,7 @@ const RequestBodyEditor: React.FC<RequestBodyEditorProps> = ({
       const contentHeight = editor.getContentHeight();
       const newHeight = Math.min(Math.max(contentHeight, 200), maxHeight);
       setEditorHeight(newHeight);
+   
     });
   };
 
@@ -110,7 +110,9 @@ const RequestBodyEditor: React.FC<RequestBodyEditorProps> = ({
         });
     }
   };
-  const defaultValue = readOnly ? undefined : '{"key": "value"}';
+  const defaultValue = readOnly ? undefined : `query {
+  
+  }`;
 
   return (
     <>
@@ -133,7 +135,6 @@ const RequestBodyEditor: React.FC<RequestBodyEditorProps> = ({
                   onClick={handleBeautify}
                 >
                   Beautify
-                  <Image src={wand} alt="magic-stick" className={styles.body__beautify__icon} />
                 </span>
               )}
             </div>
@@ -141,7 +142,8 @@ const RequestBodyEditor: React.FC<RequestBodyEditorProps> = ({
 
           <Editor
             height={editorHeight}
-            language={editorMode}
+         //   language="graphql"
+               language={editorMode}
             theme="myCustomTheme"
             loading="Loading..."
             defaultValue={defaultValue}

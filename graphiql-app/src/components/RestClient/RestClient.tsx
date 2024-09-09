@@ -150,7 +150,6 @@ const RestClient: React.FC = () => {
             setEndpoint={setEndpoint}
             onSendRequest={sendRequest}
           />
-
           <HeaderEditor
             title={"Headers"}
             method={currentMethod}
@@ -160,7 +159,6 @@ const RestClient: React.FC = () => {
             setHeaders={setHeaders}
             variables={variables}
           />
-
           <div
             className={styles.content__toggle}
             onClick={() => setIsVariablesVisible(!isVariablesVisible)}

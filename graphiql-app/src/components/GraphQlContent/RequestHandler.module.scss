@@ -1,0 +1,57 @@
+@import "../../theme/variables.scss";
+
+.response {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+
+  &__title {
+    font-weight: 700;
+    font-size: 48px;
+    color: $white;
+    font-family: "Nunito", sans-serif;
+  }
+
+  &__status {
+    display: flex;
+    column-gap: 8px;
+    align-items: center;
+    border-radius: 5px;
+
+    &__text {
+      font-weight: 400;
+      font-size: 24px;
+      color: $white;
+      font-family: "Nunito", sans-serif;
+    }
+
+    &__code {
+      padding: 5px 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 5px;
+      font-weight: 700;
+      font-size: 20px;
+      font-family: "Nunito", sans-serif;
+      color: $white;
+    }
+
+    &__default {
+      background-color: $cool-grey;
+    }
+
+    &__success {
+      background-color: $green-apple; 
+    }
+
+    &__clientError {
+      background-color: $sunshine-yellow; 
+    }
+
+    &__serverError {
+      background-color: $pastel-red;
+    }
+  }
+}

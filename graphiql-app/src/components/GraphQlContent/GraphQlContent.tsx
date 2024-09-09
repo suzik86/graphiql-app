@@ -1,237 +1,209 @@
 "use client";
-import { ApolloClient, HttpLink, InMemoryCache } from "@apollo/client";
-import { graphql } from "gql.tada";
-import { useLocale } from "next-intl";
-import { usePathname, useRouter, useSearchParams } from "next/navigation";
-import { useEffect, useState } from "react";
-import BodyCodePlayground from "../BodyCodePlayGround/BodyCodePlayground";
-import GraphiQlUrlEditor from "../GraphiQlUrlEditor/GraphiQlUrlEditor";
-import HeadersPlayground from "../HeadersPlayground/HeadersPlayground";
-import ResponseCodePlayground from "../ResponseCodePlayGround/ResponseCodePlayGround";
+import UrlEditor from "./UrlEditor";
+import { useState, useEffect, useRef, useCallback, useMemo } from "react";
+import { updateURL } from "../../utils/urlUpdater";
 import styles from "./GraphQlContent.module.scss";
-
-interface Row {
+import VariableEditor from "./VariablesEditor";
+import HeaderEditor from "./HeaderEditor";
+import RequestHandler from "./RequestHandler";
+import { useSearchParams, usePathname } from "next/navigation";
+import QueryEditor from "./QueryEditor";
+import SdlEditor from "./SdlEditor";
+import RequestHandlerSdl from "./RequestHandlerSdl";
+import { decodeBase64 } from "../../utils/base64";
+import { useTranslations } from "next-intl";
+ 
+export interface Header {
   key: string;
   value: string;
+  included: boolean;
 }
 
+export interface Variable {
+  key: string;
+  value: string;
+  included: boolean;
+}
+
+const getHeadersFromParams = (searchParams: URLSearchParams): Header[] => {
+  return Array.from(searchParams.entries()).reduce<Header[]>((acc, [key, value]) => {
+    if (key !== "method" && key !== "encodedEndpoint" && key !== "encodedData") {
+      acc.push({ key, value: decodeURIComponent(value), included: true });
+    }
+    return acc;
+  }, []);
+};
+
 const GrafQlContent = () => {
+  const t = useTranslations("GraphQl");
+  const searchParams = useSearchParams();
   const pathname = usePathname();
-  const searchParam = useSearchParams();
 
-  //const t = useTranslations("HomePage");
-  const localActive = useLocale();
 
-  const [requestData, setRequestData] = useState({
-    url: "",
-    schema: "query {}",
-    variables: "{}",
-    headers: "{}",
-  });
-
-  const [rows, setRows] = useState<Row[]>([{ key: "", value: "" }]);
-
-  const router = useRouter();
-  const [data, setData] = useState<string | null>("");
-  const [statusCode, setStatusCode] = useState<number | null>(null);
-
-  const encodeBase64 = (input: string) => {
-    return Buffer.from(input).toString("base64");
-  };
-
-  const decodeBase64 = (input: string) => {
-    return Buffer.from(input, "base64").toString("utf-8");
-  };
-
-  useEffect(() => {
+  const initialState = useMemo(() => {
     const segments = pathname.split("/");
     const bodyBase64String = segments.pop();
     const endpointBase64String = segments.pop();
+
+    let headers: Header[] = [];
+    let currentEndpoint = "";
+    let variables: Variable[] = [];
+    let schema: object | string | null = null;
 
     if (endpointBase64String && bodyBase64String) {
       try {
         const decodedUrl = decodeBase64(endpointBase64String);
         const decodedBody = decodeBase64(bodyBase64String);
-
         const bodyJson = JSON.parse(decodedBody);
-        setRequestData((prevState) => ({
-          ...prevState,
-          url: decodedUrl,
-          schema: bodyJson.query || "query {}",
-          variables: JSON.stringify(bodyJson.variables || {}, null, 2),
-        }));
 
-        const params = new URLSearchParams(searchParam.toString());
+        currentEndpoint = decodedUrl;
+        variables = bodyJson.variables || [];
 
-        const result: Row[] = [];
-        for (const [key, value] of params.entries()) {
-          if (key) {
-            result.push({ key, value });
-          }
+        if (bodyJson.body && bodyJson.body.schema) {
+          schema = bodyJson.body.schema;
+
+        
         }
-        result.push({ key: "", value: "" });
-        setRows(result);
-
-        const headersObject: Record<string, string> = result.reduce(
-          (acc, { key, value }) => {
-            if (key) {
-              acc[key] = value;
-            }
-            return acc;
-          },
-          {} as Record<string, string>,
-        );
-
-        const handleReceive = async () => {
-          const client = new ApolloClient({
-            cache: new InMemoryCache(),
-            link: new HttpLink({
-              uri: decodedUrl,
-              headers: headersObject,
-            }),
-          });
-
-          const CustomQuery = graphql(bodyJson.query);
-          const operationType = bodyJson.query.includes("query")
-            ? "query"
-            : "mutation";
-          try {
-            const parsedVariables = JSON.parse(
-              JSON.stringify(bodyJson.variables || {}, null, 2),
-            );
-
-            let response;
-            if (operationType === "query") {
-              response = await client.query({
-                query: CustomQuery,
-                variables: parsedVariables,
-                context: {
-                  fetchOptions: {
-                    next: { revalidate: 10 },
-                  },
-                },
-              });
-            } else if (operationType === "mutation") {
-              response = await client.mutate({
-                mutation: CustomQuery,
-                variables: parsedVariables,
-                context: {
-                  fetchOptions: {
-                    next: { revalidate: 10 },
-                  },
-                },
-              });
-            }
-
-            setData(response!.data);
-            setStatusCode(200);
-          } catch (error: any) {
-            console.error("Ошибка запроса:", error);
-            setStatusCode(error.networkError?.statusCode || 500);
-          }
-        };
-        handleReceive();
-      } catch (error) {
-        console.error("Ошибка при декодировании или парсинге:", error);
+        headers = getHeadersFromParams(searchParams);
+      } catch (e) {
+        console.error("Error decoding body or endpoint:", e);
       }
     }
-  }, [pathname, searchParam]);
 
-  const handleSubmit = async (event: React.FormEvent) => {
-    event.preventDefault();
+    console.log("Initial state:", { headers, currentEndpoint, variables, schema});
+    return { headers, currentEndpoint, variables, schema };
+  }, [pathname, searchParams]);
 
-    const { url, schema, variables, headers } = requestData;
-    const encodedUrl = encodeBase64(url);
+  const [headers, setHeaders] = useState<Header[]>(initialState.headers);
+ 
+  const [currentMethod, setMethod] = useState<string>("query ");
+  const [currentEndpoint, setEndpoint] = useState<string>(initialState.currentEndpoint);
+  const [variables, setVariables] = useState<Variable[]>(initialState.variables);
 
-    const requestBody = JSON.stringify({
-      query: schema,
-      variables: JSON.parse(variables),
-    });
-    const encodedBody = encodeBase64(requestBody);
+  const [selectedMethod, setSelectedMethod] = useState("query")
+  const [schema, setSchema] = useState<object | string>(initialState.schema || selectedMethod);
+ 
+  const [currentBody, setBody] = useState<object | string | null>(null);
+  const [isVariablesVisible, setIsVariablesVisible] = useState<boolean>(true);
+  const [editorMode, setEditorMode] = useState<"json" | "text">("json");
 
-    const parsedHeaders = JSON.parse(headers);
-    const queryParams = new URLSearchParams(parsedHeaders).toString();
+  const requestHandlerRef = useRef<React.ElementRef<typeof RequestHandler>>(null);
+  const requestHandlerSdlRef = useRef<React.ElementRef<typeof RequestHandlerSdl>>(null);
+  const [sdlEndpoint, setSdlEndpoint] = useState<string>("");
 
-    const graphqlUrl = `/${localActive}/GRAPHQL/${encodedUrl}/${encodedBody}?${queryParams}`;
-    router.push(graphqlUrl);
-  };
+  
+  const sendRequest = useCallback(() => {
+    requestHandlerRef.current?.sendRequest();
+  }, []);
 
-  const handleChangeUrl = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setRequestData((prevState) => ({
-      ...prevState,
-      url: event.target.value,
-    }));
-  };
+  const sendRequestSdl = useCallback((endpoint: string) => {
+    requestHandlerSdlRef.current?.sendRequest(endpoint);
+  }, []);
 
-  const handleChangeHeaders = (headers: Row[]) => {
-    setRows(headers);
-    const obj: { [key: string]: string } = {};
-    Object.values(headers).forEach((item) => {
-      if (item.key) {
-        obj[item.key] = item.value;
-      }
-    });
-    setRequestData((prevState) => ({
-      ...prevState,
-      headers: JSON.stringify(obj),
-    }));
-  };
+  useEffect(() => {
+    if (schema) {
+      setBody((prev) => {
+        if (typeof prev === "object" && prev !== null) {
+          return {
+            ...prev,
+            schema: schema,
+          };
+        } else {
+          return { schema: schema };
+        }
+      });
+    }
+  }, [schema]);
 
-  const handleChangeSchema = (value: string) => {
-    setRequestData((prevState) => ({
-      ...prevState,
-      schema: value,
-    }));
-  };
+  useEffect(() => {
+    updateURL("graphql", currentEndpoint, currentBody, headers, variables);
+  }, [currentEndpoint, headers, variables, currentBody, schema]);
 
-  const handleChangeVariables = (value: string) => {
-    setRequestData((prevState) => ({
-      ...prevState,
-      variables: value,
-    }));
-  };
+
 
   return (
     <section className={styles.content}>
       <div className={styles.content__inner}>
-        <form className={styles.content__form} onSubmit={handleSubmit}>
-          <h1 className={styles.content__title}>GraphiQl Client</h1>
-          <GraphiQlUrlEditor
-            handleChangeUrl={handleChangeUrl}
-            url={requestData.url}
-          />
+        <div className={styles.content__wrapper}>
+          <h1 className={styles.content__title}>{t("title")}</h1>
           <div className={styles.content__background} />
-          <div className={styles.content__field}>
-            <p className={styles.content__field__title}></p>
+          <div className={styles.content__inputs}>
+            <UrlEditor
+            
+              setMethod={setSelectedMethod}
+      
+              currentMethod={selectedMethod}
+              currentEndpoint={currentEndpoint}
+              setEndpoint={setEndpoint}
+              onSendRequest={sendRequest}
+              setSchema={setSchema}
+            />
+            <SdlEditor
+              currentMethod={currentMethod}
+              setMethod={setMethod}
+              currentEndpoint={sdlEndpoint}
+              setEndpoint={setSdlEndpoint}
+              onSendRequest={sendRequestSdl}
+            />
           </div>
-          <HeadersPlayground
+          <HeaderEditor
             title={"Headers"}
-            handleChangeHeaders={handleChangeHeaders}
-            rows={rows}
+            method={currentMethod}
+            endpoint={currentEndpoint}
+            body={currentBody}
+            headers={headers}
+            setHeaders={setHeaders}
+            variables={variables}
           />
-          <BodyCodePlayground
-            title={"Query"}
-            handleChangeField={handleChangeSchema}
-            code={requestData.schema}
-          />
-          <BodyCodePlayground
-            title={"Variables"}
-            handleChangeField={handleChangeVariables}
-            code={requestData.variables}
-          />
-        </form>
-
-        <div className={styles.response}>
-          <p className={styles.response__title}>Response</p>
-          <div className={styles.response__status}>
-            <p className={styles.response__status__text}>Status:</p>
-            <div className={styles.response__status__code}>
-              {statusCode !== null ? statusCode : "N/A"}
-            </div>
+          <div
+            className={styles.content__toggle}
+            onClick={() => setIsVariablesVisible(!isVariablesVisible)}
+          >
+            {t("variables")} {isVariablesVisible ? "-" : "+"}
           </div>
-          <ResponseCodePlayground
-            title={"Body"}
-            response={JSON.stringify(data)}
+          {isVariablesVisible && (
+            <VariableEditor
+              variables={variables}
+              setVariables={setVariables}
+              body={currentBody as string}
+              onUpdateBody={setBody}
+            />
+          )}
+          <QueryEditor
+            body={schema}
+            title={t("editor")}
+          
+            variables={variables}
+            editorMode={"graphql"}
+            setEditorMode={setEditorMode}
+            setBlurredBody={setSchema}
+            setSchema={setSchema}
+            method={currentMethod}
+            schema={String(schema)}
+          />
+
+
+          <RequestHandler
+            schema={String(schema)}
+            method={selectedMethod}
+           
+            endpoint={currentEndpoint}
+            headers={headers}
+            body={currentBody}
+            editorMode={editorMode}
+            variables={variables}
+            ref={requestHandlerRef}
+         
+          />
+          <RequestHandlerSdl
+            schema={String(schema)}
+            method={currentMethod}
+            endpoint={sdlEndpoint}
+            headers={headers}
+            body={currentBody}
+            editorMode={editorMode}
+            variables={variables}
+            ref={requestHandlerSdlRef}
           />
         </div>
       </div>
