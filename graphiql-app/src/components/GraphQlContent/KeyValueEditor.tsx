@@ -11,7 +11,7 @@ type Item = {
 type KeyValueEditorProps = {
   items: Item[];
   setItems: React.Dispatch<React.SetStateAction<Item[]>>;
-  itemType: string,
+  itemType: string;
   onUpdateURL?: (items: Item[]) => void;
 };
 
@@ -118,7 +118,6 @@ export default function KeyValueEditor({
           type="text"
           value={key}
           onChange={(e) => setKey(e.target.value)}
-       
           placeholder={t("header-key")}
           className={styles.editor__input}
         />
@@ -126,15 +125,11 @@ export default function KeyValueEditor({
           type="text"
           value={value}
           onChange={(e) => setValue(e.target.value)}
-        
           placeholder={t("header-value")}
           className={styles.editor__input}
         />
         <button onClick={handleAddItem} className={styles.editor__button}>
-        
-
-        {t("add")} {t(itemType)}
-        
+          {t("add")} {t(itemType)}
         </button>
       </div>
       <ul className={styles.editor__list}>
@@ -155,16 +150,18 @@ export default function KeyValueEditor({
                 handleEditItem(index, e.target.value, item.value)
               }
               placeholder={t("key")}
-              className={`${styles.editor__input} ${modifiedIndices.has(index) ? styles.blinkBorder : ""
-                } ${duplicateKeys.has(index) ? styles.redBorder : ""}`}
+              className={`${styles.editor__input} ${
+                modifiedIndices.has(index) ? styles.blinkBorder : ""
+              } ${duplicateKeys.has(index) ? styles.redBorder : ""}`}
             />
             <input
               type="text"
               value={item.value}
               onChange={(e) => handleEditItem(index, item.key, e.target.value)}
               placeholder={t("value")}
-              className={`${styles.editor__input} ${modifiedIndices.has(index) ? styles.blinkBorder : ""
-                } ${duplicateKeys.has(index) ? styles.redBorder : ""}`}
+              className={`${styles.editor__input} ${
+                modifiedIndices.has(index) ? styles.blinkBorder : ""
+              } ${duplicateKeys.has(index) ? styles.redBorder : ""}`}
             />
             <span
               className={styles.editor__deleteText}

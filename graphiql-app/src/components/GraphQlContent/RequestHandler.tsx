@@ -144,8 +144,7 @@ const RequestHandler = forwardRef<RequestHandlerRef, RequestHandlerProps>(
         </div>
 
         <RequestBodyEditor
-       
-         title={t("body")}
+          title={t("body")}
           body={formatJson(response)}
           editorMode="json"
           readOnly={true}

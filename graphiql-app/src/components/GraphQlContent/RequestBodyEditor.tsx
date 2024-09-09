@@ -141,7 +141,7 @@ const RequestBodyEditor: React.FC<RequestBodyEditorProps> = ({
           )}
 
           <Editor
-            height={editorHeight}        
+            height={editorHeight}
             language={editorMode}
             theme="myCustomTheme"
             loading="Loading..."

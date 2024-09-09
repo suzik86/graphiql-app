@@ -59,7 +59,7 @@ const QueryEditor: React.FC<RequestBodyEditorProps> = ({
   schema,
 }) => {
   const editorRef = useRef<monaco.editor.IStandaloneCodeEditor | null>(null);
- 
+
   useEffect(() => {
     if (editorRef.current) {
       editorRef.current.setValue(body as string);
@@ -72,7 +72,7 @@ const QueryEditor: React.FC<RequestBodyEditorProps> = ({
       const printedQuery = print(parsedQuery);
       setSchema(printedQuery);
     } catch (error) {
-      console.error('Invalid GraphQL query:', error);
+      console.error("Invalid GraphQL query:", error);
     }
   };
 
