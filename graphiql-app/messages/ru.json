@@ -96,6 +96,15 @@
     "add-variable": "Добавить",
     "Delete": "Удалить",
     "Documentation": "Документация (Sdl)",
-      "beautify": "Форматировать"
+    "beautify": "Форматировать",
+    "header-key": "Ключ",
+    "header-value": "Значение",
+    "variable-key": "Ключ",
+    "variable-value": "Значение",
+    "key": "Ключ",
+    "value": "Значение",
+    "header": "Заголовок",  
+    "variable": "Переменную",
+    "add": "Добавить"
   }
 }

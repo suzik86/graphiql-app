@@ -5,7 +5,7 @@ import styles from "./RequestHandler.module.scss";
 import RequestBodyEditor from "./RequestBodyEditor";
 import { ApolloClient, HttpLink, InMemoryCache, NormalizedCacheObject } from "@apollo/client";
 import { graphql } from "gql.tada";
-
+import { useTranslations } from "next-intl";
 interface RequestHandlerProps {
   schema: string;
   method: string;
@@ -125,13 +125,13 @@ const RequestHandler = forwardRef<RequestHandlerRef, RequestHandlerProps>(
         return jsonString;
       }
     };
-
+    const t = useTranslations("GraphQl");
     return (
       <div className={styles.response}>
-        <p className={styles.response__title}>Response</p>
+        <p className={styles.response__title}>{t("response")}</p>
 
         <div className={styles.response__status}>
-          <p className={styles.response__status__text}>Status:</p>
+          <p className={styles.response__status__text}>{t("status")}:</p>
           <div
             className={`${styles.response__status__code} ${getStatusClassName(status)}`}
           >
@@ -140,7 +140,8 @@ const RequestHandler = forwardRef<RequestHandlerRef, RequestHandlerProps>(
         </div>
 
         <RequestBodyEditor
-          title={"Body"}
+       
+         title={t("body")}
           body={formatJson(response)}
           editorMode="json"
           readOnly={true}

@@ -142,7 +142,7 @@ const RequestBodyEditor: React.FC<RequestBodyEditorProps> = ({
 
           <Editor
             height={editorHeight}
-         //   language="graphql"
+        
                language={editorMode}
             theme="myCustomTheme"
             loading="Loading..."
