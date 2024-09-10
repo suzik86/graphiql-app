@@ -101,10 +101,10 @@
     "header-value": "Value",
     "variable-key": "Key",
     "variable-value": "Value",
-    "key": "Key", 
+    "key": "Key",
     "value": "Value",
-    "header": "Header",  
+    "header": "Header",
     "variable": "Variable",
-      "add": "Add"
+    "add": "Add"
   }
 }

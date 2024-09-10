@@ -1,7 +1,7 @@
 import React, { useRef, useEffect } from "react";
 import { Editor, type Monaco } from "@monaco-editor/react";
 import * as monaco from "monaco-editor";
-import { parse, print } from 'graphql';
+import { parse, print } from "graphql";
 import styles from "./RequestBodyEditor.module.scss";
 import { useTranslations } from "next-intl";
 const myCustomTheme: monaco.editor.IStandaloneThemeData = {
@@ -47,21 +47,20 @@ type RequestBodyEditorProps = {
   setEditorMode?: (mode: "json" | "text") => void;
   readOnly?: boolean;
   schema: string;
-  method: string
+  method: string;
 };
 
 const QueryEditor: React.FC<RequestBodyEditorProps> = ({
   title,
   body,
 
-  setSchema = () => { },
+  setSchema = () => {},
   readOnly = false,
   editorMode,
-method,
+  method,
   schema,
 }) => {
   const editorRef = useRef<monaco.editor.IStandaloneCodeEditor | null>(null);
- 
 
   useEffect(() => {
     if (editorRef.current) {
@@ -69,17 +68,14 @@ method,
     }
   }, [body]);
 
-
   const handleFormat = () => {
     try {
       const parsedQuery = parse(schema);
       const printedQuery = print(parsedQuery);
-      console.log("PRINTED", printedQuery)
-      setSchema(`${method} ${printedQuery}`)
-
+      console.log("PRINTED", printedQuery);
+      setSchema(`${method} ${printedQuery}`);
     } catch (error) {
-      console.error('Invalid GraphQL query:', error);
-
+      console.error("Invalid GraphQL query:", error);
     }
   };
 
@@ -118,11 +114,8 @@ method,
             height={200}
             language={editorMode}
             value={schema}
-
             theme="myCustomTheme"
-
             loading="Loading..."
-
             beforeMount={handleEditorTheme}
             onChange={handleEditorChange}
             options={{

@@ -12,7 +12,7 @@ import SdlEditor from "./SdlEditor";
 import RequestHandlerSdl from "./RequestHandlerSdl";
 import { decodeBase64 } from "../../utils/base64";
 import { useTranslations } from "next-intl";
- 
+
 export interface Header {
   key: string;
   value: string;
@@ -26,19 +26,25 @@ export interface Variable {
 }
 
 const getHeadersFromParams = (searchParams: URLSearchParams): Header[] => {
-  return Array.from(searchParams.entries()).reduce<Header[]>((acc, [key, value]) => {
-    if (key !== "method" && key !== "encodedEndpoint" && key !== "encodedData") {
-      acc.push({ key, value: decodeURIComponent(value), included: true });
-    }
-    return acc;
-  }, []);
+  return Array.from(searchParams.entries()).reduce<Header[]>(
+    (acc, [key, value]) => {
+      if (
+        key !== "method" &&
+        key !== "encodedEndpoint" &&
+        key !== "encodedData"
+      ) {
+        acc.push({ key, value: decodeURIComponent(value), included: true });
+      }
+      return acc;
+    },
+    [],
+  );
 };
 
 const GrafQlContent = () => {
   const t = useTranslations("GraphQl");
   const searchParams = useSearchParams();
   const pathname = usePathname();
-
 
   const initialState = useMemo(() => {
     const segments = pathname.split("/");
@@ -61,8 +67,6 @@ const GrafQlContent = () => {
 
         if (bodyJson.body && bodyJson.body.schema) {
           schema = bodyJson.body.schema;
-
-        
         }
         headers = getHeadersFromParams(searchParams);
       } catch (e) {
@@ -70,28 +74,40 @@ const GrafQlContent = () => {
       }
     }
 
-    console.log("Initial state:", { headers, currentEndpoint, variables, schema});
+    console.log("Initial state:", {
+      headers,
+      currentEndpoint,
+      variables,
+      schema,
+    });
     return { headers, currentEndpoint, variables, schema };
   }, [pathname, searchParams]);
 
   const [headers, setHeaders] = useState<Header[]>(initialState.headers);
- 
-  const [currentMethod, setMethod] = useState<string>("query ");
-  const [currentEndpoint, setEndpoint] = useState<string>(initialState.currentEndpoint);
-  const [variables, setVariables] = useState<Variable[]>(initialState.variables);
 
-  const [selectedMethod, setSelectedMethod] = useState("query")
-  const [schema, setSchema] = useState<object | string>(initialState.schema || selectedMethod);
- 
+  const [currentMethod, setMethod] = useState<string>("query ");
+  const [currentEndpoint, setEndpoint] = useState<string>(
+    initialState.currentEndpoint,
+  );
+  const [variables, setVariables] = useState<Variable[]>(
+    initialState.variables,
+  );
+
+  const [selectedMethod, setSelectedMethod] = useState("query");
+  const [schema, setSchema] = useState<object | string>(
+    initialState.schema || selectedMethod,
+  );
+
   const [currentBody, setBody] = useState<object | string | null>(null);
   const [isVariablesVisible, setIsVariablesVisible] = useState<boolean>(true);
   const [editorMode, setEditorMode] = useState<"json" | "text">("json");
 
-  const requestHandlerRef = useRef<React.ElementRef<typeof RequestHandler>>(null);
-  const requestHandlerSdlRef = useRef<React.ElementRef<typeof RequestHandlerSdl>>(null);
+  const requestHandlerRef =
+    useRef<React.ElementRef<typeof RequestHandler>>(null);
+  const requestHandlerSdlRef =
+    useRef<React.ElementRef<typeof RequestHandlerSdl>>(null);
   const [sdlEndpoint, setSdlEndpoint] = useState<string>("");
 
-  
   const sendRequest = useCallback(() => {
     requestHandlerRef.current?.sendRequest();
   }, []);
@@ -119,8 +135,6 @@ const GrafQlContent = () => {
     updateURL("graphql", currentEndpoint, currentBody, headers, variables);
   }, [currentEndpoint, headers, variables, currentBody, schema]);
 
-
-
   return (
     <section className={styles.content}>
       <div className={styles.content__inner}>
@@ -129,9 +143,7 @@ const GrafQlContent = () => {
           <div className={styles.content__background} />
           <div className={styles.content__inputs}>
             <UrlEditor
-            
               setMethod={setSelectedMethod}
-      
               currentMethod={selectedMethod}
               currentEndpoint={currentEndpoint}
               setEndpoint={setEndpoint}
@@ -172,7 +184,6 @@ const GrafQlContent = () => {
           <QueryEditor
             body={schema}
             title={t("editor")}
-          
             variables={variables}
             editorMode={"graphql"}
             setEditorMode={setEditorMode}
@@ -182,18 +193,15 @@ const GrafQlContent = () => {
             schema={String(schema)}
           />
 
-
           <RequestHandler
             schema={String(schema)}
             method={selectedMethod}
-           
             endpoint={currentEndpoint}
             headers={headers}
             body={currentBody}
             editorMode={editorMode}
             variables={variables}
             ref={requestHandlerRef}
-         
           />
           <RequestHandlerSdl
             schema={String(schema)}

@@ -114,7 +114,7 @@ const RequestHandler = forwardRef<
 
     const formatJson = (jsonString: string): string => {
       if (!jsonString || jsonString.trim() === "") {
-        return ""; 
+        return "";
       }
       try {
         const json = JSON.parse(jsonString);
@@ -123,7 +123,6 @@ const RequestHandler = forwardRef<
         return jsonString;
       }
     };
-    
 
     return (
       <div className={styles.response}>
