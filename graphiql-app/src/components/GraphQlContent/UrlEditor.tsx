@@ -38,7 +38,7 @@ const UrlEditor: React.FC<UrlEditorProps> = ({
       <input
         type="text"
         value={currentEndpoint}
-        onChange={(e) => {
+        onChange={(e) => {          
           setEndpoint(e.target.value);
         }}
         placeholder="https://api.example.com/graphql"

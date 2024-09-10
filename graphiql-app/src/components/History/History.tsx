@@ -1,24 +1,27 @@
 "use client";
 import { useLocale, useTranslations } from "next-intl";
-import React, { FC, useEffect } from "react";
-import styles from "./History.module.scss";
+import { useRouter } from "next/navigation";
+import { FC, useEffect, useState } from "react";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { auth } from "../../firebase";
-import { useRouter } from "next/navigation";
 import Spinner from "../Spinner/Spinner";
 import WelcomeButton from "../WelcomeButton/WelcomeButton";
-import useLocalStorage from "../../hooks/useLocalStorage";
+import styles from "./History.module.scss";
+import Link from "next/link";
+import { formatDate } from "../../utils/formatDate";
 
 const History: FC = () => {
   const [user, loading] = useAuthState(auth);
   const router = useRouter();
   const t = useTranslations("History");
   const localActive = useLocale();
-  const [requests] =
-    (useLocalStorage("requests") as [
-      string[],
-      React.Dispatch<React.SetStateAction<string>>,
-    ]) || [];
+
+  const requests = useState<{ path: string; date: string; endpoint: string }[]>(
+    () =>
+      typeof window !== "undefined"
+        ? JSON.parse(localStorage?.getItem("pathnames") || "[]")
+        : []
+  )[0];
 
   const btns = [
     { link: `/${localActive}/GET/`, text: t("rest") },
@@ -40,8 +43,7 @@ const History: FC = () => {
         ) : (
           <>
             <h1 className={styles.history__title}>{t("title")}</h1>
-            {requests}
-            {!requests && (
+            {(!requests || requests.length < 1) && (
               <>
                 <p className={styles.history__subtitle}>{t("empty")}</p>
                 <ul className={styles.history__btns}>
@@ -56,9 +58,29 @@ const History: FC = () => {
 
             {requests && requests.length > 0 && (
               <ul>
-                {requests.map((request: string, index: number) => (
-                  <li key={index}>{request}</li>
-                ))}
+                {requests
+                  .sort(
+                    (a, b) =>
+                      new Date(b.date).getTime() - new Date(a.date).getTime()
+                  )
+                  .map(
+                    (
+                      request: { path: string; date: string; endpoint: string },
+                      index: number
+                    ) => (
+                      <li key={index} className={styles.history__request}>
+                        <div>{formatDate(request.date)}</div>
+                        <div>
+                          <Link
+                            href={request.path}
+                            className={styles.history__request__link}
+                          >
+                            {request.endpoint}
+                          </Link>
+                        </div>
+                      </li>
+                    )
+                  )}
               </ul>
             )}
           </>
