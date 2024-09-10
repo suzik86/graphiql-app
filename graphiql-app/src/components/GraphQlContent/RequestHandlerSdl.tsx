@@ -5,9 +5,6 @@ import RequestBodyEditor from "./RequestBodyEditor";
 import { buildClientSchema, getIntrospectionQuery } from "graphql";
 import { useTranslations } from "next-intl";
  
- 
-
- 
 interface RequestHandlerProps {
   schema: string;
   method: string;
