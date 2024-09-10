@@ -1,6 +1,6 @@
 import React from "react";
 import styles from "./UrlEditor.module.scss";
-
+import { useTranslations } from "next-intl";
 interface UrlEditorProps {
   currentMethod: string;
   setMethod: React.Dispatch<React.SetStateAction<string>>;
@@ -16,6 +16,7 @@ const UrlEditor: React.FC<UrlEditorProps> = ({
   setEndpoint,
   onSendRequest,
 }) => {
+  const t = useTranslations("Rest");
   return (
     <div className={styles.editor}>
       <select
@@ -46,7 +47,7 @@ const UrlEditor: React.FC<UrlEditorProps> = ({
         }}
         className={styles.editor__button}
       >
-        Send
+        {t("send")}
       </button>
     </div>
   );

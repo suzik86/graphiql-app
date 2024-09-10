@@ -108,5 +108,23 @@
     "header": "Header",
     "variable": "Variable",
     "add": "Add"
+  },
+  "Rest": {
+    "title": "RESTfull Client",
+    "send": "Send",
+    "Headers": "Headers",
+    "variables": "Variables",
+    "editor": "Body",
+    "response": "Response",
+    "status": "Status",
+    "Body": "Body",
+    "text": "Text",
+    "beautify": "Beautify",
+    "add": "Add",
+    "variable": "Variable",
+    "header": "Header",
+    "key": "Key",
+    "value": "Value"
+
   }
 }
