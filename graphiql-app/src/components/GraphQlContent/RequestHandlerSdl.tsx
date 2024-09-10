@@ -1,17 +1,13 @@
-<<<<<<< HEAD
+ 
 import React, { useState, forwardRef, useImperativeHandle } from "react";
 import styles from "./RequestHandler.module.scss";
 import RequestBodyEditor from "./RequestBodyEditor";
 import { buildClientSchema, getIntrospectionQuery } from "graphql";
 import { useTranslations } from "next-intl";
-=======
-import { buildClientSchema, getIntrospectionQuery } from "graphql";
-import { useTranslations } from "next-intl";
-import { forwardRef, useImperativeHandle, useState } from "react";
-import RequestBodyEditor from "./RequestBodyEditor";
-import styles from "./RequestHandler.module.scss";
+ 
+ 
 
->>>>>>> 336c8f2a02927b6b5ce620ef720687c1f2b8c543
+ 
 interface RequestHandlerProps {
   schema: string;
   method: string;

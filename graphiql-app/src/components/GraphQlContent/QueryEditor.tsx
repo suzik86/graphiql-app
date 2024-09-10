@@ -53,10 +53,7 @@ type RequestBodyEditorProps = {
 const QueryEditor: React.FC<RequestBodyEditorProps> = ({
   title,
   body,
-<<<<<<< HEAD
-
-=======
->>>>>>> 336c8f2a02927b6b5ce620ef720687c1f2b8c543
+ 
   setSchema = () => {},
   readOnly = false,
   editorMode,
