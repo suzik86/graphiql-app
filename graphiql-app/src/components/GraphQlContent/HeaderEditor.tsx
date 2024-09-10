@@ -4,7 +4,7 @@ import KeyValueEditor from "./KeyValueEditor";
 import { useTranslations } from "next-intl";
 import { Header, Variable } from "./GraphQlContent";
 import { updateURL } from "../../utils/urlUpdater";
-//import Header
+
 type HeaderEditorProps = {
   title: string;
   method: string;
@@ -16,7 +16,6 @@ type HeaderEditorProps = {
 };
 
 export default function HeaderEditor({
-
   method,
   endpoint,
   body,
@@ -38,7 +37,6 @@ export default function HeaderEditor({
         items={headers}
         setItems={setHeaders}
         itemType="header"
-
         onUpdateURL={handleUpdateURL}
       />
     </div>

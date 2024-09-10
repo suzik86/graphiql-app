@@ -61,7 +61,7 @@ const RequestBodyEditor: React.FC<RequestBodyEditorProps> = ({
   const maxHeight = 500;
 
   const handleEditorDidMount = (
-    editor: monaco.editor.IStandaloneCodeEditor
+    editor: monaco.editor.IStandaloneCodeEditor,
   ) => {
     editorRef.current = editor;
     handleBeautify();
@@ -133,7 +133,11 @@ const RequestBodyEditor: React.FC<RequestBodyEditorProps> = ({
                   onClick={handleBeautify}
                 >
                   Beautify
-                  <Image src={wand} alt="magic-stick" className={styles.body__beautify__icon} />
+                  <Image
+                    src={wand}
+                    alt="magic-stick"
+                    className={styles.body__beautify__icon}
+                  />
                 </span>
               )}
             </div>
