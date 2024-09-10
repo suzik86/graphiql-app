@@ -127,7 +127,7 @@ const RestClient: React.FC = () => {
 
   useEffect(() => {
     updateURL(currentMethod, currentEndpoint, blurredBody, headers, variables);
-  }, [blurredBody]);
+  }, [blurredBody, currentMethod, currentEndpoint, headers, variables]);
 
   const handleBodyUpdate = (updatedBody: string) => {
     setBody(updatedBody);

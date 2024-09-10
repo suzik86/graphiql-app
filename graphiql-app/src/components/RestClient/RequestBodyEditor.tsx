@@ -132,12 +132,8 @@ const RequestBodyEditor: React.FC<RequestBodyEditorProps> = ({
                   className={styles.body__beautify}
                   onClick={handleBeautify}
                 >
-                  {t("beautify")}
-                  <Image
-                    src={wand}
-                    alt="magic-stick"
-                    className={styles.body__beautify__icon}
-                  />
+                  Beautify
+                  <Image src={wand} alt="magic-stick" className={styles.body__beautify__icon} />
                 </span>
               )}
             </div>

@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import styles from "./KeyValueEditor.module.scss";
 import { useTranslations } from "next-intl";
+
 type Item = {
   key: string;
   value: string;
@@ -10,7 +11,10 @@ type Item = {
 type KeyValueEditorProps = {
   items: Item[];
   setItems: React.Dispatch<React.SetStateAction<Item[]>>;
+<<<<<<< HEAD
 
+=======
+>>>>>>> 336c8f2a02927b6b5ce620ef720687c1f2b8c543
   itemType: string;
   onUpdateURL?: (items: Item[]) => void;
 };

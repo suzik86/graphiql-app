@@ -21,7 +21,7 @@ const History: FC = () => {
     ]) || [];
 
   const btns = [
-    { link: "/", text: t("rest") },
+    { link: `/${localActive}/GET/`, text: t("rest") },
     { link: `/${localActive}/GRAPHQL/{}`, text: t("graphiql") },
   ];
 
