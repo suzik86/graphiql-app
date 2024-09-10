@@ -15,8 +15,8 @@ const Footer = () => {
         <div className={styles.footer__inner}>
           <div className={styles.footer__item}>
             <div className={styles.footer__githubs}>
-              {githubs.map((item) => (
-                <Github to={item.to} username={item.username} />
+              {githubs.map((item, index) => (
+                <Github key={index} to={item.to} username={item.username} />
               ))}
             </div>
           </div>
