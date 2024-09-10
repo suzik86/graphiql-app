@@ -9,6 +9,7 @@ import RequestHandler from "./RequestHandler";
 import styles from "./RestClient.module.scss";
 import UrlEditor from "./UrlEditor";
 import VariableEditor from "./VariablesEditor";
+import { useTranslations } from "next-intl";
 
 export interface Header {
   key: string;
@@ -104,6 +105,7 @@ const RestClient: React.FC = () => {
     initialVariables = extractedData.variables;
   }
 
+  const t = useTranslations("Rest");
   const [currentMethod, setMethod] = useState<string>(method || "GET");
   const [currentEndpoint, setEndpoint] = useState<string>(endpoint || "");
   const [headers, setHeaders] = useState<Header[]>(
@@ -151,7 +153,7 @@ const RestClient: React.FC = () => {
     <section className={styles.content}>
       <div className={styles.content__inner}>
         <div className={styles.content__wrapper}>
-          <h1 className={styles.content__title}>RESTfull Client</h1>
+          <h1 className={styles.content__title}>{t("title")}</h1>
           <div className={styles.content__background} />
 
           <UrlEditor
@@ -174,7 +176,7 @@ const RestClient: React.FC = () => {
             className={styles.content__toggle}
             onClick={() => setIsVariablesVisible(!isVariablesVisible)}
           >
-            Variables {isVariablesVisible ? "-" : "+"}
+            {t("variables")} {isVariablesVisible ? "-" : "+"}
           </div>
 
           {isVariablesVisible && (

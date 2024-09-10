@@ -39,19 +39,19 @@
     }
 
     &__default {
-      background-color: $cool-grey; // Grey
+      background-color: $cool-grey;
     }
 
     &__success {
-      background-color: $green-apple; // Green
+      background-color: $green-apple;
     }
 
     &__clientError {
-      background-color: $sunshine-yellow; // Yellow
+      background-color: $sunshine-yellow;
     }
 
     &__serverError {
-      background-color: $pastel-red; // Red
+      background-color: $pastel-red;
     }
   }
 }

@@ -89,7 +89,7 @@ function Login() {
                       { required: true, message: t("password-error") },
                       {
                         pattern:
-                          /^(?=.*[a-zа-яё])(?=.*\d)(?=.*[@$!%*?&])[A-Za-zА-ЯЁа-яё\d@$!%*?&]{8,}$/,
+                          /^(?=.*[a-zа-яё])(?=.*\d)(?=.*[@$!%*?&\p{L}])[A-Za-zА-ЯЁа-яё\d@$!%*?&\p{L}]{8,}$/u,
                         message: t("invalid-password"),
                       },
                     ]}
