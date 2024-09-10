@@ -57,7 +57,6 @@ const QueryEditor: React.FC<RequestBodyEditorProps> = ({
   setSchema = () => {},
   readOnly = false,
   editorMode,
-  method,
   schema,
 }) => {
   const editorRef = useRef<monaco.editor.IStandaloneCodeEditor | null>(null);
@@ -71,14 +70,18 @@ const QueryEditor: React.FC<RequestBodyEditorProps> = ({
   const handleFormat = () => {
     try {
       const parsedQuery = parse(schema);
-      const printedQuery = print(parsedQuery);
-      console.log("PRINTED", printedQuery);
-      setSchema(`${method} ${printedQuery}`);
+      let printedQuery = print(parsedQuery);
+  
+      if (!printedQuery.startsWith("query") && !printedQuery.startsWith("mutation")) {
+        printedQuery = `query ${printedQuery}`;
+      }
+  
+      setSchema(printedQuery);
     } catch (error) {
       console.error("Invalid GraphQL query:", error);
     }
   };
-
+  
   const handleEditorTheme = (monaco: Monaco) => {
     monaco.editor.defineTheme("myCustomTheme", {
       ...myCustomTheme,
