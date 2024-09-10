@@ -57,7 +57,7 @@ const QueryEditor: React.FC<RequestBodyEditorProps> = ({
   setSchema = () => { },
   readOnly = false,
   editorMode,
-
+method,
   schema,
 }) => {
   const editorRef = useRef<monaco.editor.IStandaloneCodeEditor | null>(null);
@@ -74,7 +74,8 @@ const QueryEditor: React.FC<RequestBodyEditorProps> = ({
     try {
       const parsedQuery = parse(schema);
       const printedQuery = print(parsedQuery);
-      setSchema(printedQuery)
+      console.log("PRINTED", printedQuery)
+      setSchema(`${method} ${printedQuery}`)
 
     } catch (error) {
       console.error('Invalid GraphQL query:', error);
