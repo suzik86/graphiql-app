@@ -37,7 +37,7 @@ const getHeadersFromParams = (searchParams: URLSearchParams): Header[] => {
       }
       return acc;
     },
-    []
+    [],
   );
 };
 
@@ -86,15 +86,15 @@ const GrafQlContent = () => {
   const [headers, setHeaders] = useState<Header[]>(initialState.headers);
   const [currentMethod, setMethod] = useState<string>("query ");
   const [currentEndpoint, setEndpoint] = useState<string>(
-    initialState.currentEndpoint
+    initialState.currentEndpoint,
   );
   const [variables, setVariables] = useState<Variable[]>(
-    initialState.variables
+    initialState.variables,
   );
 
   const [selectedMethod, setSelectedMethod] = useState("query");
   const [schema, setSchema] = useState<object | string>(
-    initialState.schema || selectedMethod
+    initialState.schema || selectedMethod,
   );
 
   const [currentBody, setBody] = useState<object | string | null>(null);
@@ -118,14 +118,17 @@ const GrafQlContent = () => {
     localStorage.setItem("pathnames", JSON.stringify(pathnames));
   }, [currentEndpoint]);
 
-  const sendRequest = useCallback(() => {    
+  const sendRequest = useCallback(() => {
     savePathname();
     requestHandlerRef.current?.sendRequest();
   }, [savePathname, requestHandlerRef]);
 
-  const sendRequestSdl = useCallback((endpoint: string) => {
-    requestHandlerSdlRef.current?.sendRequest(endpoint);
-  }, [requestHandlerSdlRef]);
+  const sendRequestSdl = useCallback(
+    (endpoint: string) => {
+      requestHandlerSdlRef.current?.sendRequest(endpoint);
+    },
+    [requestHandlerSdlRef],
+  );
 
   useEffect(() => {
     if (schema) {

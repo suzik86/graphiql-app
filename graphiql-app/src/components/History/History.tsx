@@ -20,7 +20,7 @@ const History: FC = () => {
     () =>
       typeof window !== "undefined"
         ? JSON.parse(localStorage?.getItem("pathnames") || "[]")
-        : []
+        : [],
   )[0];
 
   const btns = [
@@ -61,12 +61,12 @@ const History: FC = () => {
                 {requests
                   .sort(
                     (a, b) =>
-                      new Date(b.date).getTime() - new Date(a.date).getTime()
+                      new Date(b.date).getTime() - new Date(a.date).getTime(),
                   )
                   .map(
                     (
                       request: { path: string; date: string; endpoint: string },
-                      index: number
+                      index: number,
                     ) => (
                       <li key={index} className={styles.history__request}>
                         <div>{formatDate(request.date)}</div>
@@ -79,7 +79,7 @@ const History: FC = () => {
                           </Link>
                         </div>
                       </li>
-                    )
+                    ),
                   )}
               </ul>
             )}

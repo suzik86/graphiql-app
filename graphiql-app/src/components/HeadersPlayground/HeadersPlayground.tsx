@@ -31,7 +31,7 @@ const HeaderTable = ({ title, handleChangeHeaders, rows }: HeadersProps) => {
   const handleInputChange = (
     index: number,
     field: "key" | "value",
-    value: string
+    value: string,
   ) => {
     const newRows = [...rows];
     newRows[index][field] = value;

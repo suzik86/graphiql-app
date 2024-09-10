@@ -108,7 +108,6 @@
     "header": "Header",
     "variable": "Variable",
     "add": "Add"
- 
   },
   "Rest": {
     "title": "RESTfull Client",
@@ -126,7 +125,5 @@
     "header": "Header",
     "key": "Key",
     "value": "Value"
-
- 
   }
 }

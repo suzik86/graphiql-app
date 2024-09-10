@@ -40,12 +40,12 @@ const getHeadersFromParams = (searchParams: URLSearchParams): Header[] => {
       }
       return acc;
     },
-    []
+    [],
   );
 };
 
 function extractBodyAndVariables(
-  encodedData: string | undefined
+  encodedData: string | undefined,
 ): ExtractedData {
   if (!encodedData) {
     return { body: null, variables: [] };
@@ -109,13 +109,13 @@ const RestClient: React.FC = () => {
   const [currentMethod, setMethod] = useState<string>(method || "GET");
   const [currentEndpoint, setEndpoint] = useState<string>(endpoint || "");
   const [headers, setHeaders] = useState<Header[]>(
-    getHeadersFromParams(searchParams)
+    getHeadersFromParams(searchParams),
   );
   const [currentBody, setBody] = useState<object | string | null>(body);
   const [blurredBody, setBlurredBody] = useState<object | string | null>(body);
   const [isVariablesVisible, setIsVariablesVisible] = useState<boolean>(true);
   const [variables, setVariables] = useState<Variable[]>(
-    initialVariables || []
+    initialVariables || [],
   );
   const [editorMode, setEditorMode] = useState<"json" | "text">("json");
   const requestHandlerRef =
@@ -141,10 +141,10 @@ const RestClient: React.FC = () => {
       endpoint: currentEndpoint,
     };
     pathnames.push(newPath);
-    localStorage.setItem("pathnames", JSON.stringify(pathnames));    
+    localStorage.setItem("pathnames", JSON.stringify(pathnames));
   }, [currentEndpoint]);
 
-  const sendRequest = useCallback(() => {  
+  const sendRequest = useCallback(() => {
     savePathname();
     requestHandlerRef.current?.sendRequest();
   }, [savePathname, requestHandlerRef]);
