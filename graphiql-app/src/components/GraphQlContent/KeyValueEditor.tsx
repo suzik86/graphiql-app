@@ -11,10 +11,7 @@ type Item = {
 type KeyValueEditorProps = {
   items: Item[];
   setItems: React.Dispatch<React.SetStateAction<Item[]>>;
-<<<<<<< HEAD
 
-=======
->>>>>>> 336c8f2a02927b6b5ce620ef720687c1f2b8c543
   itemType: string;
   onUpdateURL?: (items: Item[]) => void;
 };
