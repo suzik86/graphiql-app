@@ -165,7 +165,6 @@ const RequestBodyEditor: React.FC<RequestBodyEditorProps> = ({
                 value:
                   "This editor is in read-only mode. You cannot edit the content.",
               },
-
               fontSize: 22,
             }}
           />

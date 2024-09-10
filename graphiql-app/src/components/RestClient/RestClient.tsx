@@ -10,7 +10,7 @@ import RequestBodyEditor from "./RequestBodyEditor";
 import VariableEditor from "./VariablesEditor";
 import RequestHandler from "./RequestHandler";
 import UrlEditor from "./UrlEditor";
-
+import { useTranslations } from "next-intl";
 export interface Header {
   key: string;
   value: string;
@@ -105,6 +105,7 @@ const RestClient: React.FC = () => {
     initialVariables = extractedData.variables;
   }
 
+  const t = useTranslations("Rest");
   const [currentMethod, setMethod] = useState<string>(method || "GET");
   const [currentEndpoint, setEndpoint] = useState<string>(endpoint || "");
   const [headers, setHeaders] = useState<Header[]>(
@@ -126,7 +127,7 @@ const RestClient: React.FC = () => {
 
   useEffect(() => {
     updateURL(currentMethod, currentEndpoint, blurredBody, headers, variables);
-  }, [blurredBody]);
+  }, [blurredBody, currentMethod, currentEndpoint, headers, variables]);
 
   const handleBodyUpdate = (updatedBody: string) => {
     setBody(updatedBody);
@@ -140,7 +141,7 @@ const RestClient: React.FC = () => {
     <section className={styles.content}>
       <div className={styles.content__inner}>
         <div className={styles.content__wrapper}>
-          <h1 className={styles.content__title}>RESTfull Client</h1>
+          <h1 className={styles.content__title}>{t("title")}</h1>
           <div className={styles.content__background} />
 
           <UrlEditor
@@ -163,7 +164,7 @@ const RestClient: React.FC = () => {
             className={styles.content__toggle}
             onClick={() => setIsVariablesVisible(!isVariablesVisible)}
           >
-            Variables {isVariablesVisible ? "-" : "+"}
+            {t("variables")} {isVariablesVisible ? "-" : "+"}
           </div>
 
           {isVariablesVisible && (

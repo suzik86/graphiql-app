@@ -4,7 +4,7 @@ import KeyValueEditor from "./KeyValueEditor";
 import { useTranslations } from "next-intl";
 import { Header, Variable } from "./GraphQlContent";
 import { updateURL } from "../../utils/urlUpdater";
-//import Header
+
 type HeaderEditorProps = {
   title: string;
   method: string;

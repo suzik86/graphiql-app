@@ -25,7 +25,6 @@ const graphiqlSlice = createSlice({
   name: "graphiql",
   initialState,
   reducers: {
-    // setGraphiQlValues(state, action: PayloadAction<graphiQlTypes>) {},
     setData(state, action: PayloadAction<string>) {
       state.response = action.payload;
     },

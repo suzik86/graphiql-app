@@ -1,5 +1,6 @@
 import React, { useState, useCallback } from "react";
 import KeyValueEditor from "./KeyValueEditor";
+
 type Variable = {
   key: string;
   value: string;
@@ -23,13 +24,13 @@ const VariableEditor: React.FC<VariableEditorProps> = ({
 
   const createVariableMap = (variables: Variable[]): Map<string, string> => {
     return new Map(
-      variables.filter((v) => v.included).map((v) => [v.key, v.value]),
+      variables.filter((v) => v.included).map((v) => [v.key, v.value])
     );
   };
 
   const updateJsonBody = (
     jsonBody: Record<string, unknown>,
-    variableMap: Map<string, string>,
+    variableMap: Map<string, string>
   ): Record<string, unknown> => {
     const updatedObject: Record<string, unknown> = { ...jsonBody };
 
@@ -52,11 +53,11 @@ const VariableEditor: React.FC<VariableEditorProps> = ({
 
   const updateTextBody = (
     body: string,
-    variableMap: Map<string, string>,
+    variableMap: Map<string, string>
   ): string => {
     let newBody = body;
     const placeholders = Array.from(variableMap.keys()).map(
-      (key) => `{{${key}}}`,
+      (key) => `{{${key}}}`
     );
 
     const placeholderRegex = /{{\s*[^{}]+\s*}}/g;
@@ -98,7 +99,7 @@ const VariableEditor: React.FC<VariableEditorProps> = ({
         onUpdateBody(updatedTextBody);
       }
     },
-    [body, onUpdateBody],
+    [body, onUpdateBody]
   );
 
   return (
@@ -106,14 +107,12 @@ const VariableEditor: React.FC<VariableEditorProps> = ({
       <KeyValueEditor
         items={variables}
         setItems={setVariables}
-     //   itemType={t("variables")}
         itemType="variable"
         onUpdateURL={updateBody}
       />
       {errorMessage && (
         <div style={{ color: "red", marginTop: "10px" }}>{errorMessage}</div>
       )}
-      
     </div>
   );
 };

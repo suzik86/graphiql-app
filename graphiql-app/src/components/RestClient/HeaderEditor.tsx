@@ -3,7 +3,7 @@ import styles from "./HeaderEditor.module.scss";
 import KeyValueEditor from "./KeyValueEditor";
 import { Header, Variable } from "./RestClient";
 import { updateURL } from "../../utils/urlUpdater";
-
+import { useTranslations } from "next-intl";
 type HeaderEditorProps = {
   title: string;
   method: string;
@@ -29,10 +29,10 @@ export default function HeaderEditor({
     },
     [method, endpoint, body, variables],
   );
-
+  const t = useTranslations("Rest");
   return (
     <div className={styles.headers}>
-      <p className={styles.headers__title}>{title}</p>
+      <p className={styles.headers__title}>{t(title)}</p>
       <KeyValueEditor
         items={headers}
         setItems={setHeaders}

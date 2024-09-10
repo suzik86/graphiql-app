@@ -12,10 +12,12 @@
     background-color: $black-light;
   }
 
-  &__images {
+  &__content {
     display: flex;
-    justify-content: center;
-    column-gap: 68px;
+    justify-content: space-between;
+    align-items: center;
+    gap: 50px;
+    padding: 0 40px;
   }
 
   &__title {
@@ -25,5 +27,22 @@
     color: $white;
     margin-bottom: 60px;
     font-family: "Nunito", sans-serif;
+  }
+
+  &__text {
+    font-size: 24px;
+    color: $white;
+    font-family: "Nunito", sans-serif;
+    margin-bottom: 40px;
+    text-align: justify;
+  }
+
+  &__text__block {
+    padding-bottom: 15px;
+  }
+
+  .logo {
+    width: 100px;
+    height: 100px;
   }
 }

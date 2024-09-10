@@ -4,7 +4,7 @@ import { Editor, type Monaco } from "@monaco-editor/react";
 import * as monaco from "monaco-editor";
 import styles from "./RequestBodyEditor.module.scss";
 import wand from "../../assets/magic-stick.svg";
-
+import { useTranslations } from "next-intl";
 const myCustomTheme: monaco.editor.IStandaloneThemeData = {
   base: "vs-dark",
   inherit: true,
@@ -111,11 +111,11 @@ const RequestBodyEditor: React.FC<RequestBodyEditorProps> = ({
     }
   };
   const defaultValue = readOnly ? undefined : '{"key": "value"}';
-
+  const t = useTranslations("Rest");
   return (
     <>
       <div className={styles.body}>
-        <p className={styles.body__title}>{title}</p>
+        <p className={styles.body__title}>{t(title)}</p>
         <div className={styles.body__container}>
           {!readOnly && (
             <div className={styles.body__controls}>
@@ -125,7 +125,7 @@ const RequestBodyEditor: React.FC<RequestBodyEditorProps> = ({
                 onChange={handleModeChange}
               >
                 <option value="json">JSON</option>
-                <option value="text">Text</option>
+                <option value="text">{t("text")}</option>
               </select>
               {editorMode === "json" && !readOnly && (
                 <span

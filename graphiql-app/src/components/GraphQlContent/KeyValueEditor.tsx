@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import styles from "./KeyValueEditor.module.scss";
 import { useTranslations } from "next-intl";
+
 type Item = {
   key: string;
   value: string;

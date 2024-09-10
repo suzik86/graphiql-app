@@ -1,5 +1,6 @@
 import Image from "next/image";
 import styles from "./MainPageProjectInfo.module.scss";
+
 interface MainProps {
   img1: string;
   img2: string;
