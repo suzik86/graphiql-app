@@ -84,7 +84,7 @@ const GrafQlContent = () => {
   }, [pathname, searchParams]);
 
   const [headers, setHeaders] = useState<Header[]>(initialState.headers);
-  const [currentMethod, setMethod] = useState<string>("query ");
+  const [currentMethod, setMethod] = useState(`query {\n\n}`);
   const [currentEndpoint, setEndpoint] = useState<string>(
     initialState.currentEndpoint,
   );

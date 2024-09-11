@@ -10,6 +10,7 @@ export function decodeBase64(str: string): string {
   if (typeof window !== "undefined") {
     try {
       const decodedStr = decodeURIComponent(str);
+
       const paddedStr = decodedStr.padEnd(
         decodedStr.length + ((4 - (decodedStr.length % 4)) % 4),
         "=",
