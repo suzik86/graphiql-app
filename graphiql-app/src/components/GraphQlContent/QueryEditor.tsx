@@ -73,12 +73,19 @@ const QueryEditor: React.FC<RequestBodyEditorProps> = ({
   const handleFormat = () => {
     try {
       const parsedQuery = parse(schema);
-      const printedQuery = print(parsedQuery);
-      setSchema(printedQuery)
 
+      let printedQuery = print(parsedQuery);
+
+      if (
+        !printedQuery.startsWith("query") &&
+        !printedQuery.startsWith("mutation")
+      ) {
+        printedQuery = `query ${printedQuery}`;
+      }
+
+      setSchema(printedQuery);
     } catch (error) {
-      console.error('Invalid GraphQL query:', error);
-
+      console.error("Invalid GraphQL query:", error);
     }
   };
 
