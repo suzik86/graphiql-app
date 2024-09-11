@@ -80,7 +80,7 @@ const GrafQlContent = () => {
   const [currentEndpoint, setEndpoint] = useState<string>(initialState.currentEndpoint);
   const [variables, setVariables] = useState<Variable[]>(initialState.variables);
 
-  const [selectedMethod, setSelectedMethod] = useState("query")
+  const [selectedMethod, setSelectedMethod] = useState(`query {\n\n}`)
   const [schema, setSchema] = useState<object | string>(initialState.schema || selectedMethod);
  
   const [currentBody, setBody] = useState<object | string | null>(null);

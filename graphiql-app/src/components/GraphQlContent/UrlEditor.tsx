@@ -27,14 +27,15 @@ const UrlEditor: React.FC<UrlEditorProps> = ({
           if (setMethod) {
             setMethod(e.target.value)
             setSchema(String(e.target.value))
-      
+
           }
         }}
         className={styles.editor__select}
       >
+        <option value={`query {\n\n}`}>query</option>
 
-        <option value="query">query</option>
-        <option value="mutation">mutation</option>
+        <option value={`mutation {\n\n}`}>mutation</option>
+
       </select>
 
       <input
