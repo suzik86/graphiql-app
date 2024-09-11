@@ -47,7 +47,7 @@ async function handleRequest(req: NextRequest, method: string) {
       "Content-Type": queryContentType || defaultHeaders["Content-Type"],
     };
 
-    console.log("combinedHeaders:", combinedHeaders);
+    
 
     const externalResponse = await fetch(endpoint, {
       method,
@@ -69,7 +69,6 @@ async function handleRequest(req: NextRequest, method: string) {
       },
     });
   } catch (error) {
-    console.error("Error handling request:", error);
     return NextResponse.json(
       { error: "Internal Server Error" },
       { status: 500 },

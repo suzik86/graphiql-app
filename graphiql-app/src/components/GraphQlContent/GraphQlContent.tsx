@@ -55,22 +55,21 @@ const GrafQlContent = () => {
         const decodedUrl = decodeBase64(endpointBase64String);
         const decodedBody = decodeBase64(bodyBase64String);
         const bodyJson = JSON.parse(decodedBody);
-
+       
+      
         currentEndpoint = decodedUrl;
         variables = bodyJson.variables || [];
-
+        
         if (bodyJson.body && bodyJson.body.schema) {
           schema = bodyJson.body.schema;
-
-        
-        }
-        headers = getHeadersFromParams(searchParams);
+          
+          
+          }
+          headers = getHeadersFromParams(searchParams); 
+    
       } catch (e) {
-        console.error("Error decoding body or endpoint:", e);
       }
     }
-
-    console.log("Initial state:", { headers, currentEndpoint, variables, schema});
     return { headers, currentEndpoint, variables, schema };
   }, [pathname, searchParams]);
 

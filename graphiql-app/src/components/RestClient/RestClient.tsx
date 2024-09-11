@@ -59,7 +59,6 @@ function extractBodyAndVariables(
 
     return { body, variables };
   } catch (error) {
-    console.error("Error decoding or parsing data:", error);
     return { body: null, variables: [] };
   }
 }
@@ -94,7 +93,6 @@ const RestClient: React.FC = () => {
         endpoint = decodedString;
       }
     } catch (error) {
-      console.error("Error parsing single encoded parameter:", error);
       endpoint = decodedString;
     }
   } else if (encodedUrlArray.length === 2) {

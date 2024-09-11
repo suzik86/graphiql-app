@@ -77,8 +77,6 @@ const QueryEditor: React.FC<RequestBodyEditorProps> = ({
       setSchema(printedQuery)
 
     } catch (error) {
-      console.error('Invalid GraphQL query:', error);
-
     }
   };
 

@@ -40,7 +40,6 @@ function Login() {
         if (error.code === "auth/invalid-credential") {
           openNotificationWithIcon("error");
         } else {
-          console.error(error);
         }
       });
   };

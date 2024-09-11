@@ -96,7 +96,6 @@ const RequestHandler = forwardRef<RequestHandlerRef, RequestHandlerProps>(
         setResponse(JSON.stringify(responseData));
       } catch (error) {
         if (error instanceof Error) {
-          console.error("Request error:", error);
           setStatus(500);
           setResponse(error.message);
         }
@@ -117,13 +116,16 @@ const RequestHandler = forwardRef<RequestHandlerRef, RequestHandlerProps>(
     };
 
     const formatJson = (jsonString: string): string => {
-      try {
-        const json = JSON.parse(jsonString);
-        return JSON.stringify(json, null, 2);
+   try {
+    if(jsonString) {
+
+      const json = JSON.parse(jsonString);
+      return JSON.stringify(json, null, 2);
+   }
+    return ""
       } catch (e) {
-        console.error("Invalid JSON:", e);
         return jsonString;
-      }
+     }  
     };
     const t = useTranslations("GraphQl");
     return (
@@ -152,3 +154,5 @@ const RequestHandler = forwardRef<RequestHandlerRef, RequestHandlerProps>(
 );
 
 export default RequestHandler;
+
+ 

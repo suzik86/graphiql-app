@@ -9,7 +9,6 @@ export default function useLocalStorage(key: string) {
     try {
       window?.localStorage.setItem(key, value ?? "");
     } catch (error) {
-      console.error(error);
     }
     return () => {
       window?.localStorage.setItem(key, value ?? "");

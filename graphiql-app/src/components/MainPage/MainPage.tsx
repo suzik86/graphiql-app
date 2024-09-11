@@ -46,7 +46,6 @@ function MainPage() {
       const data = doc.docs[0].data();
       setName(data.name);
     } catch (err) {
-      console.error((err as Error).message);
       openNotificationWithIcon("error");
     }
   };

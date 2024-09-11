@@ -42,7 +42,6 @@ const VariableEditor: React.FC<VariableEditorProps> = ({
         updatedObject[existingKey] === `{{${existingKey}}}` &&
         !variableMap.has(existingKey)
       ) {
-        console.log(`Removing unused key: ${existingKey}`);
         delete updatedObject[existingKey];
       }
     });
@@ -74,8 +73,7 @@ const VariableEditor: React.FC<VariableEditorProps> = ({
     return newBody.trim();
   };
 
-  const handleParseError = (error: Error) => {
-    console.error("Failed to parse body as JSON:", error);
+  const handleParseError = () => {
     setErrorMessage("Invalid JSON format. Please check the body content.");
   };
 
@@ -85,15 +83,11 @@ const VariableEditor: React.FC<VariableEditorProps> = ({
 
       try {
         const jsonBody = JSON.parse(body);
-        console.log("Parsed JSON body:", jsonBody);
-
         const updatedJsonBody = updateJsonBody(jsonBody, variableMap);
-        console.log("Final updated JSON body:", updatedJsonBody);
         onUpdateBody(JSON.stringify(updatedJsonBody, null, 2));
         setErrorMessage(null);
       } catch (error) {
-        handleParseError(error as Error);
-
+        handleParseError();
         const updatedTextBody = updateTextBody(body, variableMap);
         onUpdateBody(updatedTextBody);
       }
@@ -106,7 +100,6 @@ const VariableEditor: React.FC<VariableEditorProps> = ({
       <KeyValueEditor
         items={variables}
         setItems={setVariables}
-     //   itemType={t("variables")}
         itemType="variable"
         onUpdateURL={updateBody}
       />

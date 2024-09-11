@@ -34,8 +34,6 @@ const RequestHandlerSdl = forwardRef<
     const sendRequest = async () => {
       if (endpoint.includes("sdl")) {
         try {
-          console.log("ENDPOINT", endpoint);
-
           const response = await fetch(endpoint, {
             method: "POST",
             headers: {
@@ -50,8 +48,6 @@ const RequestHandlerSdl = forwardRef<
 
           if (response.ok) {
             const schema = buildClientSchema(results.data);
-            console.log(schema);
-
             setStatus(200);
             setResponse(JSON.stringify(schema));
           } else {
@@ -66,9 +62,6 @@ const RequestHandlerSdl = forwardRef<
           } else if (typeof error === "string") {
             errorMessage = error;
           }
-
-          console.error("Request error:", errorMessage);
-
           setStatus(500);
           setResponse(errorMessage);
         }
@@ -94,7 +87,6 @@ const RequestHandlerSdl = forwardRef<
         const json = JSON.parse(jsonString);
         return JSON.stringify(json, null, 2);
       } catch (e) {
-        console.error("Invalid JSON:", e);
         return jsonString;
       }
     };

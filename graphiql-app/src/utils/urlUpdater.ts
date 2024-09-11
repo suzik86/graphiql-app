@@ -8,14 +8,6 @@ export const updateURL = (
   headers: Header[],
   variables: Variable[],
 ) => {
-  console.log("URL UPDATE triggered:", {
-    method: method,
-    endpoint: endpoint,
-    body: body,
-    headers: headers,
-    variables: variables,
-  });
-
   const dataObject = {
     body: body,
     variables: variables,

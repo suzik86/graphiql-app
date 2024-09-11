@@ -92,7 +92,6 @@ const RequestHandler = forwardRef<
             : `Error: ${response.status} - ${response.statusText}`,
         );
       } catch (error) {
-        console.error("Error sending request:", error);
         setStatus(500);
         setResponse("Internal Server Error");
       }
