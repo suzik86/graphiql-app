@@ -84,7 +84,6 @@ const GrafQlContent = () => {
   }, [pathname, searchParams]);
 
   const [headers, setHeaders] = useState<Header[]>(initialState.headers);
-
   const [currentMethod, setMethod] = useState<string>("query ");
   const [currentEndpoint, setEndpoint] = useState<string>(
     initialState.currentEndpoint,
@@ -108,13 +107,28 @@ const GrafQlContent = () => {
     useRef<React.ElementRef<typeof RequestHandlerSdl>>(null);
   const [sdlEndpoint, setSdlEndpoint] = useState<string>("");
 
-  const sendRequest = useCallback(() => {
-    requestHandlerRef.current?.sendRequest();
-  }, []);
+  const savePathname = useCallback(() => {
+    const pathnames = JSON.parse(localStorage.getItem("pathnames") || "[]");
+    const newPath = {
+      path: window.location.href,
+      date: new Date().toISOString(),
+      endpoint: currentEndpoint,
+    };
+    pathnames.push(newPath);
+    localStorage.setItem("pathnames", JSON.stringify(pathnames));
+  }, [currentEndpoint]);
 
-  const sendRequestSdl = useCallback((endpoint: string) => {
-    requestHandlerSdlRef.current?.sendRequest(endpoint);
-  }, []);
+  const sendRequest = useCallback(() => {
+    savePathname();
+    requestHandlerRef.current?.sendRequest();
+  }, [savePathname, requestHandlerRef]);
+
+  const sendRequestSdl = useCallback(
+    (endpoint: string) => {
+      requestHandlerSdlRef.current?.sendRequest(endpoint);
+    },
+    [requestHandlerSdlRef],
+  );
 
   useEffect(() => {
     if (schema) {

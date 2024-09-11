@@ -12,7 +12,7 @@ export function decodeBase64(str: string): string {
       const decodedStr = decodeURIComponent(str);
       const paddedStr = decodedStr.padEnd(
         decodedStr.length + ((4 - (decodedStr.length % 4)) % 4),
-        "="
+        "=",
       );
       return decodeURIComponent(escape(atob(paddedStr)));
     } catch (e) {

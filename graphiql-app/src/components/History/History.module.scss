@@ -34,4 +34,30 @@
     column-gap: 46px;
     margin-top: 48px;
   }
+
+  &__request {
+    display: flex;
+    align-items: center;
+    margin-top: 30px;
+    gap: 40px;
+    justify-content: space-between;
+  }
+
+  &__request__link {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 5px 25px;
+    cursor: pointer;
+    font-weight: 400;
+    font-size: 18px;
+    color: #000;
+    font-family: "Nunito", sans-serif;
+    background-color: $purple;
+    border-radius: 15px;
+    transition: 0.4s ease-in-out;
+    &:hover {
+      background-color: $btn-active;
+    }
+  }
 }

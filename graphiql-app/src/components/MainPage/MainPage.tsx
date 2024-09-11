@@ -82,7 +82,11 @@ function MainPage() {
                 <ul className={styles.welcome__btns}>
                   {btns.map((item, index) => (
                     <li key={index}>
-                      <WelcomeButton key={index} to={item.link} text={item.text} />
+                      <WelcomeButton
+                        key={index}
+                        to={item.link}
+                        text={item.text}
+                      />
                     </li>
                   ))}
                 </ul>

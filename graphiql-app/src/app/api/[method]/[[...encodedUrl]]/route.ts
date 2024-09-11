@@ -31,7 +31,7 @@ async function handleRequest(req: NextRequest, method: string) {
       Object.entries(queryHeaders).map(([key, value]) => [
         key.toLowerCase(),
         value,
-      ])
+      ]),
     );
 
     const { "content-type": queryContentType, ...restQueryHeaders } =
@@ -71,7 +71,7 @@ async function handleRequest(req: NextRequest, method: string) {
     console.error("Error handling request:", error);
     return NextResponse.json(
       { error: "Internal Server Error" },
-      { status: 500 }
+      { status: 500 },
     );
   }
 }

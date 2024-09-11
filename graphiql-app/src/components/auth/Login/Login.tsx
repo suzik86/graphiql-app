@@ -47,7 +47,10 @@ function Login() {
 
   useEffect(() => {
     if (loading) return;
-    if (user) router.push(`/${localActive}`);
+    if (user) {
+      localStorage.removeItem("pathnames");
+      router.push(`/${localActive}`);
+    }
   }, [user, loading, router, localActive]);
 
   return (

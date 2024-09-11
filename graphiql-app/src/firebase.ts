@@ -69,6 +69,7 @@ const sendPasswordReset = async (email: string) => {
 };
 
 const logout = () => {
+  localStorage.removeItem("pathnames");
   signOut(auth);
 };
 

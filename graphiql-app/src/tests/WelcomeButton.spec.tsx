@@ -13,7 +13,7 @@ describe("WelcomeButton component", () => {
 
     expect(linkElement).toBeInTheDocument();
     expect(linkElement).toHaveAttribute("href", to);
-    expect(linkElement).toHaveClass("btn"); 
+    expect(linkElement).toHaveClass("btn");
   });
 
   test("renders correctly when provided an empty string as text", () => {

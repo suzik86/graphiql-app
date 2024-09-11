@@ -1,16 +1,16 @@
 "use client";
-
-import React, { useState, useEffect } from "react";
-import styles from "./RestClient.module.scss";
-import HeaderEditor from "./HeaderEditor";
-import { decodeBase64 } from "../../utils/base64";
 import { useParams, useSearchParams } from "next/navigation";
+import React, { useCallback, useEffect, useState } from "react";
+import { decodeBase64 } from "../../utils/base64";
 import { updateURL } from "../../utils/urlUpdater";
+import HeaderEditor from "./HeaderEditor";
 import RequestBodyEditor from "./RequestBodyEditor";
-import VariableEditor from "./VariablesEditor";
 import RequestHandler from "./RequestHandler";
+import styles from "./RestClient.module.scss";
 import UrlEditor from "./UrlEditor";
+import VariableEditor from "./VariablesEditor";
 import { useTranslations } from "next-intl";
+
 export interface Header {
   key: string;
   value: string;
@@ -133,9 +133,21 @@ const RestClient: React.FC = () => {
     setBody(updatedBody);
   };
 
-  const sendRequest = () => {
+  const savePathname = useCallback(() => {
+    const pathnames = JSON.parse(localStorage.getItem("pathnames") || "[]");
+    const newPath = {
+      path: window.location.href,
+      date: new Date().toISOString(),
+      endpoint: currentEndpoint,
+    };
+    pathnames.push(newPath);
+    localStorage.setItem("pathnames", JSON.stringify(pathnames));
+  }, [currentEndpoint]);
+
+  const sendRequest = useCallback(() => {
+    savePathname();
     requestHandlerRef.current?.sendRequest();
-  };
+  }, [savePathname, requestHandlerRef]);
 
   return (
     <section className={styles.content}>

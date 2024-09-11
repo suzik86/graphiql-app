@@ -1,10 +1,9 @@
- 
 import React, { useState, forwardRef, useImperativeHandle } from "react";
 import styles from "./RequestHandler.module.scss";
 import RequestBodyEditor from "./RequestBodyEditor";
 import { buildClientSchema, getIntrospectionQuery } from "graphql";
 import { useTranslations } from "next-intl";
- 
+
 interface RequestHandlerProps {
   schema: string;
   method: string;
