@@ -16,10 +16,10 @@ export function decodeBase64(str: string): string {
         "="
       );
 
-      /* eslint-disable no-control-regex */
       let result = decodeURIComponent(escape(atob(paddedStr)));
-      result = result.replace(/[\x00-\x1F\x7F-\x9F]/g, "");
-      /* eslint-enable no-control-regex */
+
+ 
+      result = result.replace(/[^\x20-\x7E]/g, "");  
 
       return result;
     } catch (e) {
@@ -29,11 +29,9 @@ export function decodeBase64(str: string): string {
   } else {
     try {
       const decodedStr = decodeURIComponent(str);
-
-      /* eslint-disable no-control-regex */
       let result = Buffer.from(decodedStr, "base64").toString("utf-8");
-      result = result.replace(/[\x00-\x1F\x7F-\x9F]/g, "");
-      /* eslint-enable no-control-regex */
+ 
+      result = result.replace(/[^\x20-\x7E]/g, "");   
 
       return result;
     } catch (e) {
