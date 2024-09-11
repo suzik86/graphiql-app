@@ -1,6 +1,1 @@
-#!/usr/bin/env sh
-echo debugging the pre-commit hook 1>&2
-exit 1
-# . "$(dirname -- "$0")/_/husky.sh"
-
-# npm test
+npm rin lint
