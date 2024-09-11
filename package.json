@@ -10,8 +10,8 @@
     "lint": "eslint .",
     "preview": "vite preview",
     "format:fix": "prettier --write .",
-    "prepare": "husky",
-    "test": "jest --coverage --verbose"
+    "test": "jest --coverage --verbose",
+    "prepare": "husky"
   },
   "dependencies": {
     "@apollo/experimental-nextjs-app-support": "^0.11.2",

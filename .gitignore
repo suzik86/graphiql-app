@@ -25,6 +25,4 @@ dist-ssr
 
 .next
 next-env.d.ts
-dist
-
 .vercel
