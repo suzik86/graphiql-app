@@ -66,7 +66,6 @@ const QueryEditor: React.FC<RequestBodyEditorProps> = ({
       editorRef.current.setValue(body as string);
     }
   }, [body]);
-
   const handleFormat = () => {
     try {
       const parsedQuery = parse(schema);
