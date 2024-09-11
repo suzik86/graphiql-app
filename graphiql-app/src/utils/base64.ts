@@ -15,16 +15,14 @@ export function decodeBase64(str: string): string {
         "=",
       );
       return decodeURIComponent(escape(atob(paddedStr)));
-    } catch (e) {
-      console.error("Base64 decoding failed:", e);
+    } catch {
       return "";
     }
   } else {
     try {
       const decodedStr = decodeURIComponent(str);
       return Buffer.from(decodedStr, "base64").toString("utf-8");
-    } catch (e) {
-      console.error("Base64 decoding failed on server:", e);
+    } catch {
       return "";
     }
   }

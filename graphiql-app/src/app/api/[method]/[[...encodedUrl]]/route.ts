@@ -1,5 +1,9 @@
 import { NextRequest, NextResponse } from "next/server";
 import { decodeBase64 } from "../../../../utils/base64";
+import {
+  handleClientError,
+  handleServerError,
+} from "../../../../utils/errorHandlers";
 
 export async function GET(req: NextRequest) {
   return handleRequest(req, "GET");
@@ -46,16 +50,24 @@ async function handleRequest(req: NextRequest, method: string) {
       "Content-Type": queryContentType || defaultHeaders["Content-Type"],
     };
 
-    console.log("combinedHeaders:", combinedHeaders);
-
     const externalResponse = await fetch(endpoint, {
       method,
       headers: combinedHeaders,
       body: method !== "GET" && method !== "HEAD" ? requestBody : undefined,
     });
 
+    const responseStatus = externalResponse.status;
+
     if (!externalResponse.ok) {
-      throw new Error(`Failed to fetch data: ${externalResponse.statusText}`);
+      const errorMessage =
+        responseStatus >= 400 && responseStatus < 500
+          ? handleClientError(responseStatus)
+          : handleServerError(responseStatus);
+
+      return NextResponse.json(
+        { error: errorMessage },
+        { status: responseStatus },
+      );
     }
 
     const data = await externalResponse.text();
@@ -67,8 +79,7 @@ async function handleRequest(req: NextRequest, method: string) {
           externalResponse.headers.get("Content-Type") || "application/json",
       },
     });
-  } catch (error) {
-    console.error("Error handling request:", error);
+  } catch {
     return NextResponse.json(
       { error: "Internal Server Error" },
       { status: 500 },

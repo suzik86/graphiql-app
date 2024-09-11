@@ -58,7 +58,17 @@ const RequestBodyEditor: React.FC<RequestBodyEditorProps> = ({
 }) => {
   const editorRef = useRef<monaco.editor.IStandaloneCodeEditor | null>(null);
   const [editorHeight, setEditorHeight] = useState<number>(200);
+  const [errorMessage, setErrorMessage] = useState<string | null>(null);
   const maxHeight = 500;
+
+  const validateJson = (value: string) => {
+    try {
+      JSON.parse(value);
+      setErrorMessage(null); // No error
+    } catch {
+      setErrorMessage("error-message");
+    }
+  };
 
   const handleEditorDidMount = (
     editor: monaco.editor.IStandaloneCodeEditor,
@@ -74,6 +84,7 @@ const RequestBodyEditor: React.FC<RequestBodyEditorProps> = ({
       if (!readOnly) {
         const latestBody = editorRef.current?.getValue() || "";
         setBlurredBody(latestBody);
+        validateJson(latestBody);
       }
     });
 
@@ -127,12 +138,15 @@ const RequestBodyEditor: React.FC<RequestBodyEditorProps> = ({
                 <option value="json">JSON</option>
                 <option value="text">{t("text")}</option>
               </select>
+              {errorMessage && (
+                <div className={styles.body__error}> {t(errorMessage)}</div>
+              )}
               {editorMode === "json" && !readOnly && (
                 <span
                   className={styles.body__beautify}
                   onClick={handleBeautify}
                 >
-                  Beautify
+                  {t("beautify")}
                   <Image
                     src={wand}
                     alt="magic-stick"

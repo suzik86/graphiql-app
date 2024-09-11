@@ -17,19 +17,53 @@ const UrlEditor: React.FC<UrlEditorProps> = ({
   onSendRequest,
 }) => {
   const t = useTranslations("Rest");
+
+  const handleMethodChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    setMethod(e.target.value);
+    getButtonClass();
+  };
+
+  const getButtonClass = () => {
+    let buttonClass = styles.editor__select;
+
+    switch (currentMethod) {
+      case "GET":
+        buttonClass += ` ${styles.editor__select__get}`;
+        break;
+      case "POST":
+        buttonClass += ` ${styles.editor__select__post}`;
+        break;
+      case "PUT":
+        buttonClass += ` ${styles.editor__select__put}`;
+        break;
+      case "DELETE":
+        buttonClass += ` ${styles.editor__select__delete}`;
+        break;
+      default:
+        break;
+    }
+    return buttonClass;
+  };
+
   return (
     <div className={styles.editor}>
       <select
         value={currentMethod}
-        onChange={(e) => {
-          setMethod(e.target.value);
-        }}
-        className={styles.editor__select}
+        onChange={handleMethodChange}
+        className={getButtonClass()}
       >
-        <option value="GET">GET</option>
-        <option value="POST">POST</option>
-        <option value="PUT">PUT</option>
-        <option value="DELETE">DELETE</option>
+        <option value="GET" className={styles.editor__select__get}>
+          GET
+        </option>
+        <option value="POST" className={styles.editor__select__post}>
+          POST
+        </option>
+        <option value="PUT" className={styles.editor__select__put}>
+          PUT
+        </option>
+        <option value="DELETE" className={styles.editor__select__delete}>
+          DELETE
+        </option>
       </select>
 
       <input

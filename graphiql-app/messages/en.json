@@ -124,6 +124,7 @@
     "variable": "Variable",
     "header": "Header",
     "key": "Key",
-    "value": "Value"
+    "value": "Value",
+    "error-message": "Invalid JSON format. Please check the body content before adding variables"
   }
 }
