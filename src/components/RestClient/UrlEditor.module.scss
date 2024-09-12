@@ -1,0 +1,59 @@
+@import "../../theme/variables.scss";
+
+.editor {
+  max-width: 558px;
+  width: 100%;
+  background-color: $strong-dark;
+  display: flex;
+  border-radius: 5px;
+
+  &__input {
+    flex-grow: 1;
+    border: none;
+    outline: none;
+    background-color: transparent;
+    color: $white;
+    padding: 8px 20px;
+  }
+
+  &__select {
+    background-color: transparent;
+    color: $white;
+    border: 1px solid $white;
+    border-radius: 5px;
+    padding: 8px 20px;
+    cursor: pointer;
+    appearance: none;
+    outline: none;
+    transition:
+      background-color 0.4s ease-in-out,
+      color 0.4s ease-in-out;
+
+    &:hover {
+      background-color: $btn-active;
+    }
+
+    &:focus {
+      outline: 2px solid $btn-active;
+    }
+  }
+
+  &__button {
+    margin: 4px 7px 4px 0px;
+    cursor: pointer;
+    background-color: $purple;
+    border: none;
+    outline: none;
+    display: flex;
+    padding: 4px 21px;
+    font-weight: 400;
+    font-size: 20px;
+    color: $white;
+    border-radius: 5px;
+    transition: 0.4s ease-in-out;
+
+    &:hover {
+      background-color: $btn-active;
+    }
+  }
+}

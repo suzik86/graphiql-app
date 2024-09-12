@@ -1,0 +1,129 @@
+{
+  "Login": {
+    "login": "Login",
+    "title": "Authorization",
+    "email": "Enter E-mail Address",
+    "password": "Enter Password",
+    "reset": "Forgot Password",
+    "question": "Don't have an account?",
+    "register": "Register",
+    "now": "now",
+    "email-error": "Please input your email!",
+    "invalid-email": "The input is not valid E-mail!",
+    "password-error": "Please input your Password!",
+    "invalid-password": "Password should contain at least 8 characters, including 1 letter, 1 number, and 1 special character!",
+    "login-error": "Invalid email or password. Please try again."
+  },
+  "Register": {
+    "title": "Registration",
+    "name": "Enter Your Name",
+    "email": "Enter E-mail Address",
+    "password": "Enter Password",
+    "register": "Register",
+    "question": "Already have an account?",
+    "login": "Login",
+    "now": "now",
+    "name-error": "Please input your name!",
+    "email-error": "Please input your email!",
+    "invalid-email": "The input is not valid E-mail!",
+    "password-error": "Please input your Password!",
+    "invalid-password": "Password should contain at least 8 characters, including 1 letter, 1 number, and 1 special character!"
+  },
+  "Reset": {
+    "title": "Reset Password",
+    "email": "Enter E-mail Address",
+    "reset": "Send password reset email",
+    "question": "Don't have an account?",
+    "register": "Register",
+    "now": "now",
+    "email-error": "Please input your email!",
+    "invalid-email": "The input is not valid E-mail!"
+  },
+  "HomePage": {
+    "welcome": "Welcome to Mechta team app!",
+    "welcome-back": "welcome back",
+    "question": "Where are we going?",
+    "rest": "Rest client",
+    "graphiql": "GraphiQl client",
+    "history": "History",
+    "sign-in": "Sign in",
+    "sign-up": "Sign up",
+    "fetch-error": "Failed to fetch user data",
+    "try": "Try app",
+    "article-1": "In our project, you can try both Restful and GraphQl client",
+    "mem-1": "Nikita",
+    "mem-2": "Irina",
+    "mem-3": "Gregory",
+    "describtion-1": "Developed GraphQl client",
+    "describtion-2": "Our project leader. Developed application authorization",
+    "describtion-3": "Developed Restful Client",
+    "about-us": "About us",
+    "about-course": "About the course",
+    "about-course-text": "Everyone can study at RS School, regardless of age, professional employment, or place of residence. However, you should have sufficient base knowledge before the program begins.",
+    "about-course-text-2": "After successful completion of the course, students will receive an electronic certificate."
+  },
+  "NotFound": {
+    "title": "Page not found",
+    "button-title": "Back to home"
+  },
+  "Header": {
+    "sign-out": "Sign out",
+    "sign-in": "Sign in",
+    "sign-up": "Sign up"
+  },
+  "Footer": {
+    "message": "© Template by 2024"
+  },
+  "History": {
+    "title": "History of executed requests",
+    "empty": "You haven't executed any requests yet. Try those options:",
+    "rest": "Rest client",
+    "graphiql": "GraphiQl client"
+  },
+  "ErrorPage": {
+    "oops": "Ooooops",
+    "retry": "Retry"
+  },
+  "GraphQl": {
+    "title": "GraphQl client",
+    "send": "Send",
+    "sdl": "Get schema",
+    "headers": "Headers",
+    "variables": "Variables",
+    "editor": "Request Editor",
+    "response": "Response",
+    "status": "Status",
+    "body": "Body",
+    "add-header": "header",
+    "add-variable": "variable",
+    "delete": "Delete",
+    "Documentation": "Documentation (Sdl)",
+    "beautify": "Beautify",
+    "header-key": "Key",
+    "header-value": "Value",
+    "variable-key": "Key",
+    "variable-value": "Value",
+    "key": "Key",
+    "value": "Value",
+    "header": "Header",
+    "variable": "Variable",
+    "add": "Add"
+  },
+  "Rest": {
+    "title": "RESTfull Client",
+    "send": "Send",
+    "Headers": "Headers",
+    "variables": "Variables",
+    "editor": "Body",
+    "response": "Response",
+    "status": "Status",
+    "Body": "Body",
+    "text": "Text",
+    "beautify": "Beautify",
+    "add": "Add",
+    "variable": "Variable",
+    "header": "Header",
+    "key": "Key",
+    "value": "Value"
+  }
+}

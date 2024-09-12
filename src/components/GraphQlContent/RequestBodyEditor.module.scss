@@ -1,0 +1,66 @@
+@import "../../theme/variables.scss";
+
+.body {
+  width: 100%;
+  background-color: $strong-dark;
+  display: flex;
+  flex-direction: column;
+  border-radius: 5px;
+  height: 100%;
+  &__title {
+    color: $white;
+    font-size: 32px;
+    text-align: left;
+    font-family: "Nunito", sans-serif;
+    margin-bottom: 10px;
+  }
+
+  &__controls {
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+    justify-content: space-between;
+  }
+
+  &__select {
+    background-color: transparent;
+    color: $white;
+    border: 1px solid $white;
+    border-radius: 5px;
+    padding: 8px 20px;
+    cursor: pointer;
+    appearance: none;
+    outline: none;
+    transition:
+      background-color 0.4s ease-in-out,
+      color 0.4s ease-in-out;
+    margin-right: 10px;
+
+    &:hover {
+      background-color: $btn-active;
+    }
+
+    &:focus {
+      outline: 2px solid $btn-active;
+    }
+  }
+
+  &__beautify {
+    color: $white;
+    font-size: 16px;
+    cursor: pointer;
+    user-select: none;
+    transition: color 0.3s ease-in-out;
+    margin-left: auto;
+
+    &:hover {
+      color: $btn-active;
+    }
+  }
+
+  &__container {
+    padding: 15px;
+    width: 100%;
+    overflow: hidden;
+  }
+}

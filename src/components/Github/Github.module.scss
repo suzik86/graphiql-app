@@ -1,0 +1,14 @@
+@import "../../theme/theme.scss";
+
+.github {
+  display: flex;
+  align-items: center;
+  column-gap: 12px;
+
+  &__text {
+    color: $white;
+    font-weight: 400;
+    font-size: 24px;
+    font-family: "Nunito", sans-serif;
+  }
+}
