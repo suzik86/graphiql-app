@@ -7,7 +7,7 @@ import React, { FC } from "react";
 import { useAuthState } from "react-firebase-hooks/auth";
 import RussianFlag from "../../assets/flag_ru.png";
 import EnglishFlag from "../../assets/flag_uk.png";
-import team_logo from "../../assets/team_logo.png";
+import team_logo from "../../assets/team_logo.svg";
 import { auth, logout } from "../../firebase";
 import HeaderButton from "../HeaderButton/HeaderButton";
 import styles from "./Header.module.scss";
@@ -48,7 +48,7 @@ const Header: FC<HeaderProps> = ({ isSticky, onMenuClick }) => {
     <header className={`${styles.header} ${isSticky ? styles.sticky : ""}`}>
       <div className={styles.header__container}>
         <Link href={`/${localActive}`} className={styles.header__logo}>
-          <Image src={team_logo} alt="team_logo" />
+          <Image src={team_logo} alt="team_logo" priority />
         </Link>
         <div className={styles.header__controls}>
           <Space wrap>

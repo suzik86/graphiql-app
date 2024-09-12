@@ -32,7 +32,7 @@
   &__button {
     margin-left: 10px;
     cursor: pointer;
-    background-color: #6c63ff;
+    background-color: $purple;
     border: none;
     outline: none;
     padding: 8px 20px;
@@ -42,7 +42,7 @@
     transition: background-color 0.4s ease-in-out;
 
     &:hover {
-      background-color: #5a54e4;
+      background-color: $btn-active;
     }
   }
 
@@ -61,11 +61,11 @@
   }
 
   .blinkBorder {
-    border: 2px solid #6c63ff;
+    border: 1px solid $purple-light;
   }
 
   .redBorder {
-    border: 2px solid $pastel-red;
+    border: 1px solid $pastel-red;
   }
 }
 
@@ -115,8 +115,8 @@
   }
 
   input[type="checkbox"]:checked + span {
-    background-color: #6c63ff;
-    border-color: #6c63ff;
+    background-color: $purple;
+    border-color: $purple;
   }
 
   input[type="checkbox"]:checked + span::after {
