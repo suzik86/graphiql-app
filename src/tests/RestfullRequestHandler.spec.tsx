@@ -3,7 +3,7 @@
  */
 import { TextDecoder } from 'util';
 import RequestHandler from "../components/RestClient/RequestHandler"
-import { render, screen, fireEvent, waitFor } from '@testing-library/react';
+import { render, screen, waitFor } from '@testing-library/react';
 import '@testing-library/jest-dom';
 import { act } from "react";
 import { debug } from 'console';

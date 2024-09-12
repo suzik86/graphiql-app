@@ -29,7 +29,7 @@ describe('RestClient Component', () => {
     const headerEditorElement = screen.getByText(/Headers/i);
     expect(headerEditorElement).toBeInTheDocument();
   
-    const variableEditorElement = screen.getByText(/Variables \-/i);
+    const variableEditorElement = screen.getByText(/Variables -/i);
     expect(variableEditorElement).toBeInTheDocument();
   
     const requestBodyEditorElements = screen.getAllByText(/Body/i);

@@ -111,16 +111,12 @@ const RequestBodyEditor: React.FC<RequestBodyEditorProps> = ({
         });
     }
   };
-<<<<<<< HEAD:graphiql-app/src/components/RestClient/RequestBodyEditor.tsx
-  
-  const defaultValue = readOnly ? undefined : '{"key": "value"}';
-=======
+
   const defaultValue = readOnly
     ? undefined
     : `query {
   
   }`;
->>>>>>> develop:src/components/GraphQlContent/RequestBodyEditor.tsx
 
   return (
     <>

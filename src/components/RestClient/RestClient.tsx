@@ -133,14 +133,6 @@ const RestClient: React.FC = () => {
     setBody(updatedBody);
   };
 
-<<<<<<< HEAD:graphiql-app/src/components/RestClient/RestClient.tsx
-  const sendRequest = () => {
-    if (requestHandlerRef.current) {
-      requestHandlerRef.current.sendRequest();
-    }
-  };
-  
-=======
   const savePathname = useCallback(() => {
     const pathnames = JSON.parse(localStorage.getItem("pathnames") || "[]");
     const newPath = {
@@ -157,7 +149,6 @@ const RestClient: React.FC = () => {
     requestHandlerRef.current?.sendRequest();
   }, [savePathname, requestHandlerRef]);
 
->>>>>>> develop:src/components/RestClient/RestClient.tsx
   return (
     <section className={styles.content}>
       <div className={styles.content__inner}>
