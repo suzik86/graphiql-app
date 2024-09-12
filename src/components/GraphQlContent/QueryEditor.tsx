@@ -102,6 +102,8 @@ const QueryEditor: React.FC<RequestBodyEditorProps> = ({
   };
   const t = useTranslations("GraphQl");
 
+  console.log(schema);
+
   return (
     <>
       <div className={styles.body}>
@@ -120,6 +122,7 @@ const QueryEditor: React.FC<RequestBodyEditorProps> = ({
             height={200}
             language={editorMode}
             value={schema}
+            defaultValue="{}"
             theme="myCustomTheme"
             loading="Loading..."
             beforeMount={handleEditorTheme}

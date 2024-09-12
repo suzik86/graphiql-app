@@ -1,4 +1,4 @@
-import React, { useState, useCallback } from "react";
+import React, { useCallback } from "react";
 import KeyValueEditor from "./KeyValueEditor";
 
 type Variable = {
@@ -20,8 +20,6 @@ const VariableEditor: React.FC<VariableEditorProps> = ({
   body,
   onUpdateBody,
 }) => {
-  const [errorMessage, setErrorMessage] = useState<string | null>(null);
-
   const createVariableMap = (variables: Variable[]): Map<string, string> => {
     return new Map(
       variables.filter((v) => v.included).map((v) => [v.key, v.value]),
@@ -43,7 +41,6 @@ const VariableEditor: React.FC<VariableEditorProps> = ({
         updatedObject[existingKey] === `{{${existingKey}}}` &&
         !variableMap.has(existingKey)
       ) {
-        console.log(`Removing unused key: ${existingKey}`);
         delete updatedObject[existingKey];
       }
     });
@@ -75,26 +72,15 @@ const VariableEditor: React.FC<VariableEditorProps> = ({
     return newBody.trim();
   };
 
-  const handleParseError = (error: Error) => {
-    console.error("Failed to parse body as JSON:", error);
-    setErrorMessage("Invalid JSON format. Please check the body content.");
-  };
-
   const updateBody = useCallback(
     (updatedVariables: Variable[]) => {
       const variableMap = createVariableMap(updatedVariables);
 
       try {
         const jsonBody = JSON.parse(body);
-        console.log("Parsed JSON body:", jsonBody);
-
         const updatedJsonBody = updateJsonBody(jsonBody, variableMap);
-        console.log("Final updated JSON body:", updatedJsonBody);
         onUpdateBody(JSON.stringify(updatedJsonBody, null, 2));
-        setErrorMessage(null);
-      } catch (error) {
-        handleParseError(error as Error);
-
+      } catch {
         const updatedTextBody = updateTextBody(body, variableMap);
         onUpdateBody(updatedTextBody);
       }
@@ -110,9 +96,6 @@ const VariableEditor: React.FC<VariableEditorProps> = ({
         itemType="variable"
         onUpdateURL={updateBody}
       />
-      {errorMessage && (
-        <div style={{ color: "red", marginTop: "10px" }}>{errorMessage}</div>
-      )}
     </div>
   );
 };

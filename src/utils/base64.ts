@@ -13,29 +13,17 @@ export function decodeBase64(str: string): string {
 
       const paddedStr = decodedStr.padEnd(
         decodedStr.length + ((4 - (decodedStr.length % 4)) % 4),
-        "="
+        "=",
       );
-
-      let result = decodeURIComponent(escape(atob(paddedStr)));
-
- 
-      result = result.replace(/[^\x20-\x7E]/g, "");  
-
-      return result;
-    } catch (e) {
-      console.error("Base64 decoding failed:", e);
+      return decodeURIComponent(escape(atob(paddedStr)));
+    } catch {
       return "";
     }
   } else {
     try {
       const decodedStr = decodeURIComponent(str);
-      let result = Buffer.from(decodedStr, "base64").toString("utf-8");
- 
-      result = result.replace(/[^\x20-\x7E]/g, "");   
-
-      return result;
-    } catch (e) {
-      console.error("Base64 decoding failed on server:", e);
+      return Buffer.from(decodedStr, "base64").toString("utf-8");
+    } catch {
       return "";
     }
   }

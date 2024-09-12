@@ -1,4 +1,8 @@
 import React, { useState, useImperativeHandle } from "react";
+import {
+  handleClientError,
+  handleServerError,
+} from "../../utils/errorHandlers";
 import styles from "./RequestHandler.module.scss";
 import { encodeBase64 } from "../../utils/base64";
 import RequestBodyEditor from "./RequestBodyEditor";
@@ -50,6 +54,7 @@ const RequestHandler = React.forwardRef<
     };
 
     const sendRequest = async () => {
+      setResponse("");
       try {
         const bodyString =
           body === null
@@ -85,16 +90,21 @@ const RequestHandler = React.forwardRef<
         });
 
         const data = await response.text();
+
         setStatus(response.status);
-        setResponse(
-          response.ok
-            ? data
-            : `Error: ${response.status} - ${response.statusText}`,
-        );
-      } catch (error) {
-        console.error("Error sending request:", error);
+
+        if (response.ok) {
+          setResponse(data);
+        } else if (response.status >= 400 && response.status < 500) {
+          setResponse(handleClientError(response.status));
+        } else if (response.status >= 500) {
+          setResponse(handleServerError(response.status));
+        } else {
+          setResponse(`Error: ${response.status} - ${response.statusText}`);
+        }
+      } catch {
         setStatus(500);
-        setResponse("Internal Server Error");
+        setResponse(handleServerError(500));
       }
     };
 

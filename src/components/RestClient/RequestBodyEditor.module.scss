@@ -46,6 +46,11 @@
     }
   }
 
+  &__error {
+    color: $pastel-red;
+    font-size: 16px;
+  }
+
   &__beautify {
     color: $white;
     font-size: 16px;
