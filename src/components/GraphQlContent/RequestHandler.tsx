@@ -69,8 +69,7 @@ const RequestHandler = forwardRef<RequestHandlerRef, RequestHandlerProps>(
         );
 
         let responseData;
-
-        if (operationType === "query") {
+        if (operationType.includes("query")) {
           responseData = await client.query({
             query: CustomQuery,
             variables: parsedVariables,
@@ -82,7 +81,7 @@ const RequestHandler = forwardRef<RequestHandlerRef, RequestHandlerProps>(
           });
 
           setStatus(responseData.errors ? 400 : 200);
-        } else if (operationType === "mutation") {
+        } else if (operationType.includes("mutation")) {
           responseData = await client.mutate({
             mutation: CustomQuery,
             variables: parsedVariables,
