@@ -113,9 +113,7 @@ const RequestBodyEditor: React.FC<RequestBodyEditorProps> = ({
   const handleBeautify = () => {
     const editor = editorRef.current;
     if (editor && editorMode === "json" && !readOnly) {
-      editor
-        .getAction("editor.action.formatDocument")
-        ?.run()
+      editor.getAction("editor.action.formatDocument")?.run();
     }
   };
   const defaultValue = readOnly ? undefined : '{"key": "value"}';

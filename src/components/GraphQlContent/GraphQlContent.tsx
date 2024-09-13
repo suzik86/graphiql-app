@@ -57,17 +57,15 @@ const GrafQlContent = () => {
     let schema: object | string | null = null;
 
     if (endpointBase64String && bodyBase64String) {
-
       const decodedUrl = decodeBase64(endpointBase64String);
       const decodedBody = decodeBase64(bodyBase64String);
       let bodyJson = {
         body: {
-          schema: ""
+          schema: "",
         },
         variables: [],
-      }
+      };
       if (decodedBody) {
-
         bodyJson = JSON.parse(decodedBody);
       }
 
@@ -78,7 +76,6 @@ const GrafQlContent = () => {
         schema = bodyJson.body.schema;
       }
       headers = getHeadersFromParams(searchParams);
-
     }
     return { headers, currentEndpoint, variables, schema };
   }, [pathname, searchParams]);
@@ -92,7 +89,7 @@ const GrafQlContent = () => {
     initialState.variables,
   );
 
-  const [selectedMethod, setSelectedMethod] =useState(`query {\n\n}`);
+  const [selectedMethod, setSelectedMethod] = useState(`query {\n\n}`);
   const [schema, setSchema] = useState<object | string>(
     initialState.schema || selectedMethod,
   );

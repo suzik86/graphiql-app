@@ -122,7 +122,7 @@ const RequestHandler = forwardRef<RequestHandlerRef, RequestHandlerProps>(
       try {
         const json = JSON.parse(jsonString);
         return JSON.stringify(json, null, 2);
-      } catch  {
+      } catch {
         return jsonString;
       }
     };
