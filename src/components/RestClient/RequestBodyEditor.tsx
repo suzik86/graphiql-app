@@ -116,9 +116,6 @@ const RequestBodyEditor: React.FC<RequestBodyEditorProps> = ({
       editor
         .getAction("editor.action.formatDocument")
         ?.run()
-        .catch((error: Error) => {
-          console.error("Error formatting JSON:", error);
-        });
     }
   };
   const defaultValue = readOnly ? undefined : '{"key": "value"}';
