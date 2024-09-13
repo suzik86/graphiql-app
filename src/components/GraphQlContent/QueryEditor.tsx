@@ -67,7 +67,7 @@ const QueryEditor: React.FC<RequestBodyEditorProps> = ({
     }
   }, [body]);
   const handleFormat = () => {
-    try {
+   
       const parsedQuery = parse(schema);
 
       let printedQuery = print(parsedQuery);
@@ -80,9 +80,7 @@ const QueryEditor: React.FC<RequestBodyEditorProps> = ({
       }
 
       setSchema(printedQuery);
-    } catch (error) {
-      console.error("Invalid GraphQL query:", error);
-    }
+    
   };
 
   const handleEditorTheme = (monaco: Monaco) => {
