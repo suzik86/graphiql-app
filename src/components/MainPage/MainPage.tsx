@@ -40,8 +40,7 @@ function MainPage() {
       const doc = await getDocs(q);
       const data = doc.docs[0].data();
       setName(data.name);
-    } catch (err) {
-      console.error((err as Error).message);
+    } catch  {
       api.error({
         message: t("fetch-error"),
       });

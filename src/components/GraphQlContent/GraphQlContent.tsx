@@ -58,18 +58,27 @@ const GrafQlContent = () => {
 
     if (endpointBase64String && bodyBase64String) {
 
-        const decodedUrl = decodeBase64(endpointBase64String);
-        const decodedBody = decodeBase64(bodyBase64String);
-        const bodyJson = JSON.parse(decodedBody);
+      const decodedUrl = decodeBase64(endpointBase64String);
+      const decodedBody = decodeBase64(bodyBase64String);
+      let bodyJson = {
+        body: {
+          schema: ""
+        },
+        variables: [],
+      }
+      if (decodedBody) {
 
-        currentEndpoint = decodedUrl;
-        variables = bodyJson.variables || [];
+        bodyJson = JSON.parse(decodedBody);
+      }
 
-        if (bodyJson.body && bodyJson.body.schema) {
-          schema = bodyJson.body.schema;
-        }
-        headers = getHeadersFromParams(searchParams);
-      
+      currentEndpoint = decodedUrl;
+      variables = bodyJson.variables || [];
+
+      if (bodyJson.body && bodyJson.body.schema) {
+        schema = bodyJson.body.schema;
+      }
+      headers = getHeadersFromParams(searchParams);
+
     }
     return { headers, currentEndpoint, variables, schema };
   }, [pathname, searchParams]);
@@ -83,7 +92,7 @@ const GrafQlContent = () => {
     initialState.variables,
   );
 
-  const [selectedMethod, setSelectedMethod] = useState("query");
+  const [selectedMethod, setSelectedMethod] =useState(`query {\n\n}`);
   const [schema, setSchema] = useState<object | string>(
     initialState.schema || selectedMethod,
   );

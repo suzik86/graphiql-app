@@ -100,7 +100,6 @@ const QueryEditor: React.FC<RequestBodyEditorProps> = ({
   };
   const t = useTranslations("GraphQl");
 
-  console.log(schema);
 
   return (
     <>

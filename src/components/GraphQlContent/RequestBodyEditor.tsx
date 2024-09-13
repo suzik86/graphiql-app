@@ -114,8 +114,7 @@ const RequestBodyEditor: React.FC<RequestBodyEditorProps> = ({
   
   }`;
 
-  console.log("Значение body:", body);
-  console.log("Значение defaultValue:", defaultValue);
+ 
 
   return (
     <>
