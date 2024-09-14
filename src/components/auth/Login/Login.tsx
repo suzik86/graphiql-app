@@ -25,9 +25,12 @@ function Login() {
 
   const [api, contextHolder] = notification.useNotification();
 
-  const openNotificationWithIcon = (type: NotificationType) => {
+  const openNotificationWithIcon = (
+    type: NotificationType,
+    message: string,
+  ) => {
     api[type]({
-      message: t("login-error"),
+      message,
     });
   };
 
@@ -38,7 +41,12 @@ function Login() {
       })
       .catch((error) => {
         if (error.code === "auth/invalid-credential") {
-          openNotificationWithIcon("error");
+          openNotificationWithIcon("error", t("invalid-credential-error"));
+        }
+        if (error.code === "auth/too-many-requests") {
+          openNotificationWithIcon("error", t("too-many-requests-error"));
+        } else {
+          openNotificationWithIcon("error", error.message);
         }
       });
   };

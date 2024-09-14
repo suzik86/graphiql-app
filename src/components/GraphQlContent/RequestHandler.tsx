@@ -1,14 +1,20 @@
-import React, { useState, forwardRef, useImperativeHandle } from "react";
-import styles from "./RequestHandler.module.scss";
-import RequestBodyEditor from "./RequestBodyEditor";
 import {
   ApolloClient,
+  ApolloError,
+  ServerError,
   HttpLink,
   InMemoryCache,
   NormalizedCacheObject,
+  ApolloLink,
+  from,
 } from "@apollo/client";
+import { onError } from "@apollo/client/link/error";
 import { graphql } from "gql.tada";
 import { useTranslations } from "next-intl";
+import { forwardRef, useImperativeHandle, useState } from "react";
+import RequestBodyEditor from "./RequestBodyEditor";
+import styles from "./RequestHandler.module.scss";
+
 interface RequestHandlerProps {
   schema: string;
   method: string;
@@ -36,25 +42,52 @@ const RequestHandler = forwardRef<RequestHandlerRef, RequestHandlerProps>(
     const [status, setStatus] = useState<number | null>(null);
 
     const sendRequest = async () => {
-      try {
-        const parsedHeaders = headers.reduce(
-          (acc, { key, value, included }) => {
-            if (included) {
-              acc[key] = value;
-            }
-            return acc;
-          },
-          {} as Record<string, string>,
-        );
+      const parsedHeaders = headers.reduce(
+        (acc, { key, value, included }) => {
+          if (included) {
+            acc[key] = value;
+          }
+          return acc;
+        },
+        {} as Record<string, string>,
+      );
 
-        const client: ApolloClient<NormalizedCacheObject> = new ApolloClient({
-          cache: new InMemoryCache(),
-          link: new HttpLink({
+      const errorLink = onError((info) => {
+        const { graphQLErrors, networkError } = info;
+        if (graphQLErrors)
+          graphQLErrors.forEach(({ message }) => setResponse(message));
+        if (networkError) {
+          if ("statusCode" in networkError) {
+            setStatus((networkError as ServerError).statusCode);
+          }
+        }
+      });
+
+      const responseLink = new ApolloLink((operation, forward) => {
+        return forward(operation).map((response) => {
+          const context = operation.getContext();
+          const {
+            response: { status },
+          } = context;
+          if (status) {
+            setStatus(status);
+          }
+          return response;
+        });
+      });
+
+      const client: ApolloClient<NormalizedCacheObject> = new ApolloClient({
+        cache: new InMemoryCache(),
+        link: from([
+          errorLink,
+          responseLink,
+          new HttpLink({
             uri: endpoint,
             headers: parsedHeaders,
           }),
-        });
-
+        ]),
+      });
+      try {
         const CustomQuery = graphql(String(schema));
         const operationType = method.trim();
 
@@ -79,8 +112,6 @@ const RequestHandler = forwardRef<RequestHandlerRef, RequestHandlerProps>(
               },
             },
           });
-
-          setStatus(responseData.errors ? 400 : 200);
         } else if (operationType.includes("mutation")) {
           responseData = await client.mutate({
             mutation: CustomQuery,
@@ -91,13 +122,10 @@ const RequestHandler = forwardRef<RequestHandlerRef, RequestHandlerProps>(
               },
             },
           });
-
-          setStatus(responseData.errors ? 400 : 200);
         }
-
-        setResponse(JSON.stringify(responseData));
+        setResponse(JSON.stringify(responseData?.data));
       } catch (error) {
-        if (error instanceof Error) {
+        if (!(error instanceof ApolloError) && error instanceof Error) {
           setStatus(500);
           setResponse(error.message);
         }

@@ -23,18 +23,18 @@ export function mockForMonaco({ fromLocal } = { fromLocal: false }) {
     writable: true,
     value: jest.fn().mockImplementation((query: string) => {
       return {
-        matches: query === "(pointer: fine)" ? true : false, // Condition for DatePicker case
+        matches: query === "(pointer: fine)" ? true : false,
         media: query,
         onchange: null,
-        addListener: jest.fn(), // Deprecated
-        removeListener: jest.fn(), // Deprecated
+        addListener: jest.fn(),
+        removeListener: jest.fn(),
         addEventListener: jest.fn(),
         removeEventListener: jest.fn(),
         dispatchEvent: jest.fn(),
       };
     }),
   });
-  // Resolve "ReferenceError: ResizeObserver is not defined"
+
   Object.defineProperty(window, "ResizeObserver", {
     writable: true,
     value: class ResizeObserver {
@@ -43,12 +43,12 @@ export function mockForMonaco({ fromLocal } = { fromLocal: false }) {
       disconnect() {}
     },
   });
-  // Resolve "ReferenceError: TextDecoder is not defined"
+
   Object.defineProperty(window, "TextDecoder", {
     writable: true,
     value: TextDecoder,
   });
-  // Resolve "TypeError: performance.mark is not a function" and other properties of performance
+
   Object.defineProperty(window, "performance", {
     writable: true,
     value: performance,

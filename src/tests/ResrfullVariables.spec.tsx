@@ -108,7 +108,6 @@ describe("VariableEditor Component", () => {
         </NextIntlClientProvider>,
       );
     });
-    // Simulate input changes for new variable key and value
     fireEvent.change(screen.getByPlaceholderText(/Rest.key/i), {
       target: { value: "newVariableKey" },
     });
@@ -117,7 +116,6 @@ describe("VariableEditor Component", () => {
       target: { value: "newVariableValue" },
     });
 
-    // Simulate clicking the "Add Variable" button
     fireEvent.click(screen.getByText("Rest.add Rest.variable"));
     expect(mockSetVariables).toHaveBeenCalledTimes(1);
     expect(mockOnUpdateBody).toHaveBeenCalledTimes(1);

@@ -75,7 +75,9 @@ function MainPage() {
                   alt="graphQl"
                 />
                 <h1 className={styles.welcome__title}>
-                  {name}, {t("welcome-back")}!
+                  {name},
+                  <br />
+                  {t("welcome-back")}!
                 </h1>
                 <h2 className={styles.welcome__subtitle}>{t("question")}</h2>
                 <ul className={styles.welcome__btns}>
