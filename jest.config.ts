@@ -11,6 +11,7 @@ const config: Config = {
   preset: "ts-jest",
   testEnvironment: "jsdom",
   rootDir: "src",
+  setupFiles: ["<rootDir>/jest.setup.js"],
   transform: {
     // '^.+\\.[tj]sx?$' to process ts,js,tsx,jsx with `ts-jest`
     // '^.+\\.m?[tj]sx?$' to process ts,js,tsx,jsx,mts,mjs,mtsx,mjsx with `ts-jest`
@@ -22,6 +23,7 @@ const config: Config = {
     ],
   },
   moduleNameMapper: {
+    "^monaco-editor$": "<rootDir>/tests/mocks/monaco-editor.js",
     "\\.(gif|ttf|eot|svg|png)$": "<rootDir>/test/mocks/fileMock.js",
     "^@app/(.*)$": "<rootDir>/$1",
     "\\.(css)$": "identity-obj-proxy",
@@ -34,9 +36,10 @@ const config: Config = {
   //       statements: 80,
   //     },
   //   },
+
   collectCoverage: false,
   coverageReporters: ["text", "text-summary"],
-  transformIgnorePatterns: ["/node_modules/(?!(uuid)/)"],
+  transformIgnorePatterns: ["/node_modules/(?!monaco-editor).+\\.js$"],
 };
 
 export default createJestConfig(config);
