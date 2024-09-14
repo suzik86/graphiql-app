@@ -67,22 +67,18 @@ const QueryEditor: React.FC<RequestBodyEditorProps> = ({
     }
   }, [body]);
   const handleFormat = () => {
-    try {
-      const parsedQuery = parse(schema);
+    const parsedQuery = parse(schema);
 
-      let printedQuery = print(parsedQuery);
+    let printedQuery = print(parsedQuery);
 
-      if (
-        !printedQuery.startsWith("query") &&
-        !printedQuery.startsWith("mutation")
-      ) {
-        printedQuery = `query ${printedQuery}`;
-      }
-
-      setSchema(printedQuery);
-    } catch (error) {
-      console.error("Invalid GraphQL query:", error);
+    if (
+      !printedQuery.startsWith("query") &&
+      !printedQuery.startsWith("mutation")
+    ) {
+      printedQuery = `query ${printedQuery}`;
     }
+
+    setSchema(printedQuery);
   };
 
   const handleEditorTheme = (monaco: Monaco) => {
@@ -101,8 +97,6 @@ const QueryEditor: React.FC<RequestBodyEditorProps> = ({
     }
   };
   const t = useTranslations("GraphQl");
-
-  console.log(schema);
 
   return (
     <>

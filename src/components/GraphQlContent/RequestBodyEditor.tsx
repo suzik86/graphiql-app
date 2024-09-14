@@ -100,12 +100,7 @@ const RequestBodyEditor: React.FC<RequestBodyEditorProps> = ({
   const handleBeautify = () => {
     const editor = editorRef.current;
     if (editor && editorMode === "json" && !readOnly) {
-      editor
-        .getAction("editor.action.formatDocument")
-        ?.run()
-        .catch((error: Error) => {
-          console.error("Error formatting JSON:", error);
-        });
+      editor.getAction("editor.action.formatDocument")?.run();
     }
   };
   const defaultValue = readOnly
@@ -113,9 +108,6 @@ const RequestBodyEditor: React.FC<RequestBodyEditorProps> = ({
     : `query {
   
   }`;
-
-  console.log("Значение body:", body);
-  console.log("Значение defaultValue:", defaultValue);
 
   return (
     <>

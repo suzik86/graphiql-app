@@ -1,3 +1,4 @@
+ 
 import React, { useState, useCallback } from "react";
 import KeyValueEditor from "./KeyValueEditor";
 
@@ -43,7 +44,6 @@ const VariableEditor: React.FC<VariableEditorProps> = ({
         updatedObject[existingKey] === `{{${existingKey}}}` &&
         !variableMap.has(existingKey)
       ) {
-        console.log(`Removing unused key: ${existingKey}`);
         delete updatedObject[existingKey];
       }
     });
@@ -51,52 +51,16 @@ const VariableEditor: React.FC<VariableEditorProps> = ({
     return updatedObject;
   };
 
-  const updateTextBody = (
-    body: string,
-    variableMap: Map<string, string>,
-  ): string => {
-    let newBody = body;
-    const placeholders = Array.from(variableMap.keys()).map(
-      (key) => `{{${key}}}`,
-    );
-
-    const placeholderRegex = /{{\s*[^{}]+\s*}}/g;
-
-    newBody = newBody.replace(placeholderRegex, (match) => {
-      return placeholders.includes(match) ? match : "";
-    });
-
-    placeholders.forEach((placeholder) => {
-      if (!newBody.includes(placeholder)) {
-        newBody = `${placeholder} ${newBody}`;
-      }
-    });
-
-    return newBody.trim();
-  };
-
-  const handleParseError = (error: Error) => {
-    console.error("Failed to parse body as JSON:", error);
-    setErrorMessage("Invalid JSON format. Please check the body content.");
-  };
-
   const updateBody = useCallback(
     (updatedVariables: Variable[]) => {
       const variableMap = createVariableMap(updatedVariables);
 
-      try {
-        const jsonBody = JSON.parse(body);
-        console.log("Parsed JSON body:", jsonBody);
-
+      let jsonBody;
+      if (jsonBody) {
+        jsonBody = JSON.parse(body);
         const updatedJsonBody = updateJsonBody(jsonBody, variableMap);
-        console.log("Final updated JSON body:", updatedJsonBody);
         onUpdateBody(JSON.stringify(updatedJsonBody, null, 2));
         setErrorMessage(null);
-      } catch (error) {
-        handleParseError(error as Error);
-
-        const updatedTextBody = updateTextBody(body, variableMap);
-        onUpdateBody(updatedTextBody);
       }
     },
     [body, onUpdateBody],
