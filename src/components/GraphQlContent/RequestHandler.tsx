@@ -54,13 +54,21 @@ const RequestHandler = forwardRef<RequestHandlerRef, RequestHandlerProps>(
 
       const errorLink = onError((info) => {
         const { graphQLErrors, networkError } = info;
-        if (graphQLErrors)
-          graphQLErrors.forEach(({ message }) => setResponse(message));
+        let errorMessage = "";
+        if (graphQLErrors) {
+          graphQLErrors.forEach(({ message }) => {
+            errorMessage = message;
+          });
+        }
         if (networkError) {
           if ("statusCode" in networkError) {
             setStatus((networkError as ServerError).statusCode);
           }
+          if (!errorMessage) {
+            errorMessage = networkError.message;
+          }
         }
+        setResponse(errorMessage);
       });
 
       const responseLink = new ApolloLink((operation, forward) => {
