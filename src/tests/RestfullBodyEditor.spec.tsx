@@ -1,4 +1,3 @@
-
 import "@testing-library/jest-dom";
 import React from "react";
 import { render, screen, fireEvent, waitFor } from "@testing-library/react";
@@ -13,7 +12,7 @@ const mockMonaco = {
         run: jest.fn().mockResolvedValue("formatted"),
       })),
       onDidBlurEditorWidget: jest.fn((callback) => {
-        setTimeout(callback, 0); 
+        setTimeout(callback, 0);
       }),
       getValue: jest.fn(() => '{"key": "value"}'),
       setValue: jest.fn(),
@@ -55,7 +54,7 @@ const messages = {
     Body: "Body",
     send: "Send Request",
   },
-}
+};
 
 describe("RequestBodyEditor Component", () => {
   const mockSetEditorMode = jest.fn();
@@ -63,7 +62,6 @@ describe("RequestBodyEditor Component", () => {
   beforeAll(() => {
     jest.spyOn(console, "error").mockImplementation(() => {});
   });
-  
 
   beforeEach(() => {
     jest.resetModules();
@@ -74,9 +72,8 @@ describe("RequestBodyEditor Component", () => {
   test("renders the editor with correct title and default values", () => {
     render(
       <NextIntlClientProvider locale="en" messages={messages}>
-    <RequestBodyEditor title="Request Body" body={null} editorMode="json" />
-    </NextIntlClientProvider>
-     
+        <RequestBodyEditor title="Request Body" body={null} editorMode="json" />
+      </NextIntlClientProvider>,
     );
 
     expect(screen.getByText("Rest.Request Body")).toBeInTheDocument();
@@ -90,13 +87,13 @@ describe("RequestBodyEditor Component", () => {
     act(() => {
       render(
         <NextIntlClientProvider locale="en" messages={messages}>
-        <RequestBodyEditor
-          title="Request Body"
-          body='{"key": "value"}'
-          setBlurredBody={mockSetBlurredBody}
-          editorMode="json"
-        />
-        </NextIntlClientProvider>
+          <RequestBodyEditor
+            title="Request Body"
+            body='{"key": "value"}'
+            setBlurredBody={mockSetBlurredBody}
+            editorMode="json"
+          />
+        </NextIntlClientProvider>,
       );
     });
 
@@ -108,7 +105,7 @@ describe("RequestBodyEditor Component", () => {
 
     await act(async () => {
       editorInstance.onDidBlurEditorWidget.mock.calls.forEach(
-        ([callback]: [() => void]) => callback()
+        ([callback]: [() => void]) => callback(),
       );
     });
 
@@ -120,13 +117,13 @@ describe("RequestBodyEditor Component", () => {
   test("handles mode change correctly", () => {
     render(
       <NextIntlClientProvider locale="en" messages={messages}>
-      <RequestBodyEditor
-        title="Request Body"
-        body="Some text body"
-        editorMode="text"
-        setEditorMode={mockSetEditorMode}
-      />
-      </NextIntlClientProvider>
+        <RequestBodyEditor
+          title="Request Body"
+          body="Some text body"
+          editorMode="text"
+          setEditorMode={mockSetEditorMode}
+        />
+      </NextIntlClientProvider>,
     );
 
     const select = screen.getByRole("combobox");
@@ -138,13 +135,13 @@ describe("RequestBodyEditor Component", () => {
   test("displays the Beautify button when in JSON mode", () => {
     render(
       <NextIntlClientProvider locale="en" messages={messages}>
-      <RequestBodyEditor
-        title="Request Body"
-        body='{"key": "value"}'
-        editorMode="json"
-        setEditorMode={mockSetEditorMode}
-      />
-      </NextIntlClientProvider>
+        <RequestBodyEditor
+          title="Request Body"
+          body='{"key": "value"}'
+          editorMode="json"
+          setEditorMode={mockSetEditorMode}
+        />
+      </NextIntlClientProvider>,
     );
 
     const beautifyButton = screen.getByText("Rest.beautify");
@@ -154,13 +151,13 @@ describe("RequestBodyEditor Component", () => {
   test("renders Monaco editor in non-read-only mode", async () => {
     render(
       <NextIntlClientProvider locale="en" messages={messages}>
-      <RequestBodyEditor
-        title="Request Body"
-        body='{"key": "value"}'
-        editorMode="json"
-        readOnly={false}
-      />
-      </NextIntlClientProvider>
+        <RequestBodyEditor
+          title="Request Body"
+          body='{"key": "value"}'
+          editorMode="json"
+          readOnly={false}
+        />
+      </NextIntlClientProvider>,
     );
 
     await act(async () => {
@@ -170,7 +167,7 @@ describe("RequestBodyEditor Component", () => {
       expect(mockEditorInstance).toBeDefined();
 
       expect(mockEditorInstance.getOptions()).toEqual(
-        expect.objectContaining({ readOnly: false })
+        expect.objectContaining({ readOnly: false }),
       );
     });
   });
@@ -178,14 +175,14 @@ describe("RequestBodyEditor Component", () => {
   test("handleBeautify should handle promises correctly", async () => {
     render(
       <NextIntlClientProvider locale="en" messages={messages}>
-      <RequestBodyEditor
-        title="Request Body"
-        body='{"key": "value"}'
-        setBlurredBody={() => {}}
-        editorMode="json"
-        setEditorMode={() => {}}
-      />
-      </NextIntlClientProvider>
+        <RequestBodyEditor
+          title="Request Body"
+          body='{"key": "value"}'
+          setBlurredBody={() => {}}
+          editorMode="json"
+          setEditorMode={() => {}}
+        />
+      </NextIntlClientProvider>,
     );
 
     const beautifyButton = screen.getByText("Rest.beautify");
@@ -213,20 +210,20 @@ describe("RequestBodyEditor Component", () => {
     const mockRun = jest
       .spyOn(
         monaco.editor.create().getAction("editor.action.formatDocument"),
-        "run"
+        "run",
       )
       .mockRejectedValue(new Error("Formatting error"));
 
     render(
       <NextIntlClientProvider locale="en" messages={messages}>
-      <RequestBodyEditor
-        title="Request Body"
-        body='{"key": "value"}'
-        setBlurredBody={() => {}}
-        editorMode="json"
-        setEditorMode={() => {}}
-      />
-      </NextIntlClientProvider>
+        <RequestBodyEditor
+          title="Request Body"
+          body='{"key": "value"}'
+          setBlurredBody={() => {}}
+          editorMode="json"
+          setEditorMode={() => {}}
+        />
+      </NextIntlClientProvider>,
     );
 
     const beautifyButton = screen.getByText("Rest.beautify");
@@ -245,12 +242,12 @@ describe("RequestBodyEditor Component", () => {
   test("calls handleEditorTheme and sets custom theme", async () => {
     render(
       <NextIntlClientProvider locale="en" messages={messages}>
-      <RequestBodyEditor
-        title="Request Body"
-        body='{"key": "value"}'
-        editorMode="json"
-      />
-      </NextIntlClientProvider>
+        <RequestBodyEditor
+          title="Request Body"
+          body='{"key": "value"}'
+          editorMode="json"
+        />
+      </NextIntlClientProvider>,
     );
     await act(async () => {
       const mockMonaco = require("monaco-editor");
@@ -260,10 +257,10 @@ describe("RequestBodyEditor Component", () => {
       waitFor(() => {
         expect(mockMonaco.editor.defineTheme).toHaveBeenCalledWith(
           "myCustomTheme",
-          expect.any(Object)
+          expect.any(Object),
         );
         expect(mockMonaco.editor.setTheme).toHaveBeenCalledWith(
-          "myCustomTheme"
+          "myCustomTheme",
         );
       });
     });
@@ -273,13 +270,13 @@ describe("RequestBodyEditor Component", () => {
     const setEditorModeMock = jest.fn();
     render(
       <NextIntlClientProvider locale="en" messages={messages}>
-      <RequestBodyEditor
-        title="Request Body"
-        body='{"key": "value"}'
-        editorMode="json"
-        setEditorMode={setEditorModeMock}
-      />
-      </NextIntlClientProvider>
+        <RequestBodyEditor
+          title="Request Body"
+          body='{"key": "value"}'
+          editorMode="json"
+          setEditorMode={setEditorModeMock}
+        />
+      </NextIntlClientProvider>,
     );
 
     fireEvent.change(screen.getByRole("combobox"), {

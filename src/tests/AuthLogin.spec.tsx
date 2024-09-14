@@ -46,17 +46,17 @@ describe("Login Component", () => {
       render(
         <NextIntlClientProvider messages={messages} locale={locale}>
           <Login />
-        </NextIntlClientProvider>
+        </NextIntlClientProvider>,
       );
     });
 
     await waitFor(() => {
       expect(screen.getByText(messages["Login"]["title"])).toBeInTheDocument();
       expect(
-        screen.getByPlaceholderText(messages["Login"]["email"])
+        screen.getByPlaceholderText(messages["Login"]["email"]),
       ).toBeInTheDocument();
       expect(
-        screen.getByPlaceholderText(messages["Login"]["password"])
+        screen.getByPlaceholderText(messages["Login"]["password"]),
       ).toBeInTheDocument();
       expect(screen.getByText(messages["Login"]["login"])).toBeInTheDocument();
     });
@@ -79,7 +79,7 @@ describe("Login Component", () => {
     render(
       <NextIntlClientProvider messages={messages} locale={locale}>
         <Login />
-      </NextIntlClientProvider>
+      </NextIntlClientProvider>,
     );
     expect(mockPush).toHaveBeenCalledTimes(1);
     expect(mockPush).toHaveBeenCalledWith(`/${locale}`);
@@ -91,7 +91,7 @@ describe("Login Component", () => {
     const { container } = render(
       <NextIntlClientProvider messages={messages} locale={locale}>
         <Login />
-      </NextIntlClientProvider>
+      </NextIntlClientProvider>,
     );
     const spinner = container.querySelector(".spinner");
     expect(spinner).toBeInTheDocument();
@@ -107,12 +107,12 @@ describe("Login Component", () => {
     render(
       <NextIntlClientProvider messages={messages} locale={locale}>
         <Login />
-      </NextIntlClientProvider>
+      </NextIntlClientProvider>,
     );
 
     const emailInput = screen.getByPlaceholderText(messages["Login"]["email"]);
     const passwordInput = screen.getByPlaceholderText(
-      messages["Login"]["password"]
+      messages["Login"]["password"],
     );
     const loginBtn = screen.getByText(messages["Login"]["login"]);
 
@@ -127,7 +127,7 @@ describe("Login Component", () => {
       expect(mockSignIn).toHaveBeenCalledWith(
         undefined,
         "test@example.com",
-        "Wrongpassword1!"
+        "Wrongpassword1!",
       );
     });
   });

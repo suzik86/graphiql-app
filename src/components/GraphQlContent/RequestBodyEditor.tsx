@@ -4,8 +4,6 @@ import { Editor, type Monaco } from "@monaco-editor/react";
 
 import styles from "./RequestBodyEditor.module.scss";
 
-
-
 const myCustomTheme: monaco.editor.IStandaloneThemeData = {
   base: "vs-dark",
   inherit: true,

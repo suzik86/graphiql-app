@@ -55,7 +55,7 @@ describe("RequestHandler", () => {
     return render(
       <NextIntlClientProvider locale="en" messages={messages}>
         <RequestHandler {...defaultProps} {...props} ref={ref} />
-      </NextIntlClientProvider>
+      </NextIntlClientProvider>,
     );
   };
 
@@ -107,7 +107,7 @@ describe("RequestHandler", () => {
 
       await waitFor(() => {
         expect(
-          screen.findByDisplayValue(expectedServerMessages[i])
+          screen.findByDisplayValue(expectedServerMessages[i]),
         ).resolves.toBeInTheDocument();
       });
     }
@@ -136,7 +136,7 @@ describe("RequestHandler", () => {
             "Content-Type": "application/json",
           }),
           body: JSON.stringify({ userId: "123" }),
-        })
+        }),
       );
     });
 
@@ -172,7 +172,7 @@ describe("RequestHandler", () => {
             "Content-Type": "application/json",
           }),
           body: JSON.stringify({ userId: "456" }),
-        })
+        }),
       );
     });
   });
@@ -191,7 +191,7 @@ describe("RequestHandler", () => {
     await waitFor(() => {
       expect(fetchMock).toHaveBeenCalled();
       expect(
-        screen.findByDisplayValue("Client Error: Not Found")
+        screen.findByDisplayValue("Client Error: Not Found"),
       ).resolves.toBeInTheDocument();
     });
   });
@@ -210,7 +210,7 @@ describe("RequestHandler", () => {
     await waitFor(() => {
       expect(fetchMock).toHaveBeenCalledTimes(1);
       expect(
-        screen.findByDisplayValue("Server Error: Unexpected")
+        screen.findByDisplayValue("Server Error: Unexpected"),
       ).resolves.toBeInTheDocument();
     });
   });
@@ -218,7 +218,7 @@ describe("RequestHandler", () => {
   test("formats JSON response correctly", async () => {
     fetchMock.mockResponseOnce(
       JSON.stringify({ userId: "123", name: "John Doe" }),
-      { status: 200 }
+      { status: 200 },
     );
 
     act(() => {
@@ -231,7 +231,7 @@ describe("RequestHandler", () => {
 
     await waitFor(() => {
       const formattedResponse = screen.findByDisplayValue(
-        JSON.stringify({ userId: "123", name: "John Doe" }, null, 2)
+        JSON.stringify({ userId: "123", name: "John Doe" }, null, 2),
       );
       expect(formattedResponse).resolves.toBeInTheDocument();
     });
@@ -241,8 +241,16 @@ describe("RequestHandler", () => {
     fetchMock.mockClear();
     const mockStatusCodes = [
       { status: 200, className: "response__status__success", label: "Success" },
-      { status: 404, className: "response__status__clientError", label: "Client Error" },
-      { status: 500, className: "response__status__serverError", label: "Server Error" },
+      {
+        status: 404,
+        className: "response__status__clientError",
+        label: "Client Error",
+      },
+      {
+        status: 500,
+        className: "response__status__serverError",
+        label: "Server Error",
+      },
     ];
 
     for (const { status, className, label } of mockStatusCodes) {
@@ -293,20 +301,22 @@ describe("RequestHandler", () => {
   });
 
   test("handles null body correctly", async () => {
-    fetchMock.mockResponseOnce(JSON.stringify({ success: true }), { status: 200 });
-  
+    fetchMock.mockResponseOnce(JSON.stringify({ success: true }), {
+      status: 200,
+    });
+
     const props = {
-      body: null, 
+      body: null,
     };
-  
+
     act(() => {
       setup(props);
     });
-  
+
     act(() => {
       ref.current?.sendRequest();
     });
-  
+
     await waitFor(() => {
       expect(fetchMock).toHaveBeenCalledWith(
         "/api/POST/L3Rlc3QtZW5kcG9pbnQ=?Authorization=Bearer%20token&Content-Type=application%2Fjson",
@@ -315,25 +325,25 @@ describe("RequestHandler", () => {
           headers: expect.objectContaining({
             "Content-Type": "application/json",
           }),
-          body: "", 
-        })
+          body: "",
+        }),
       );
     });
   });
   test("does not replace placeholders if no variables provided", async () => {
     const props = {
       body: { userId: "{{userId}}", name: "{{name}}" },
-      variables: [], 
+      variables: [],
     };
-  
+
     act(() => {
       setup(props);
     });
-  
+
     act(() => {
       ref.current?.sendRequest();
     });
-  
+
     await waitFor(() => {
       expect(fetchMock).toHaveBeenCalledWith(
         "/api/POST/L3Rlc3QtZW5kcG9pbnQ=/eyJ1c2VySWQiOiJ7e3VzZXJJZH19IiwibmFtZSI6Int7bmFtZX19In0=?Authorization=Bearer%20token&Content-Type=application%2Fjson",
@@ -343,22 +353,25 @@ describe("RequestHandler", () => {
             "Content-Type": "application/json",
           }),
           body: JSON.stringify({ userId: "{{userId}}", name: "{{name}}" }),
-        })
+        }),
       );
     });
   });
 
   it("applies correct CSS class for 200 status", async () => {
-    global.fetch = jest.fn().mockResolvedValue({ status: 200, text: jest.fn().mockResolvedValue("OK") });
-   
+    global.fetch = jest.fn().mockResolvedValue({
+      status: 200,
+      text: jest.fn().mockResolvedValue("OK"),
+    });
+
     act(() => {
       setup();
     });
-    
+
     await act(async () => {
       ref.current?.sendRequest();
     });
-  
+
     const statusCode = screen.getByText("200");
     expect(statusCode).toHaveClass("response__status__success");
   });

@@ -38,11 +38,9 @@ export function mockForMonaco({ fromLocal } = { fromLocal: false }) {
   Object.defineProperty(window, "ResizeObserver", {
     writable: true,
     value: class ResizeObserver {
-      /* eslint-disable @typescript-eslint/no-empty-function */
       observe() {}
       unobserve() {}
       disconnect() {}
-      /* eslint-disable @typescript-eslint/no-empty-function */
     },
   });
   // Resolve "ReferenceError: TextDecoder is not defined"
@@ -64,7 +62,7 @@ export function mockForMonaco({ fromLocal } = { fromLocal: false }) {
     loader.config({
       paths: {
         vs: uriFromPath(
-          path.resolve(appPath, "node_modules/monaco-editor/min/vs")
+          path.resolve(appPath, "node_modules/monaco-editor/min/vs"),
         ),
       },
     });
@@ -78,8 +76,8 @@ export function createScriptsObserver() {
     const addedScripts = mutationRecords.filter(
       (record) =>
         Array.from(record.addedNodes.values()).filter(
-          (node) => node.nodeName === "SCRIPT"
-        ).length !== 0
+          (node) => node.nodeName === "SCRIPT",
+        ).length !== 0,
     );
     addedScripts.map((addedScript) =>
       Array.from(addedScript.addedNodes.values()).map((node) => {
@@ -90,7 +88,7 @@ export function createScriptsObserver() {
             scripts[src] = true;
           });
         }
-      })
+      }),
     );
   });
   observer.observe(window.document.body, { childList: true }); // loader.js

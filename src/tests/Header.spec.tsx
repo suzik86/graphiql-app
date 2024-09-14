@@ -2,8 +2,8 @@ import "@testing-library/jest-dom";
 import { fireEvent, render, screen } from "@testing-library/react";
 import { NextIntlClientProvider } from "next-intl";
 import Header from "../components/Header/Header";
-import { useAuthState } from "react-firebase-hooks/auth"; 
-import {  logout } from "../firebase"; 
+import { useAuthState } from "react-firebase-hooks/auth";
+import { logout } from "../firebase";
 
 jest.mock("react-firebase-hooks/auth", () => ({
   useAuthState: jest.fn(),
@@ -22,7 +22,7 @@ jest.mock("next/navigation", () => ({
 describe("Header component", () => {
   const locale = "en";
   const messages = require(`../../messages/${locale}.json`);
-  
+
   beforeAll(() => {
     jest.spyOn(console, "error").mockImplementation(() => {});
   });
@@ -71,7 +71,7 @@ describe("Header component", () => {
     render(
       <NextIntlClientProvider messages={messages} locale={locale}>
         <Header isSticky={false} onMenuClick={() => {}} />
-      </NextIntlClientProvider>
+      </NextIntlClientProvider>,
     );
 
     const logoutButton = screen.getByText("Sign out");
@@ -86,7 +86,7 @@ describe("Header component", () => {
     render(
       <NextIntlClientProvider messages={messages} locale={locale}>
         <Header isSticky={false} onMenuClick={() => {}} />
-      </NextIntlClientProvider>
+      </NextIntlClientProvider>,
     );
     const dropdownElement = document.querySelector(".header__languageDropdown");
     expect(dropdownElement).toBeInTheDocument();
@@ -98,7 +98,7 @@ describe("Header component", () => {
     render(
       <NextIntlClientProvider messages={messages} locale={locale}>
         <Header isSticky={false} onMenuClick={() => {}} />
-      </NextIntlClientProvider>
+      </NextIntlClientProvider>,
     );
 
     const signOutButton = screen.getByText("Sign out");
@@ -114,20 +114,25 @@ describe("Header component", () => {
     const { rerender } = render(
       <NextIntlClientProvider messages={messages} locale="en">
         <Header isSticky={false} onMenuClick={() => {}} />
-      </NextIntlClientProvider>
+      </NextIntlClientProvider>,
     );
 
     let selectedFlag = screen.getByAltText("Selected Language");
-    expect(selectedFlag).toHaveAttribute("src", expect.stringContaining("/_next/image?url=%2Fimg.jpg&w=96&q=75"));
+    expect(selectedFlag).toHaveAttribute(
+      "src",
+      expect.stringContaining("/_next/image?url=%2Fimg.jpg&w=96&q=75"),
+    );
 
     rerender(
       <NextIntlClientProvider messages={messages} locale="ru">
         <Header isSticky={false} onMenuClick={() => {}} />
-      </NextIntlClientProvider>
+      </NextIntlClientProvider>,
     );
 
     selectedFlag = screen.getByAltText("Selected Language");
-    expect(selectedFlag).toHaveAttribute("src", expect.stringContaining("/_next/image?url=%2Fimg.jpg&w=96&q=75"));
+    expect(selectedFlag).toHaveAttribute(
+      "src",
+      expect.stringContaining("/_next/image?url=%2Fimg.jpg&w=96&q=75"),
+    );
   });
 });
-

@@ -23,7 +23,6 @@ describe("MainPage component", () => {
   });
 
   test("renders loading spinner when user is loading", async () => {
-
     (useAuthState as jest.Mock).mockReturnValue([null, true, null]);
 
     render(
@@ -31,13 +30,12 @@ describe("MainPage component", () => {
         <MainPage />
       </NextIntlClientProvider>,
     );
-    
+
     const spinnerElement = document.querySelector(".spinner");
     expect(spinnerElement).toBeInTheDocument();
   });
 
   test("renders sign-in and sign-up links when user is not authenticated", async () => {
-    
     (useAuthState as jest.Mock).mockReturnValue([null, false, null]);
 
     render(
