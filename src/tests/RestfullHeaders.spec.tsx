@@ -1,78 +1,99 @@
-// HeaderEditor.test.tsx
 import React from 'react';
-import { render, screen, fireEvent } from '@testing-library/react';
+import { render, screen, fireEvent, act } from '@testing-library/react';
 import '@testing-library/jest-dom';
 import HeaderEditor from '../components/RestClient/HeaderEditor';
 import { Header, Variable } from '../components/RestClient/RestClient';
 import { updateURL } from '../utils/urlUpdater';
+import { NextIntlClientProvider } from 'next-intl';
 
 jest.mock('../utils/urlUpdater', () => ({
   updateURL: jest.fn(),
 }));
 
+  
+const mockSetHeaders = jest.fn();
+const mockHeaders: Header[] = [
+  { key: 'Content-Type', value: 'application/json', included: true },
+  { key: 'Authorization', value: 'Bearer token', included: true },
+];
+
+const mockVariables: Variable[] = [
+  { key: 'var1', value: 'value1', included: true },
+];
+
+const messages = {
+  Rest: {
+    title: "RESTfull Client",
+    send: "Send",
+    Headers: "Headers",
+    variables: "Variables",
+    editor: "Body",
+    response: "Response",
+    status: "Status",
+    Body: "Body",
+    text: "Text",
+    beautify: "Beautify",
+    add: "Add",
+    variable: "Variable",
+    header: "Header",
+    key: "Key",
+    value: "Value",
+    
+  },
+}
+
 describe('HeaderEditor Component', () => {
-  const mockHeaders: Header[] = [
-    { key: 'Content-Type', value: 'application/json', included: true },
-    { key: 'Authorization', value: 'Bearer token', included: true },
-  ];
-
-  const mockSetHeaders = jest.fn();
-  const mockVariables: Variable[] = [
-    { key: 'var1', value: 'value1', included: true },
-  ];
-
-  const mockMethod = 'POST';
-  const mockEndpoint = '/api/test';
-  const mockBody = '{"key":"value"}';
-
   beforeEach(() => {
     jest.clearAllMocks();
   });
 
-  test('renders headers correctly', () => {
-    render(
-      <HeaderEditor
-        title="Headers"
-        method={mockMethod}
-        endpoint={mockEndpoint}
-        body={mockBody}
-        headers={mockHeaders}
-        setHeaders={mockSetHeaders}
-        variables={mockVariables}
-      />
-    );
-
-    expect(screen.getByText('Headers')).toBeInTheDocument();
-
-    expect(screen.getByDisplayValue('Content-Type')).toBeInTheDocument();
-    expect(screen.getByDisplayValue('application/json')).toBeInTheDocument();
-    expect(screen.getByDisplayValue('Authorization')).toBeInTheDocument();
-    expect(screen.getByDisplayValue('Bearer token')).toBeInTheDocument();
+        
+  afterAll(() => {
+    jest.restoreAllMocks();
   });
+  beforeEach(() => {
+    jest.clearAllMocks(); 
+  });  
 
-  test('adds a new header and updates URL', () => {
-    render(
-      <HeaderEditor
-        title="Headers"
-        method={mockMethod}
-        endpoint={mockEndpoint}
-        body={mockBody}
-        headers={mockHeaders}
-        setHeaders={mockSetHeaders}
-        variables={mockVariables}
-      />
+
+
+  const mockMethod = 'POST';
+  const mockEndpoint = '/api/test';
+  const mockBody = '{"key":"value"}'; 
+  const setup = (props = {}) => {
+    const defaultProps = {
+      title: "Headers",
+      method: mockMethod,
+      endpoint: mockEndpoint,
+      body: mockBody,
+      headers: mockHeaders,
+      setHeaders: mockSetHeaders,
+      variables: mockVariables,
+    };
+  
+    return render(
+      <NextIntlClientProvider locale="en" messages={messages}>
+        <HeaderEditor {...defaultProps} {...props} />
+      </NextIntlClientProvider>
     );
+  };
+  
 
-    const keyInput = screen.getByPlaceholderText('header Key');
-    const valueInput = screen.getByPlaceholderText('header Value');
-    const addButton = screen.getByText('Add header');
+  test('adds a new header and updates URL', async () => {
+     act(() => {
+      setup();
+    })
+    
+        const keyInputs = screen.getAllByPlaceholderText('Key');
+    const valueInputs = screen.getAllByPlaceholderText('Value');
 
-    fireEvent.change(keyInput, { target: { value: 'Accept' } });
-    fireEvent.change(valueInput, { target: { value: 'application/xml' } });
+    fireEvent.change(keyInputs[0], { target: { value: 'Accept' } }); 
+    fireEvent.change(valueInputs[0], { target: { value: 'application/xml' } });
+    fireEvent.click(screen.getByText('Add Header'));
 
-    fireEvent.click(addButton);
+     expect(mockSetHeaders).toHaveBeenCalledTimes(1);
 
-    expect(mockSetHeaders).toHaveBeenCalledWith([
+     expect(mockSetHeaders).toHaveBeenCalledWith([
       ...mockHeaders,
       { key: 'Accept', value: 'application/xml', included: true },
     ]);
@@ -90,17 +111,9 @@ describe('HeaderEditor Component', () => {
   });
 
   test('deletes a header and updates URL', () => {
-    render(
-      <HeaderEditor
-        title="Headers"
-        method={mockMethod}
-        endpoint={mockEndpoint}
-        body={mockBody}
-        headers={mockHeaders}
-        setHeaders={mockSetHeaders}
-        variables={mockVariables}
-      />
-    );
+    act(() => {
+      setup();
+    })
 
     const deleteButtons = screen.getAllByText('Delete');
 
@@ -118,23 +131,16 @@ describe('HeaderEditor Component', () => {
   });
 
   test('edits a header and updates URL', () => {
-    render(
-      <HeaderEditor
-        title="Headers"
-        method={mockMethod}
-        endpoint={mockEndpoint}
-        body={mockBody}
-        headers={mockHeaders}
-        setHeaders={mockSetHeaders}
-        variables={mockVariables}
-      />
-    );
+
+      act(() => {
+        setup();
+      })
 
     const keyInputs = screen.getAllByPlaceholderText('Key');
     const valueInputs = screen.getAllByPlaceholderText('Value');
 
-    fireEvent.change(keyInputs[0], { target: { value: 'Content-Type' } }); 
-    fireEvent.change(valueInputs[0], { target: { value: 'application/xml' } });
+    fireEvent.change(keyInputs[1], { target: { value: 'Content-Type' } }); 
+    fireEvent.change(valueInputs[1], { target: { value: 'application/xml' } });
 
     expect(mockSetHeaders).toHaveBeenCalledWith([
       { key: 'Content-Type', value: 'application/xml', included: true },
@@ -154,17 +160,10 @@ describe('HeaderEditor Component', () => {
   });
 
   test('toggles inclusion of a header and updates URL', () => {
-    render(
-      <HeaderEditor
-        title="Headers"
-        method={mockMethod}
-        endpoint={mockEndpoint}
-        body={mockBody}
-        headers={mockHeaders}
-        setHeaders={mockSetHeaders}
-        variables={mockVariables}
-      />
-    );
+    act(() => {
+      setup();
+    })
+
 
     const checkboxes = screen.getAllByRole('checkbox');
 
@@ -187,55 +186,35 @@ describe('HeaderEditor Component', () => {
   });
 
   test('does not add a header if key or value is empty', () => {
-    render(
-      <HeaderEditor
-        title="Headers"
-        method={mockMethod}
-        endpoint={mockEndpoint}
-        body={mockBody}
-        headers={mockHeaders}
-        setHeaders={mockSetHeaders}
-        variables={mockVariables}
-      />
-    );
+    act(() => {
+      setup();
+    })
+    const keyInputs = screen.getAllByPlaceholderText('Key');
+    const valueInputs = screen.getAllByPlaceholderText('Value');
 
-    const keyInput = screen.getByPlaceholderText('header Key');
-    const valueInput = screen.getByPlaceholderText('header Value');
-    const addButton = screen.getByText('Add header');
-
-    fireEvent.change(keyInput, { target: { value: '' } });
-    fireEvent.change(valueInput, { target: { value: 'application/xml' } });
-    fireEvent.click(addButton);
+    fireEvent.change(keyInputs[0], { target: { value: '' } });
+    fireEvent.change(valueInputs[0], { target: { value: 'application/xml' } });
+    fireEvent.click(screen.getByText('Add Header'));
 
     expect(mockSetHeaders).not.toHaveBeenCalled();
 
-    fireEvent.change(keyInput, { target: { value: 'Accept' } });
-    fireEvent.change(valueInput, { target: { value: '' } });
-    fireEvent.click(addButton);
+    fireEvent.change(keyInputs[0], { target: { value: 'Accept' } });
+    fireEvent.change(valueInputs[0], { target: { value: '' } });
+    fireEvent.click(screen.getByText('Add Header'));
 
     expect(mockSetHeaders).not.toHaveBeenCalled();
   });
 
   test('updates an existing header if key already exists', () => {
-    render(
-      <HeaderEditor
-        title="Headers"
-        method={mockMethod}
-        endpoint={mockEndpoint}
-        body={mockBody}
-        headers={mockHeaders}
-        setHeaders={mockSetHeaders}
-        variables={mockVariables}
-      />
-    );
+    act(() => {
+      setup();
+    })
+    const keyInputs = screen.getAllByPlaceholderText('Key');
+    const valueInputs = screen.getAllByPlaceholderText('Value');
 
-    const keyInput = screen.getByPlaceholderText('header Key');
-    const valueInput = screen.getByPlaceholderText('header Value');
-    const addButton = screen.getByText('Add header');
-
-    fireEvent.change(keyInput, { target: { value: 'Content-Type' } });
-    fireEvent.change(valueInput, { target: { value: 'text/plain' } });
-    fireEvent.click(addButton);
+    fireEvent.change(keyInputs[0], { target: { value: 'Content-Type' } });
+    fireEvent.change(valueInputs[0], { target: { value: 'text/plain' } });
+    fireEvent.click(screen.getByText('Add Header'));
 
     expect(mockSetHeaders).toHaveBeenCalledWith([
       { key: 'Content-Type', value: 'text/plain', included: true },

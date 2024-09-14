@@ -38,6 +38,5 @@ const mockMonaco = {
       file: jest.fn(),
     },
   };
-  
-  module.exports = mockMonaco;
-  
+
+export default mockMonaco;
