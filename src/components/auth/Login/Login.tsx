@@ -39,8 +39,6 @@ function Login() {
       .catch((error) => {
         if (error.code === "auth/invalid-credential") {
           openNotificationWithIcon("error");
-        } else {
-          console.error(error);
         }
       });
   };
