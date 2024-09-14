@@ -39,7 +39,6 @@ const config: Config = {
 
   collectCoverage: false,
   coverageReporters: ["text", "text-summary"],
-  // transformIgnorePatterns: ["/node_modules/(?!(uuid)/)"],
   transformIgnorePatterns: ["/node_modules/(?!monaco-editor).+\\.js$"],
 };
 

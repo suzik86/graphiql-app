@@ -264,7 +264,7 @@ describe("RequestHandler", () => {
         ref.current?.sendRequest();
       });
 
-      await waitFor(() => {
+      waitFor(() => {
         const statusCodeElement = screen.getByText(status.toString());
         expect(statusCodeElement).toBeInTheDocument();
         expect(statusCodeElement).toHaveClass(className);
