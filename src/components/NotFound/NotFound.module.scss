@@ -1,0 +1,39 @@
+@import "../../theme/theme.scss";
+.not {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 182px;
+  &__title {
+    font-weight: 700;
+    font-size: 96px;
+    color: $black-light;
+    font-family: "Nunito", sans-serif;
+  }
+  &__text {
+    font-weight: 400;
+    font-size: 36px;
+    color: $black-light;
+    font-family: "Nunito", sans-serif;
+    margin-bottom: 22px;
+  }
+  &__btn {
+    padding: 10px 57px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    cursor: pointer;
+    font-weight: 400;
+    font-size: 18px;
+    color: #000;
+    font-family: "Nunito", sans-serif;
+    background-color: $purple;
+    border-radius: 15px;
+    transition: 0.4s ease-in-out;
+    max-width: 333px;
+    &:hover {
+      background-color: $btn-active;
+    }
+  }
+}

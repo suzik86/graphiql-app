@@ -1,0 +1,25 @@
+@import "../../../../theme/variables.scss";
+
+.content {
+  &__background {
+    position: absolute;
+    left: 0;
+    top: 0;
+    background-color: $black-content;
+    height: 100%;
+    width: 100%;
+    z-index: -1;
+  }
+
+  &__theme {
+    display: flex;
+    flex-direction: column;
+    min-height: 100%;
+    background-color: $black-content;
+  }
+
+  &__inner {
+    position: relative;
+    flex-grow: 1;
+  }
+}
