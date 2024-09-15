@@ -12,7 +12,8 @@
     "invalid-email": "The input is not valid E-mail!",
     "password-error": "Please input your Password!",
     "invalid-password": "Password should contain at least 8 characters, including 1 letter, 1 number, and 1 special character!",
-    "login-error": "Invalid email or password. Please try again."
+    "invalid-credential-error": "Invalid email or password. Please try again.",
+    "too-many-requests-error": "Access to this account has been temporarily disabled due to many failed login attempts. You can immediately restore it by resetting your password or you can try again later."
   },
   "Register": {
     "title": "Registration",
@@ -41,7 +42,7 @@
   },
   "HomePage": {
     "welcome": "Welcome to Mechta team app!",
-    "welcome-back": "welcome back",
+    "welcome-back": "hello",
     "question": "Where are we going?",
     "rest": "Rest client",
     "graphiql": "GraphiQl client",

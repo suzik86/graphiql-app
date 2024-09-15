@@ -64,7 +64,7 @@ const RequestBodyEditor: React.FC<RequestBodyEditorProps> = ({
   const validateJson = (value: string) => {
     try {
       JSON.parse(value);
-      setErrorMessage(null); // No error
+      setErrorMessage(null);
     } catch {
       setErrorMessage("error-message");
     }

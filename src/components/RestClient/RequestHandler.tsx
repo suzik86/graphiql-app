@@ -1,4 +1,4 @@
-import React, { useState, useImperativeHandle } from "react";
+import React, { useState, useImperativeHandle, forwardRef } from "react";
 import {
   handleClientError,
   handleServerError,
@@ -16,7 +16,7 @@ interface RequestHandlerProps {
   variables: { key: string; value: string; included: boolean }[];
 }
 
-const RequestHandler = React.forwardRef<
+const RequestHandler = forwardRef<
   {
     sendRequest: () => void;
   },
