@@ -9,6 +9,7 @@ import WelcomeButton from "../WelcomeButton/WelcomeButton";
 import styles from "./History.module.scss";
 import Link from "next/link";
 import { formatDate } from "../../utils/formatDate";
+import { RequestObject, sortByDate } from "../../utils/sortByDate";
 
 const History: FC = () => {
   const [user, loading] = useAuthState(auth);
@@ -16,11 +17,10 @@ const History: FC = () => {
   const t = useTranslations("History");
   const localActive = useLocale();
 
-  const requests = useState<{ path: string; date: string; endpoint: string }[]>(
-    () =>
-      typeof window !== "undefined"
-        ? JSON.parse(localStorage?.getItem("pathnames") || "[]")
-        : [],
+  const requests = useState<RequestObject[]>(() =>
+    typeof window !== "undefined"
+      ? JSON.parse(localStorage?.getItem("pathnames") || "[]")
+      : [],
   )[0];
 
   const btns = [
@@ -59,28 +59,20 @@ const History: FC = () => {
             {requests && requests.length > 0 && (
               <ul>
                 {requests
-                  .sort(
-                    (a, b) =>
-                      new Date(b.date).getTime() - new Date(a.date).getTime(),
-                  )
-                  .map(
-                    (
-                      request: { path: string; date: string; endpoint: string },
-                      index: number,
-                    ) => (
-                      <li key={index} className={styles.history__request}>
-                        <div>{formatDate(request.date)}</div>
-                        <div>
-                          <Link
-                            href={request.path}
-                            className={styles.history__request__link}
-                          >
-                            {request.endpoint}
-                          </Link>
-                        </div>
-                      </li>
-                    ),
-                  )}
+                  .sort(sortByDate)
+                  .map((request: RequestObject, index: number) => (
+                    <li key={index} className={styles.history__request}>
+                      <div>{formatDate(request.date)}</div>
+                      <div>
+                        <Link
+                          href={request.path}
+                          className={styles.history__request__link}
+                        >
+                          {request.endpoint}
+                        </Link>
+                      </div>
+                    </li>
+                  ))}
               </ul>
             )}
           </>

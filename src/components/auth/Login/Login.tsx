@@ -42,8 +42,7 @@ function Login() {
       .catch((error) => {
         if (error.code === "auth/invalid-credential") {
           openNotificationWithIcon("error", t("invalid-credential-error"));
-        }
-        if (error.code === "auth/too-many-requests") {
+        } else if (error.code === "auth/too-many-requests") {
           openNotificationWithIcon("error", t("too-many-requests-error"));
         } else {
           openNotificationWithIcon("error", error.message);

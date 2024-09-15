@@ -45,33 +45,41 @@ const Header: FC<HeaderProps> = ({ isSticky, onMenuClick }) => {
   ];
 
   return (
-    <header className={`${styles.header} ${isSticky ? styles.sticky : ""}`}>
-      <div className={styles.header__container}>
-        <Link href={`/${localActive}`} className={styles.header__logo}>
-          <Image src={team_logo} alt="team_logo" priority />
-        </Link>
-        <div className={styles.header__controls}>
-          <Space wrap>
-            <Dropdown menu={{ items, onClick: ({ key }) => onMenuClick(key) }}>
-              <div className={styles.header__languageDropdown}>
-                <Image src={selectedFlag} alt="Selected Language" />
-              </div>
-            </Dropdown>
-          </Space>
-          {user && (
-            <button className={styles.logout__btn} onClick={logout}>
-              {t("sign-out")}
-            </button>
-          )}
-          {!user && (
-            <HeaderButton to={`/${localActive}/login`} text={t("sign-in")} />
-          )}
-          {!user && (
-            <HeaderButton to={`/${localActive}/register`} text={t("sign-up")} />
-          )}
+    <>
+      <header className={`${styles.header} ${isSticky ? styles.sticky : ""}`}>
+        <div className={styles.header__container}>
+          <Link href={`/${localActive}`} className={styles.header__logo}>
+            <Image src={team_logo} alt="team_logo" priority />
+          </Link>
+          <div className={styles.header__controls}>
+            <Space wrap>
+              <Dropdown
+                menu={{ items, onClick: ({ key }) => onMenuClick(key) }}
+              >
+                <div className={styles.header__languageDropdown}>
+                  <Image src={selectedFlag} alt="Selected Language" />
+                </div>
+              </Dropdown>
+            </Space>
+            {user && (
+              <button className={styles.logout__btn} onClick={logout}>
+                {t("sign-out")}
+              </button>
+            )}
+            {!user && (
+              <HeaderButton to={`/${localActive}/login`} text={t("sign-in")} />
+            )}
+            {!user && (
+              <HeaderButton
+                to={`/${localActive}/register`}
+                text={t("sign-up")}
+              />
+            )}
+          </div>
         </div>
-      </div>
-    </header>
+      </header>
+      <div className={styles.invisibleHeader}></div>
+    </>
   );
 };
 
