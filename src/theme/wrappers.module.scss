@@ -1,9 +1,13 @@
+@import "../theme/variables.scss";
+
 .wrapper {
   min-height: 100vh;
   overflow: hidden;
   display: flex;
   flex-direction: column;
 }
+
 .content {
   flex: 1 1 auto;
+  background-color: $white;
 }

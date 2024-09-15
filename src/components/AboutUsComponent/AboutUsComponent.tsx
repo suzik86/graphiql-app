@@ -11,13 +11,13 @@ const AboutUsComponent = () => {
       <div className={styles.info__inner}>
         <h2 className={styles.info__title}>{t("about-us")}</h2>
         <div className={styles.info__images}>
-          {members.map((item, index) => (
+          {members.map(({ id, name, describtion, link }) => (
             <MemberCard
-              key={index}
-              name={item.name}
-              describtion={item.describtion}
+              key={id}
+              name={name}
+              describtion={describtion}
               logo={Avatar}
-              link={item.link}
+              link={link}
             />
           ))}
         </div>
